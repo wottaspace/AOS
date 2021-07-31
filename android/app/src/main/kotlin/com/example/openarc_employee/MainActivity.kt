@@ -1,4 +1,4 @@
-package com.wottaspace.openarc_employee
+package com.wottaspace.openarc_employer
 
 import io.flutter.embedding.android.FlutterActivity
 
