@@ -8,7 +8,8 @@ class AssetHelper {
   static final String imageAssetsPath = "assets/images";
   static final String jsonAssetsPath = "assets/animations";
 
-  String getAsset({required String name, AssetType assetType = AssetType.image}) {
+  static String getAsset(
+      {required String name, AssetType assetType = AssetType.image}) {
     switch (assetType) {
       case AssetType.image:
         return "$imageAssetsPath/$name";
