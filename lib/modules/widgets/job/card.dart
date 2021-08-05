@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:openarc_employer/constants/colors.dart';
+import 'package:openarc_employer/modules/widgets/job/avatar_card.dart';
+import 'package:openarc_employer/modules/widgets/job/label_location.dart';
 import 'package:openarc_employer/utils/extensions/build_context.dart';
-import 'package:openarc_employer/utils/helpers/asset_helper.dart';
 
 class JobListCard extends StatelessWidget {
   const JobListCard({
@@ -62,30 +63,7 @@ class JobListCard extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: data['location'].length,
                   itemBuilder: (context, labelIndex) {
-                    return Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      margin: EdgeInsets.only(right: 10),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(data['location'][labelIndex]["icon"],
-                              size: 15,
-                              color: data['location'][labelIndex]["color"]),
-                          SizedBox(width: 8),
-                          Text(
-                            '${data['location'][labelIndex]['name']}',
-                            style: context.textTheme.headline6?.copyWith(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: data['location'][labelIndex]["color"]),
-                          ),
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                          color: data['location'][labelIndex]["color"]
-                              .withOpacity(.1),
-                          borderRadius: BorderRadius.circular(20)),
-                    );
+                    return LabelLocation(data: data['location'][labelIndex]);
                   }),
             ),
             Spacer(),
@@ -94,29 +72,7 @@ class JobListCard extends StatelessWidget {
               width: double.infinity,
               child: Row(
                 children: [
-                  Container(
-                    width: 22.0 + 13 * data['avatar'].length,
-                    child: Stack(
-                      children: List<Widget>.from(data['avatar'].map((data) {
-                        return Positioned(
-                          left: data['index'] * 13.0,
-                          child: Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 3),
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  AssetHelper.getAsset(name: data['photo']),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList()),
-                    ),
-                  ),
+                  StackAvatar(data: data),
                   SizedBox(width: 10),
                   Expanded(
                     child: Text(

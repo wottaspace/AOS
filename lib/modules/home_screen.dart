@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
         body: PageView(
-          allowImplicitScrolling: false,
+          physics: NeverScrollableScrollPhysics(),
           controller: _controller,
           children: [
             ExploreScreen(),

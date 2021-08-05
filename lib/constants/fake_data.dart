@@ -117,4 +117,71 @@ class FakeData {
       },
     ];
   }
+
+  static inboxData() {
+    return [
+      {
+        "name": "Talwar's Residency",
+        "description": "Harry Sahir",
+        "date": "6:58 PM",
+        "avatar": "avatar.jpg",
+        "message":
+            "Hi, this is Harry, I am looking for your work and it's great. Congratulations!"
+      },
+      {
+        "name": "Zehr's Grocery",
+        "description": "Jai Prakash",
+        "date": "6:58 PM",
+        "avatar": "avatar.jpg",
+        "message":
+            "Hi, this is Jai, I am looking for your work and it's great. Congratulations!"
+      },
+      {
+        "name": "Talwar's Residency",
+        "description": "Tim Hortons",
+        "date": "6:58 PM",
+        "avatar": "avatar.jpg",
+        "message":
+            "Hi, this is Tim, I am looking for your work and it's great. Congratulations!"
+      },
+    ];
+  }
+
+  static exploreLabels() {
+    return [
+      {"icon": Icons.pin_drop_outlined, "name": "Location"},
+      {"icon": Icons.filter, "name": "Filter"}
+    ];
+  }
+
+  static exploreCards() {
+    return [
+      {
+        "avatar": "avatar.jpg",
+        "name": "Michelle Price",
+        "location": "WATERLOO",
+        "color": KColor.primary,
+        "ratings": 4
+      },
+      {
+        "avatar": "avatar.jpg",
+        "name": "Michelle Price",
+        "location": "WATERLOO",
+        "color": KColor.purple,
+        "ratings": 4
+      },
+    ];
+  }
+
+  static exploreMembers() {
+    return [
+      {
+        "avatar": "avatar.jpg",
+        "name": "Harry Sahir",
+        "favorite": false,
+        "price": "£12",
+        "ratings": 4
+      },
+    ];
+  }
 }
