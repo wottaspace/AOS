@@ -69,11 +69,14 @@ class _LoginScreenState extends State<LoginScreen> {
           SizedBox(height: 20),
           Align(
               alignment: Alignment.center,
-              child: Text('Forgot Password ?',
-                  style: context.textTheme.bodyText1?.copyWith(
-                      fontSize: 15,
-                      color: KColor.grey,
-                      decoration: TextDecoration.underline))),
+              child: GestureDetector(
+                onTap: () => KRouter().push(KRoutes.forgotPasswordRoute),
+                child: Text('Forgot Password ?',
+                    style: context.textTheme.bodyText1?.copyWith(
+                        fontSize: 15,
+                        color: KColor.grey,
+                        decoration: TextDecoration.underline)),
+              )),
           Align(
               alignment: Alignment.center,
               child: GestureDetector(

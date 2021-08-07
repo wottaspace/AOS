@@ -4,7 +4,9 @@ import 'package:openarc_employer/constants/colors.dart';
 
 class KSwitch extends StatefulWidget {
   final List titles;
-  const KSwitch({Key? key, required this.titles}) : super(key: key);
+  final Function()? onSwitch;
+  const KSwitch({Key? key, required this.titles, this.onSwitch})
+      : super(key: key);
 
   @override
   _KSwitchState createState() => _KSwitchState();
@@ -12,6 +14,7 @@ class KSwitch extends StatefulWidget {
 
 class _KSwitchState extends State<KSwitch> {
   int selectedId = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,8 +29,10 @@ class _KSwitchState extends State<KSwitch> {
           itemCount: widget.titles.length,
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () =>
-                  setState(() => selectedId = widget.titles[index]['id']),
+              onTap: () {
+                setState(() => selectedId = widget.titles[index]['id']);
+                widget.onSwitch!();
+              },
               child: Stack(
                 children: [
                   Container(

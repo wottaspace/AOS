@@ -25,26 +25,6 @@ class _FinanceScreenState extends State<FinanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: AppBar(
-          leading: imageIcon.ImageIcon(uri: "menu.png"),
-          title: Text(
-            'Finances',
-            style: context.textTheme.headline1?.copyWith(
-                fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          actions: [
-            IconButton(
-                onPressed: null,
-                icon: Icon((Icons.notifications),
-                    color: Colors.black26, size: 30)),
-            SizedBox(width: 10),
-            AvatarIcon(),
-            SizedBox(width: 10),
-          ],
-        ),
-      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +39,7 @@ class _FinanceScreenState extends State<FinanceScreen> {
                     title: 'TOTAL PAID',
                     price: '£1080',
                     details: '20 Jobs till Jan 2020',
-                    color: Colors.lightGreenAccent[700],
+                    color: KColor.green,
                   ),
                   SizedBox(width: 10),
                   FinanceStatCards(

@@ -27,26 +27,6 @@ class _JobListingScreenState extends State<JobListingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: AppBar(
-          leading: imageIcon.ImageIcon(uri: "menu.png"),
-          title: Text(
-            'Job Listings',
-            style: context.textTheme.headline1?.copyWith(
-                fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          actions: [
-            IconButton(
-                onPressed: null,
-                icon: Icon((Icons.notifications),
-                    color: Colors.black26, size: 30)),
-            SizedBox(width: 10),
-            AvatarIcon(),
-            SizedBox(width: 10),
-          ],
-        ),
-      ),
       floatingActionButton: GestureDetector(
           onTap: () {},
           child: Container(
