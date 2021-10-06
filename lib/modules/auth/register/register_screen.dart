@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:openarc_employer/config/routes/k_router.dart';
-import 'package:openarc_employer/config/routes/k_routes.dart';
-import 'package:openarc_employer/constants/colors.dart';
-import 'package:openarc_employer/modules/widgets/shared/label_text_field.dart';
-import 'package:openarc_employer/modules/widgets/shared/outline_button.dart'
-    as outlineButton;
-import 'package:openarc_employer/utils/extensions/build_context.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:okito/okito.dart';
+import 'package:arcopen_enquirer/config/routes/k_router.dart';
+import 'package:arcopen_enquirer/modules/auth/register/register_controller.dart';
+import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
+import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -15,68 +14,77 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final RegisterController controller = RegisterController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 50),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: GestureDetector(
-                    onTap: KRouter().pop,
-                    child: Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 25,
-                      color: KColor.grey,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Text(
-                    'Sign up',
-                    style: context.textTheme.headline3?.copyWith(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: LabelTextField(label: "Organisation name"),
+                SizedBox(height: 20),
+                IconButton(
+                  onPressed: () {
+                    KRouter().pop();
+                  },
+                  icon: Icon(PhosphorIcons.arrow_left_bold),
                 ),
                 SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: LabelTextField(label: "Email"),
+                Text(
+                  "Sign Up",
+                  style: Okito.theme.textTheme.headline2,
+                ),
+                SizedBox(height: 40),
+                KTextField.soft(
+                  label: "ORGANISATION NAME",
+                  keybordType: TextInputType.emailAddress,
+                  controller: controller.businessNameController,
                 ),
                 SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: LabelTextField(label: "Password"),
+                KTextField.soft(
+                  label: "EMAIL",
+                  keybordType: TextInputType.emailAddress,
+                  controller: controller.emailController,
                 ),
                 SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: LabelTextField(label: "Confirm Password"),
+                KTextField.soft(
+                  label: "PASSWORD",
+                  keybordType: TextInputType.emailAddress,
+                  controller: controller.emailController,
                 ),
-                SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: outlineButton.OutlinedButton(
-                      onTap: () => KRouter().push(KRoutes.homeRoute),
-                      label: "CREATE ACCOUNT"),
-                )
+                SizedBox(height: 20),
+                KTextField.soft(
+                  label: "CONFIRM PASSWORD",
+                  keybordType: TextInputType.emailAddress,
+                  controller: controller.emailController,
+                ),
+                SizedBox(height: 20),
+                KTextField.soft(
+                  label: "ORGANISATION NAME ",
+                  keybordType: TextInputType.emailAddress,
+                  controller: controller.emailController,
+                ),
               ],
             ),
           ),
-        ));
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(12.0),
+        child: KButton.outlined(
+          expanded: true,
+          onPressed: () {
+            controller.register();
+          },
+          title: "CREATE ACCOUNT",
+          color: Okito.theme.primaryColor,
+        ),
+      ),
+    );
   }
 }

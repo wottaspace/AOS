@@ -1,4 +1,4 @@
-package com.wottaspace.openarc_employer
+package com.wottaspace.arcopen_enquirer
 
 import io.flutter.embedding.android.FlutterActivity
 

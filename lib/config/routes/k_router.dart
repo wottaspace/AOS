@@ -23,6 +23,8 @@ class KRouter {
     }
   }
 
+  Map<String, dynamic> get args => ModalRoute.of(Okito.context!)?.settings.arguments as Map<String, dynamic>;
+
   Map<String, Widget Function(BuildContext)> getApplicationRoutes() {
     Map<String, Widget Function(BuildContext)> parsedRoutes = {};
     for (final KRoute route in this._routes) {
@@ -31,8 +33,15 @@ class KRouter {
     return parsedRoutes;
   }
 
-  Future<T?> push<T>(String name, {Map<String, dynamic>? args}) {
+  Future<T?> push<T>(String name, {Map<String, dynamic>? args, bool replace = false}) {
+    if (replace) {
+      return Okito.pushReplacementNamed(name, arguments: args);
+    }
     return Okito.pushNamed(name, arguments: args);
+  }
+
+  popUntil(RoutePredicate predicate) {
+    return Navigator.of(Okito.context!).popUntil(predicate);
   }
 
   void pop<T extends Object?>([T? result]) {

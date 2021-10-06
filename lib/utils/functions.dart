@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:openarc_employer/config/routes/k_router.dart';
-import 'package:openarc_employer/utils/extensions/build_context.dart';
+import 'package:arcopen_enquirer/config/routes/k_router.dart';
+import 'package:arcopen_enquirer/utils/extensions/build_context.dart';
 
 PreferredSize customAppBar(BuildContext context,
     {required String title, Widget? trailing}) {

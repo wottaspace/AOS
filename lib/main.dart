@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:openarc_employer/config/routes/k_routes.dart';
-import 'package:openarc_employer/core/application.dart';
+import 'package:arcopen_enquirer/config/routes/k_routes.dart';
+import 'package:arcopen_enquirer/core/application.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
