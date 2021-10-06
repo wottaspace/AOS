@@ -1,3 +1,7 @@
+import 'package:arcopen_enquirer/modules/explore/explore_screen.dart';
+import 'package:arcopen_enquirer/modules/finances/finances_screen.dart';
+import 'package:arcopen_enquirer/modules/inbox/inbox_list/inbox_screen.dart';
+import 'package:arcopen_enquirer/modules/saved/saved_screen.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _activeTabIndex = 0;
-    _pageTitle = "Browse jobs";
+    _pageTitle = "Explore Members";
     _pageController = PageController(initialPage: 0);
     super.initState();
   }
@@ -118,11 +122,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               children: [
+                ExploreScreen(),
+                InboxScreen(),
                 Container(),
-                Container(),
-                Container(),
-                Container(),
-                Container(),
+                FinancesScreen(),
+                SavedScreen(),
               ],
             ),
           ),
@@ -170,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
   _getPageTitle(int index) {
     switch (index) {
       case 0:
-        return "Browse jobs";
+        return "Explore Members";
       case 1:
         return "Inbox";
       case 2:

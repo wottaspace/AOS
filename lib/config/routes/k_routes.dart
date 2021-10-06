@@ -1,9 +1,14 @@
 import 'package:arcopen_enquirer/modules/auth/change_password/change_password_screen.dart';
 import 'package:arcopen_enquirer/modules/auth/login/login_screen.dart';
+import 'package:arcopen_enquirer/modules/auth/profile/profile_screen.dart';
 import 'package:arcopen_enquirer/modules/auth/register/register_screen.dart';
 import 'package:arcopen_enquirer/modules/auth/reset_password/reset_password_screen.dart';
 import 'package:arcopen_enquirer/modules/auth/reset_password/reset_password_success_screen.dart';
+import 'package:arcopen_enquirer/modules/disputes/disputes_screen.dart';
+import 'package:arcopen_enquirer/modules/explore/filter_screen.dart';
+import 'package:arcopen_enquirer/modules/explore/location_filter_screen.dart';
 import 'package:arcopen_enquirer/modules/home_screen.dart';
+import 'package:arcopen_enquirer/modules/inbox/inbox_details_screen.dart';
 import 'package:arcopen_enquirer/modules/settings/bank_details/bank_details_screen.dart';
 import 'package:arcopen_enquirer/modules/settings/settings_screen.dart';
 import 'package:arcopen_enquirer/modules/splash_screen/splash_screen.dart';
@@ -28,25 +33,23 @@ class KRoutes {
   static final String resetPasswordRoute = "/reset-password-route";
   static final String resetPasswordSuccessRoute = "/reset-password-success-route";
   static final String changePasswordRoute = "/change-password";
+  static final String userProfileRoute = "/user-profile";
 
   // Subscription routes
   static final String choosePlanRoute = "/choose-plan";
   static final String upgradePlanRoute = "/upgrade-plan";
-
   static final String bankDetailsRoute = "/bank-details";
-
-  static final String exploreRoute = "/explore";
-  static final String inboxRoute = "/inbox";
-  static final String jobListingRoute = "/job-list";
-  static final String financeRoute = "/finance";
-  static final String savedRoute = "/saved";
-  static final String messageSendRoute = "/message-send";
-  static final String userProfileRoute = "/user-profile";
-  static final String companyProfileRoute = "/company-profile";
-
   static final String settingsRoute = "/settings";
   static final String payRoute = "/pay";
   static final String addPaymentMethodRoute = "/add-payment-method-route";
+
+  static final String disputesRoute = "/disputes";
+  static final String createDisputeRoute = "/create-dispute";
+
+  static final String filterRoute = "/filter-jobs";
+  static final String locationFilterRoute = "/location-filter";
+
+  static final String inboxDetailsRoute = "/inbox-details";
 
   static registerRoutes() {
     KRouter().registerRoute(route: KRoute(name: KRoutes.splashRoute, page: SplashScreen(), isInitial: true));
@@ -54,7 +57,11 @@ class KRoutes {
 
     KRouter().registerRoute(route: KRoute(name: KRoutes.registerRoute, page: RegisterScreen()));
     KRouter().registerRoute(route: KRoute(name: KRoutes.loginRoute, page: LoginScreen()));
+    KRouter().registerRoute(route: KRoute(name: KRoutes.userProfileRoute, page: ProfileScreen()));
     KRouter().registerRoute(route: KRoute(name: KRoutes.homeRoute, page: HomeScreen()));
+
+    KRouter().registerRoute(route: KRoute(name: KRoutes.locationFilterRoute, page: LocationFilterScreen()));
+    KRouter().registerRoute(route: KRoute(name: KRoutes.filterRoute, page: FilterScreen()));
 
     KRouter().registerRoute(route: KRoute(name: KRoutes.resetPasswordRoute, page: ResetPasswordScreen()));
     KRouter().registerRoute(route: KRoute(name: KRoutes.resetPasswordSuccessRoute, page: ResetPasswordSuccessScreen()));
@@ -68,5 +75,9 @@ class KRoutes {
 
     KRouter().registerRoute(route: KRoute(name: KRoutes.choosePlanRoute, page: ChoosePlanScreen()));
     KRouter().registerRoute(route: KRoute(name: KRoutes.upgradePlanRoute, page: UpgradePlanScreen()));
+
+    KRouter().registerRoute(route: KRoute(name: KRoutes.disputesRoute, page: DisputesScreen()));
+
+    KRouter().registerRoute(route: KRoute(name: KRoutes.inboxDetailsRoute, page: InboxDetailsScreen()));
   }
 }

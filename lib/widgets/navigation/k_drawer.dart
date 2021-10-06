@@ -93,7 +93,7 @@ class KDrawer extends StatelessWidget {
                     style: titleStyle,
                   ),
                   onTap: () {
-                    // KRouter().push(KRoutes.disputeResolutionRoute);
+                    KRouter().push(KRoutes.disputesRoute);
                   },
                 ),
                 Divider(),
