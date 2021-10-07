@@ -54,7 +54,7 @@ class KChip extends StatelessWidget {
                 if (iconAlignedLeading && icon != null) ...[
                   Icon(
                     icon,
-                    size: 14,
+                    size: 12,
                     color: textColor ?? ColorConstants.greyColor,
                   ),
                   SizedBox(width: 5),
@@ -62,8 +62,8 @@ class KChip extends StatelessWidget {
                 Text(
                   "$title",
                   style: Okito.theme.textTheme.bodyText2!.copyWith(
-                    fontSize: 12.0,
-                    fontWeight: boldText ? FontWeight.w600 : FontWeight.normal,
+                    fontSize: 10.0,
+                    fontWeight: boldText ? FontWeight.bold : FontWeight.normal,
                     color: textColor ?? ColorConstants.greyColor,
                   ),
                 ),

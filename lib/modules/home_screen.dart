@@ -1,6 +1,7 @@
 import 'package:arcopen_enquirer/modules/explore/explore_screen.dart';
 import 'package:arcopen_enquirer/modules/finances/finances_screen.dart';
 import 'package:arcopen_enquirer/modules/inbox/inbox_list/inbox_screen.dart';
+import 'package:arcopen_enquirer/modules/jobs/listing/job_listings_screen.dart';
 import 'package:arcopen_enquirer/modules/saved/saved_screen.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
@@ -124,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 ExploreScreen(),
                 InboxScreen(),
-                Container(),
+                JobListingsScreen(),
                 FinancesScreen(),
                 SavedScreen(),
               ],

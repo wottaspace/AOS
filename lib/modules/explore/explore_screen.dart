@@ -55,10 +55,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
             ),
             SizedBox(height: 20),
             SectionTitle(title: "HIGH RATED"),
+            SizedBox(height: 10),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
+                  TopRatedMemberCard(
+                    username: "Paul Taylor",
+                    score: 4,
+                    location: "KITCHENER",
+                    onTap: () {
+                      // TODO: go to user profile
+                    },
+                  ),
+                  SizedBox(width: 10),
                   TopRatedMemberCard(
                     username: "Paul Taylor",
                     score: 4,
@@ -79,12 +89,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return MemberCard(
-                  username: "Harry Sahir",
-                  score: 3,
-                  onTap: () {
-                    // TODO: go to user profile
-                  }
-                );
+                    username: "Harry Sahir",
+                    score: 3,
+                    onTap: () {
+                      // TODO: go to user profile
+                    });
               },
             )
           ],

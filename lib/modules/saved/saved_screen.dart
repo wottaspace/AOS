@@ -1,5 +1,5 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
-import 'package:arcopen_enquirer/widgets/misc/draft_job_card.dart';
+import 'package:arcopen_enquirer/widgets/jobs/draft_job_card.dart';
 import 'package:arcopen_enquirer/widgets/misc/member_card.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
 import 'package:flutter/material.dart';
