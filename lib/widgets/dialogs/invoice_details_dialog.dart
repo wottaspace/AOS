@@ -1,8 +1,8 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/finances/detail_item.dart';
+import 'package:arcopen_enquirer/widgets/misc/rating_stars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
 
 class InvoiceDetailsDialog extends StatefulWidget {
@@ -41,15 +41,7 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
                       ),
                     ),
                     SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Icon(PhosphorIcons.star_fill, color: ColorConstants.yellow, size: 10),
-                        Icon(PhosphorIcons.star_fill, color: ColorConstants.yellow, size: 10),
-                        Icon(PhosphorIcons.star_fill, color: ColorConstants.yellow, size: 10),
-                        Icon(PhosphorIcons.star_fill, color: ColorConstants.yellow, size: 10),
-                        Icon(PhosphorIcons.star, color: ColorConstants.yellow, size: 10),
-                      ],
-                    ),
+                    const RatingStars(score: 4.5),
                   ],
                 ),
               ),

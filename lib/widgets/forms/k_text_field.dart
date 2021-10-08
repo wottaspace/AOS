@@ -14,12 +14,18 @@ class KTextField extends StatelessWidget {
     this.validator,
     this.isPassword = false,
     this.keyboardType,
+    this.minLines,
+    this.maxLines = 1,
+    this.borderVisible = true,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String hintText;
   final IconData? icon;
+  final int? minLines;
+  final int? maxLines;
   final Color? color;
+  final bool borderVisible;
   final bool isPassword;
   final TextInputType? keyboardType;
   final EdgeInsets? padding;
@@ -27,33 +33,31 @@ class KTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final border = borderVisible
+        ? OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4.0),
+            borderSide: BorderSide(color: color ?? ColorConstants.greyColor),
+          )
+        : InputBorder.none;
     return TextFormField(
       validator: validator,
       obscureText: isPassword,
       controller: controller,
       keyboardType: keyboardType,
+      maxLines: maxLines,
+      minLines: minLines,
       decoration: InputDecoration(
         contentPadding: padding ?? EdgeInsets.symmetric(vertical: 18.0, horizontal: 12.0),
         hintText: hintText,
-        hintStyle: TextStyle(color: (color ?? ColorConstants.greyColor)),
+        hintStyle: TextStyle(color: (color ?? ColorConstants.greyColor), fontSize: 12.0),
         prefixIcon: icon == null
             ? null
             : Icon(
                 icon,
                 color: color ?? ColorConstants.greyColor,
               ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: color ?? ColorConstants.greyColor),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: color ?? ColorConstants.greyColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(2.0),
-          borderSide: BorderSide(color: Okito.theme.primaryColor),
-        ),
+        enabledBorder: border,
+        focusedBorder: border,
       ),
     );
   }
@@ -84,7 +88,7 @@ class KTextField extends StatelessWidget {
 
   static Widget soft({
     required String label,
-    required TextEditingController controller,
+    TextEditingController? controller,
     String? hintText,
     int minLines = 1,
     int maxLines = 1,
@@ -118,8 +122,8 @@ class KTextField extends StatelessWidget {
                 ? [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.15),
-                      blurRadius: 4.0,
-                      offset: Offset(1, 2),
+                      blurRadius: 2.0,
+                      offset: Offset(0, 1),
                     ),
                   ]
                 : null,

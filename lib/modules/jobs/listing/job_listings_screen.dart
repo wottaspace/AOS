@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/modules/jobs/post_job/post_job_screen.dart';
 import 'package:arcopen_enquirer/widgets/jobs/job_card.dart';
@@ -147,6 +148,9 @@ class _ActiveJobs extends StatelessWidget {
               jobTitle: "Talwar's Residency",
               jobType: "Express Security",
               location: "KITCHENER",
+              onTap: () {
+                Okito.pushNamed(KRoutes.activeJobDetailsRoute);
+              },
             ),
           );
         },

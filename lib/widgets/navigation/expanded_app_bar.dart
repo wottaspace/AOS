@@ -6,15 +6,15 @@ import 'package:arcopen_enquirer/config/routes/k_router.dart';
 class ExpandedAppBar extends StatelessWidget {
   final String jobTitle;
   final String company;
-  final String shiftType;
-  final String location;
+  final String duration;
+  final String type;
 
   const ExpandedAppBar({
     Key? key,
     required this.company,
     required this.jobTitle,
-    required this.location,
-    required this.shiftType,
+    required this.duration,
+    required this.type,
   }) : super(key: key);
 
   @override
@@ -67,14 +67,14 @@ class ExpandedAppBar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "LOCATION",
+                      "TYPE",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 10.0,
                         color: Colors.white54,
                       ),
                     ),
                     Text(
-                      "$location",
+                      "$type",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 14.0,
                         color: Colors.white,
@@ -86,14 +86,14 @@ class ExpandedAppBar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "SHIFT TYPE",
+                      "DURATION",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 10.0,
                         color: Colors.white54,
                       ),
                     ),
                     Text(
-                      "$shiftType",
+                      "$duration",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 14.0,
                         color: Colors.white,

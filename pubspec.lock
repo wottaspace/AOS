@@ -146,6 +146,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  flutter_simple_rating_bar:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "6a8856b9b5d6f84687b0dffc8a89d0c52f5c31a7"
+      url: "https://github.com/docwei2050/flutter_simple_rating_bar"
+    source: git
+    version: "0.0.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter

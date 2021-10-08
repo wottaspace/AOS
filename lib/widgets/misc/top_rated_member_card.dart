@@ -1,5 +1,7 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
+import 'package:arcopen_enquirer/widgets/misc/circle.dart';
+import 'package:arcopen_enquirer/widgets/misc/rating_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
@@ -35,26 +37,26 @@ class TopRatedMemberCard extends StatelessWidget {
           onTap: onTap,
           child: Stack(
             children: [
-              _Circle(color: Colors.white.withOpacity(0.15), diameter: 50),
+              Circle(color: Colors.white.withOpacity(0.15), diameter: 50),
               Positioned(
                 top: -15,
                 left: -15,
-                child: _Circle(color: Colors.white.withOpacity(0.1), diameter: 80),
+                child: Circle(color: Colors.white.withOpacity(0.1), diameter: 80),
               ),
               Positioned(
                 top: -30,
                 left: -30,
-                child: _Circle(color: Colors.white.withOpacity(0.09), diameter: 120),
+                child: Circle(color: Colors.white.withOpacity(0.09), diameter: 120),
               ),
               Positioned(
                 top: -50,
                 left: -50,
-                child: _Circle(color: Colors.white.withOpacity(0.09), diameter: 180),
+                child: Circle(color: Colors.white.withOpacity(0.09), diameter: 180),
               ),
               Positioned(
                 top: -50,
                 left: -50,
-                child: _Circle(color: Colors.white.withOpacity(0.08), diameter: 210),
+                child: Circle(color: Colors.white.withOpacity(0.08), diameter: 210),
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -80,15 +82,7 @@ class TopRatedMemberCard extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(height: 5),
-                                  Row(
-                                    children: [
-                                      Icon(PhosphorIcons.star_fill, color: ColorConstants.yellow, size: 10),
-                                      Icon(PhosphorIcons.star_fill, color: ColorConstants.yellow, size: 10),
-                                      Icon(PhosphorIcons.star_fill, color: ColorConstants.yellow, size: 10),
-                                      Icon(PhosphorIcons.star_fill, color: ColorConstants.yellow, size: 10),
-                                      Icon(PhosphorIcons.star, color: ColorConstants.yellow, size: 10),
-                                    ],
-                                  ),
+                                  const RatingStars(score: 4.5),
                                 ],
                               ),
                             ],
@@ -140,22 +134,4 @@ class TopRatedMemberCard extends StatelessWidget {
   }
 }
 
-class _Circle extends StatelessWidget {
-  const _Circle({
-    Key? key,
-    required this.color,
-    required this.diameter,
-  }) : super(key: key);
 
-  final double diameter;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: diameter,
-      height: diameter,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-    );
-  }
-}

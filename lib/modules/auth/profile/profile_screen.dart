@@ -1,9 +1,7 @@
-import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/modules/auth/profile/profile_controller.dart';
 import 'package:arcopen_enquirer/utils/helpers/badge_input_formatter.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
-import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
 import 'package:arcopen_enquirer/widgets/navigation/kp_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,13 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle titleStyle = Okito.theme.textTheme.bodyText2!.copyWith(
-      fontSize: 10.0,
-      letterSpacing: 1.3,
-      fontWeight: FontWeight.w600,
-      color: ColorConstants.greyColor,
-    );
-
+    // TODO: fix profile fields
     return AnnotatedRegion<SystemUiOverlayStyle>(
       child: Scaffold(
         body: SingleChildScrollView(
