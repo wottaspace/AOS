@@ -8,6 +8,7 @@ class ExpandedAppBar extends StatelessWidget {
   final String company;
   final String duration;
   final String type;
+  final String? location;
 
   const ExpandedAppBar({
     Key? key,
@@ -15,6 +16,7 @@ class ExpandedAppBar extends StatelessWidget {
     required this.jobTitle,
     required this.duration,
     required this.type,
+    this.location,
   }) : super(key: key);
 
   @override
@@ -76,12 +78,32 @@ class ExpandedAppBar extends StatelessWidget {
                     Text(
                       "$type",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
-                        fontSize: 14.0,
+                        fontSize: 12.0,
                         color: Colors.white,
                       ),
                     ),
                   ],
                 ),
+                if (location != null)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "LOCATION",
+                        style: Okito.theme.textTheme.bodyText2!.copyWith(
+                          fontSize: 10.0,
+                          color: Colors.white54,
+                        ),
+                      ),
+                      Text(
+                        "$location",
+                        style: Okito.theme.textTheme.bodyText2!.copyWith(
+                          fontSize: 12.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -95,7 +117,7 @@ class ExpandedAppBar extends StatelessWidget {
                     Text(
                       "$duration",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
-                        fontSize: 14.0,
+                        fontSize: 12.0,
                         color: Colors.white,
                       ),
                     ),

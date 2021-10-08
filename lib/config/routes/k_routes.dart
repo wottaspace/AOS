@@ -10,7 +10,10 @@ import 'package:arcopen_enquirer/modules/explore/location_filter_screen.dart';
 import 'package:arcopen_enquirer/modules/home_screen.dart';
 import 'package:arcopen_enquirer/modules/inbox/inbox_details_screen.dart';
 import 'package:arcopen_enquirer/modules/jobs/active_job/active_job_details_screen.dart';
-import 'package:arcopen_enquirer/modules/jobs/active_job_member_details/active_job_member_details_screen.dart';
+import 'package:arcopen_enquirer/modules/jobs/active_job/active_job_member_details/active_job_member_details_screen.dart';
+import 'package:arcopen_enquirer/modules/jobs/posted_job/posted_job_details_screen.dart';
+import 'package:arcopen_enquirer/modules/payments/billing_methods_screen.dart';
+import 'package:arcopen_enquirer/modules/payments/payment_successful_screen.dart';
 import 'package:arcopen_enquirer/modules/settings/bank_details/bank_details_screen.dart';
 import 'package:arcopen_enquirer/modules/settings/settings_screen.dart';
 import 'package:arcopen_enquirer/modules/splash_screen/splash_screen.dart';
@@ -46,14 +49,18 @@ class KRoutes {
   static final String addPaymentMethodRoute = "/add-payment-method-route";
 
   static final String disputesRoute = "/disputes";
-  static final String createDisputeRoute = "/create-dispute";
 
   static final String filterRoute = "/filter-jobs";
   static final String locationFilterRoute = "/location-filter";
 
   static final String inboxDetailsRoute = "/inbox-details";
+
   static final String activeJobDetailsRoute = "/active-job-details";
   static final String activeJobMemberDetailsRoute = "/active-job-member-details";
+  static final String postedJobDetailsRoute = "/posted-job-details";
+
+  static final String billingMethodsRoute = "/billing-methods";
+  static final String paymentSuccessfulRoute = "/payment-successful";
 
   static registerRoutes() {
     KRouter().registerRoute(route: KRoute(name: KRoutes.splashRoute, page: SplashScreen(), isInitial: true));
@@ -85,5 +92,9 @@ class KRoutes {
     KRouter().registerRoute(route: KRoute(name: KRoutes.inboxDetailsRoute, page: InboxDetailsScreen()));
     KRouter().registerRoute(route: KRoute(name: KRoutes.activeJobDetailsRoute, page: ActiveJobDetailsScreen()));
     KRouter().registerRoute(route: KRoute(name: KRoutes.activeJobMemberDetailsRoute, page: ActiveJobMemberDetailsScreen()));
+    KRouter().registerRoute(route: KRoute(name: KRoutes.postedJobDetailsRoute, page: PostedJobDetailsScreen()));
+
+    KRouter().registerRoute(route: KRoute(name: KRoutes.billingMethodsRoute, page: BillingMethodsScreen()));
+    KRouter().registerRoute(route: KRoute(name: KRoutes.paymentSuccessfulRoute, page: PaymentSuccessfulScreen()));
   }
 }

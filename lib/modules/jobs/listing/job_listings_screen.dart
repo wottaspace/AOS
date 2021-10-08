@@ -173,7 +173,16 @@ class _PostedJobs extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: JobCard(createdAt: DateTime.now(), jobTitle: "Talwar's Residency", jobType: "Express Security", location: "KITCHENER", daysLeftCount: 24),
+            child: JobCard(
+              createdAt: DateTime.now(),
+              jobTitle: "Talwar's Residency",
+              jobType: "Express Security",
+              location: "KITCHENER",
+              daysLeftCount: 24,
+              onTap: () {
+                Okito.pushNamed(KRoutes.postedJobDetailsRoute);
+              },
+            ),
           );
         },
       ),
