@@ -65,42 +65,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             hintText: "Lorem ipsum dolor sit atmet, consectur adipiscing elit, sed do eiusmod tempor incicident ut labore et dolore magna aliqua",
                           ),
                           SizedBox(height: 10),
-                          SectionTitle(title: "RESUME/CV"),
-                          SizedBox(height: 10),
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                children: [
-                                  Image.asset("assets/images/portfolio.png"),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    profileController.getResumeFilename ?? "Add resume",
-                                    style: titleStyle.copyWith(fontSize: 12.0),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Add summary to make your profile look good. Add summary to make your profile look good. Add summary to make your profile look good.",
-                                    textAlign: TextAlign.center,
-                                    style: titleStyle.copyWith(
-                                      fontSize: 10.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
-                                  KButton.outlined(
-                                    expanded: true,
-                                    onPressed: () {
-                                      profileController.pickResumeFile();
-                                    },
-                                    title: "ADD RESUME",
-                                    color: Okito.theme.primaryColor,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20),
                           Row(
                             children: [
                               Expanded(
@@ -199,6 +163,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               );
             },
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.0),
+          child: KButton.outlined(
+            onPressed: () {},
+            title: "DONE",
+            color: Okito.theme.primaryColor,
           ),
         ),
       ),

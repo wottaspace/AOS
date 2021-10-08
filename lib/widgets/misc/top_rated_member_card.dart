@@ -23,6 +23,7 @@ class TopRatedMemberCard extends StatelessWidget {
     return Container(
       width: Okito.isLandscape ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.7,
       height: 150,
+      margin: EdgeInsets.only(left: 18.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         color: ColorConstants.purple,

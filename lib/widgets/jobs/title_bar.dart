@@ -6,9 +6,11 @@ class TitleBar extends StatelessWidget {
   TitleBar({
     Key? key,
     required this.onBackPressed,
+    required this.activeIndex,
   }) : super(key: key);
 
   final Function onBackPressed;
+  final int activeIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +51,18 @@ class TitleBar extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             TextButton(
-              onPressed: () {
-                onBackPressed();
-              },
+              onPressed: activeIndex == 5
+                  ? null
+                  : () {
+                      onBackPressed();
+                    },
               child: Text(
-                "Back",
-                style: actionTextStyle,
+                "Next",
+                style: activeIndex == 5
+                    ? actionTextStyle
+                    : actionTextStyle.copyWith(
+                        color: Okito.theme.primaryColor,
+                      ),
               ),
             ),
           ],

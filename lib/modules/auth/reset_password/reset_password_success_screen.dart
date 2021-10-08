@@ -21,7 +21,7 @@ class _ResetPasswordSuccessScreenState extends State<ResetPasswordSuccessScreen>
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

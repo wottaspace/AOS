@@ -22,82 +22,96 @@ class _ExploreScreenState extends State<ExploreScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20),
-            KTextField.circular(
-              hintText: "Search",
-              leading: PhosphorIcons.magnifying_glass,
-              controller: controller.searchController,
-            ),
-            SizedBox(height: 20),
-            Wrap(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                KChip(
-                  title: "Location",
-                  icon: PhosphorIcons.map_pin_fill,
+                SizedBox(height: 20),
+                KTextField.circular(
+                  hintText: "Search",
+                  leading: PhosphorIcons.magnifying_glass,
+                  controller: controller.searchController,
+                ),
+                SizedBox(height: 20),
+                Wrap(
+                  children: [
+                    KChip(
+                      title: "Location",
+                      icon: PhosphorIcons.map_pin_fill,
+                      onTap: () {
+                        Okito.pushNamed(KRoutes.locationFilterRoute);
+                      },
+                    ),
+                    SizedBox(width: 10),
+                    KChip(
+                      title: "Filter",
+                      icon: PhosphorIcons.funnel_fill,
+                      onTap: () {
+                        Okito.pushNamed(KRoutes.filterRoute);
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                SectionTitle(title: "HIGH RATED"),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                TopRatedMemberCard(
+                  username: "Paul Taylor",
+                  score: 4,
+                  location: "KITCHENER",
                   onTap: () {
-                    Okito.pushNamed(KRoutes.locationFilterRoute);
+                    // TODO: go to user profile
                   },
                 ),
                 SizedBox(width: 10),
-                KChip(
-                  title: "Filter",
-                  icon: PhosphorIcons.funnel_fill,
+                TopRatedMemberCard(
+                  username: "Paul Taylor",
+                  score: 4,
+                  location: "KITCHENER",
                   onTap: () {
-                    Okito.pushNamed(KRoutes.filterRoute);
+                    // TODO: go to user profile
                   },
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            SectionTitle(title: "HIGH RATED"),
-            SizedBox(height: 10),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  TopRatedMemberCard(
-                    username: "Paul Taylor",
-                    score: 4,
-                    location: "KITCHENER",
-                    onTap: () {
-                      // TODO: go to user profile
-                    },
-                  ),
-                  SizedBox(width: 10),
-                  TopRatedMemberCard(
-                    username: "Paul Taylor",
-                    score: 4,
-                    location: "KITCHENER",
-                    onTap: () {
-                      // TODO: go to user profile
-                    },
-                  ),
-                ],
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                SectionTitle(title: "ALL MEMBERS"),
+                SizedBox(height: 10),
+                ListView.builder(
+                  itemCount: 3,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return MemberCard(
+                      username: "Harry Sahir",
+                      score: 3,
+                      onTap: () {
+                        // TODO: go to user profile
+                      },
+                    );
+                  },
+                )
+              ],
             ),
-            SizedBox(height: 20),
-            SectionTitle(title: "ALL MEMBERS"),
-            SizedBox(height: 10),
-            ListView.builder(
-              itemCount: 3,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return MemberCard(
-                    username: "Harry Sahir",
-                    score: 3,
-                    onTap: () {
-                      // TODO: go to user profile
-                    });
-              },
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

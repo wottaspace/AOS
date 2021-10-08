@@ -1,4 +1,5 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/modules/jobs/post_job/form_steps/step_five.dart';
 import 'package:arcopen_enquirer/modules/jobs/post_job/form_steps/step_four.dart';
 import 'package:arcopen_enquirer/modules/jobs/post_job/form_steps/step_one.dart';
 import 'package:arcopen_enquirer/modules/jobs/post_job/form_steps/step_three.dart';
@@ -39,10 +40,12 @@ class _PostJobScreenState extends State<PostJobScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TitleBar(
+            activeIndex: _currentIndex,
             onBackPressed: () {
-              // TODO: navigate back
-              if (_currentIndex > 0) {
-                _goTo(--_currentIndex);
+              // TODO: block navigation to index 4, same in title bar
+              if (_currentIndex < 5) {
+                print("$_currentIndex Next");
+                _goTo(++_currentIndex);
               }
             },
           ),
@@ -79,7 +82,15 @@ class _PostJobScreenState extends State<PostJobScreen> {
                   onSaveDraftsTapped: () {
                     // TODO: save draft
                   },
-                )
+                ),
+                StepFive(
+                  onNextButtonTapped: () {
+                    _goTo(++_currentIndex);
+                  },
+                  onSaveDraftsTapped: () {
+                    // TODO: save draft
+                  },
+                ),
               ],
             ),
           )

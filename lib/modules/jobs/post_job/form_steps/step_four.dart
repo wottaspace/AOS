@@ -75,7 +75,7 @@ class _StepFourState extends State<StepFour> {
                   onPressed: () {
                     widget.onNextButtonTapped();
                   },
-                  title: "NEXT",
+                  title: "DONE",
                   color: Okito.theme.primaryColor,
                 ),
               ),

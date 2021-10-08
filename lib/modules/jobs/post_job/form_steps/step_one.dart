@@ -48,7 +48,7 @@ class StepOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: ListView(
         children: [
           SizedBox(height: 20),
