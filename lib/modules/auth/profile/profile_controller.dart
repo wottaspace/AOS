@@ -40,7 +40,24 @@ class ProfileController extends OkitoController with ToastMixin, ValidationMixin
 
   String? get getResumeFilename => resumeFile == null ? null : basename(resumeFile!.path);
 
-  void prefillForm() {}
+  void prefillForm() {
+    final service = Okito.use<AuthService>();
+    if (service.profileExists) {
+      aboutController.text = service.profile.about ?? "";
+
+      contactDialCode = service.profile.contact.split("-").first;
+      contactController.text = service.profile.contact.split("-").last;
+
+      companyContactDialCode = service.profile.companyContact.split("-").first;
+      companyContactController.text = service.profile.companyContact.split("-").last;
+
+      addressController.text = service.profile.address ?? "";
+      cityController.text = service.profile.city ?? "";
+      postalCodeController.text = service.profile.postalCode ?? "";
+
+      setState(() {});
+    }
+  }
 
   Future<void> pickPictureFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -124,5 +141,16 @@ class ProfileController extends OkitoController with ToastMixin, ValidationMixin
     });
   }
 
-  _updateProfile() {}
+  _updateProfile() {
+    KLoader().show();
+    _repository.updateProfile(data: computeFormData()).then((value) {
+      KLoader.hide();
+      Okito.use<AuthService>().profileExists = true;
+      Okito.use<AuthService>().profile = value.profile;
+      Okito.pushNamed(KRoutes.homeRoute);
+    }).catchError((e) {
+      this.showErrorToast(e.message);
+      KLoader.hide();
+    });
+  }
 }

@@ -53,6 +53,15 @@ class AuthRepository extends BaseRepository {
     }
   }
 
+  Future<ProfileResponse> updateProfile({required FormData data}) async {
+    try {
+      final Response response = await client.put(path: "/enquirerProfile/", args: data);
+      return ProfileResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      throw new Exception(this.extractErrorMessageFromDioError(e));
+    }
+  }
+
   Future<LoginResponse> getLoggedUser() async {
     try {
       final Response response = await client.get(path: "/getLoggedInUser/");

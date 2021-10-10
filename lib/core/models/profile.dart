@@ -20,7 +20,7 @@ class Profile {
   String? acsReferenceNumber;
   String? address;
   String? city;
-  String? companyContact;
+  String companyContact;
   String companyLogo;
   String contact;
   DateTime createdAt;
