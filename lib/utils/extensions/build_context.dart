@@ -5,7 +5,11 @@ extension ContextHelper on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);
 
   /// Routing helpers
-  Future navigate(String name, { Map<String, Object>? params }) {
+  Future navigate(String name, {Map<String, Object>? params}) {
     return Navigator.of(this).pushNamed(name, arguments: params);
   }
+
+  TextTheme get textTheme => Theme.of(this).textTheme;
+
+  Size get customSize => MediaQuery.of(this).size;
 }
