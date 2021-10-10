@@ -1,4 +1,5 @@
 import 'package:arcopen_enquirer/core/models/profile.dart';
+import 'package:arcopen_enquirer/http/requests/change_password_request.dart';
 import 'package:arcopen_enquirer/http/requests/login_request.dart';
 import 'package:arcopen_enquirer/http/requests/register_request.dart';
 import 'package:arcopen_enquirer/http/responses/login_response.dart';
@@ -66,6 +67,15 @@ class AuthRepository extends BaseRepository {
     try {
       final Response response = await client.get(path: "/getLoggedInUser/");
       return LoginResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      throw new Exception(this.extractErrorMessageFromDioError(e));
+    }
+  }
+
+  Future<String> changePassword({required ChangePasswordRequest request}) async {
+    try {
+      final Response response = await client.post(path: "/apiChangePassword/", args: request.toJson());
+      return response.data["success"];
     } on DioError catch (e) {
       throw new Exception(this.extractErrorMessageFromDioError(e));
     }
