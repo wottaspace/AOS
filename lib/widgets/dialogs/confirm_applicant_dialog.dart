@@ -2,7 +2,6 @@ import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/finances/detail_item.dart';
-import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
 

@@ -1,10 +1,7 @@
-import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/widgets/misc/active_ts_item.dart';
 import 'package:arcopen_enquirer/widgets/misc/rating_stars.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
 import 'package:okito/okito.dart';
 
 class HistoryJobMemberCard extends StatefulWidget {
