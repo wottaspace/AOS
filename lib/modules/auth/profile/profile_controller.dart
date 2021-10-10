@@ -55,6 +55,9 @@ class ProfileController extends OkitoController with ToastMixin, ValidationMixin
       cityController.text = service.profile.city ?? "";
       postalCodeController.text = service.profile.postalCode ?? "";
 
+      acsRefNumberController.text = service.profile.acsReferenceNumber ?? "";
+      registrationNumberController.text = service.profile.registrationNumber ?? "";
+
       setState(() {});
     }
   }
@@ -147,7 +150,7 @@ class ProfileController extends OkitoController with ToastMixin, ValidationMixin
       KLoader.hide();
       Okito.use<AuthService>().profileExists = true;
       Okito.use<AuthService>().profile = value.profile;
-      Okito.pushNamed(KRoutes.homeRoute);
+      this.showSuccessToast(value.success);
     }).catchError((e) {
       this.showErrorToast(e.message);
       KLoader.hide();
