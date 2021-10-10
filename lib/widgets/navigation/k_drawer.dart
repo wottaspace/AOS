@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/utils/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
@@ -127,7 +128,7 @@ class KDrawer extends StatelessWidget {
                     style: titleStyle,
                   ),
                   onTap: () {
-                    // Okito.use<AuthService>().logout();
+                    Okito.use<AuthService>().logout();
                   },
                 ),
                 Divider(),
