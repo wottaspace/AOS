@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/utils/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
@@ -14,22 +15,12 @@ class KPAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    ImageProvider profilePicture = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
+    final service = Okito.use<AuthService>();
 
-    final List<_MenuItem> menuItems = [
-      _MenuItem(
-        onTap: () {
-          controller.createOrUpdateProfile();
-        },
-        title: "Save changes",
-      ),
-      _MenuItem(
-        onTap: () {
-          // Okito.use<AuthService>().logout();
-        },
-        title: "Logout",
-      ),
-    ];
+    ImageProvider profilePicture = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
+    if (controller.profilePicFile != null) {
+      profilePicture = FileImage(controller.profilePicFile!);
+    }
     return Container(
       height: 100,
       width: MediaQuery.of(context).size.width,
@@ -54,22 +45,7 @@ class KPAppBar extends StatelessWidget with PreferredSizeWidget {
                 onTap: controller.pickPictureFile,
                 child: CircleAvatar(
                   backgroundImage: profilePicture,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(60.0),
-                    child: controller.profilePicFile == null
-                        ? Image.asset(
-                            "assets/images/avatar.png",
-                            fit: BoxFit.cover,
-                            width: 100,
-                            height: 100,
-                          )
-                        : Image.file(
-                            controller.profilePicFile!,
-                            fit: BoxFit.cover,
-                            width: 100,
-                            height: 100,
-                          ),
-                  ),
+                  child: ClipRRect(borderRadius: BorderRadius.circular(60.0)),
                 ),
               ),
               SizedBox(width: 20),
@@ -78,7 +54,7 @@ class KPAppBar extends StatelessWidget with PreferredSizeWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "John Doe",
+                      "${service.user.name}",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         color: Colors.white,
                         fontSize: 16.0,
@@ -87,26 +63,6 @@ class KPAppBar extends StatelessWidget with PreferredSizeWidget {
                     ),
                   ],
                 ),
-              ),
-              PopupMenuButton<int>(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    PhosphorIcons.dots_three_vertical_bold,
-                    color: Colors.white,
-                  ),
-                ),
-                onSelected: (int index) {
-                  menuItems[index].onTap();
-                },
-                itemBuilder: (context) {
-                  return List.generate(menuItems.length, (index) {
-                    return PopupMenuItem(
-                      value: index,
-                      child: Text(menuItems[index].title),
-                    );
-                  });
-                },
               ),
             ],
           ),
@@ -117,14 +73,4 @@ class KPAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(65.0);
-}
-
-class _MenuItem {
-  final String title;
-  final VoidCallback onTap;
-
-  _MenuItem({
-    required this.title,
-    required this.onTap,
-  });
 }

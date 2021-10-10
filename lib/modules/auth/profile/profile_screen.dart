@@ -54,14 +54,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             maxLines: 4,
                             hintText: "Lorem ipsum dolor sit atmet, consectur adipiscing elit, sed do eiusmod tempor incicident ut labore et dolore magna aliqua",
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 20),
                           Row(
                             children: [
                               Expanded(
                                 child: KTextField.soft(
                                   label: "REGISTRATION NO.",
                                   controller: profileController.registrationNumberController,
-                                  hintText: "Type Yes or No",
+                                  hintText: "xxx-xxx",
+                                  inputFormatters: [
+                                    AcsNumberInputFormatter(
+                                      mask: 'xxx-xxx',
+                                      separator: '-',
+                                    ),
+                                  ],
+                                  validator: (value) {
+                                    profileController.validateRequired(fieldName: "Registration number", value: value);
+                                  },
                                 ),
                               ),
                               SizedBox(width: 20),
@@ -69,12 +78,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: KTextField.soft(
                                   label: "ACS REFERENCE NUMBER",
                                   controller: profileController.acsRefNumberController,
+                                  hintText: "xxx-xxx-xxxx",
                                   inputFormatters: [
                                     AcsNumberInputFormatter(
-                                      mask: 'xxx-xxx-xxxx',
+                                      mask: "xxx-xxx-xxxx",
                                       separator: '-',
                                     ),
                                   ],
+                                  validator: (value) {
+                                    profileController.validateRequired(fieldName: "ACS Reference Number", value: value);
+                                  },
                                 ),
                               ),
                             ],
@@ -113,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   keybordType: TextInputType.number,
                                   controller: profileController.companyContactController,
                                   validator: (String? value) {
-                                    return profileController.validateRequired(fieldName: "contact", value: value);
+                                    return profileController.validateRequired(fieldName: "company contact", value: value);
                                   },
                                 ),
                               ),
@@ -154,7 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         bottomNavigationBar: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
           child: KButton.outlined(
-            onPressed: () {},
+            onPressed: profileController.createOrUpdateProfile,
             title: "DONE",
             color: Okito.theme.primaryColor,
           ),

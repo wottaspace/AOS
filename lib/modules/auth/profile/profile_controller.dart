@@ -1,9 +1,13 @@
 import 'dart:io';
 
+import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 import 'package:arcopen_enquirer/utils/mixins/validation_mixin.dart';
+import 'package:arcopen_enquirer/utils/repositories/auth_repository.dart';
 import 'package:arcopen_enquirer/utils/services/auth_service.dart';
+import 'package:arcopen_enquirer/widgets/dialogs/k_loader.dart';
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:okito/okito.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -23,6 +27,8 @@ class ProfileController extends OkitoController with ToastMixin, ValidationMixin
   String contactDialCode = "+1";
 
   String companyContactDialCode = "+1";
+  final AuthRepository _repository = AuthRepository();
+
   final TextEditingController aboutController = TextEditingController();
   final TextEditingController contactController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -37,13 +43,13 @@ class ProfileController extends OkitoController with ToastMixin, ValidationMixin
   void prefillForm() {}
 
   Future<void> pickPictureFile() async {
-    // FilePickerResult? result = await FilePicker.platform.pickFiles(
-    //   type: FileType.image,
-    // );
-    // if (result != null) {
-    //   profilePicFile = File(result.files.single.path);
-    //   setState(() {});
-    // }
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+    if (result != null) {
+      profilePicFile = File(result.files.single.path!);
+      setState(() {});
+    }
   }
 
   Future<String?> _pickPhoneCode() async {
@@ -92,10 +98,31 @@ class ProfileController extends OkitoController with ToastMixin, ValidationMixin
   }
 
   FormData computeFormData() {
-    return FormData.fromMap({});
+    return FormData.fromMap({
+      "about": aboutController.text,
+      "registration_number": registrationNumberController.text,
+      "acs_reference_number": acsRefNumberController.text,
+      "contact": "$contactDialCode-${contactController.text}",
+      "company_contact": "$companyContactDialCode-${companyContactController.text}",
+      "postal_code": postalCodeController.text,
+      "city": cityController.text,
+      "address": addressController.text,
+      if (profilePicFile != null) "company_logo": MultipartFile.fromFile(profilePicFile!.path),
+    });
   }
 
-  _createProfile() {}
+  _createProfile() {
+    KLoader().show();
+    _repository.createProfile(data: computeFormData()).then((value) {
+      KLoader.hide();
+      Okito.use<AuthService>().profileExists = true;
+      Okito.use<AuthService>().profile = value.profile;
+      Okito.pushNamed(KRoutes.homeRoute);
+    }).catchError((e) {
+      this.showErrorToast(e.message);
+      KLoader.hide();
+    });
+  }
 
   _updateProfile() {}
 }

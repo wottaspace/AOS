@@ -1,61 +1,52 @@
 class Profile {
   Profile({
     required this.about,
+    required this.acsReferenceNumber,
     required this.address,
-    required this.badgeNumber,
     required this.city,
+    required this.companyContact,
+    required this.companyLogo,
     required this.contact,
     required this.createdAt,
-    required this.documents,
-    required this.drive,
-    required this.hourlyRate,
+    required this.enquirerId,
     required this.id,
-    required this.pinLocation,
+    required this.name,
     required this.postalCode,
-    required this.profilePic,
-    required this.unavailability,
+    required this.registrationNumber,
     required this.updatedAt,
-    required this.userId,
-    required this.unavailabilityDates,
   });
 
   String about;
+  String acsReferenceNumber;
   String address;
-  String badgeNumber;
   String city;
+  String companyContact;
+  String companyLogo;
   String contact;
   DateTime createdAt;
-  String documents;
-  bool drive;
-  String hourlyRate;
-  String id;
-  dynamic pinLocation;
+  int enquirerId;
+  int id;
+  String name;
   String postalCode;
-  String profilePic;
-  String unavailability;
+  String registrationNumber;
   DateTime updatedAt;
-  String userId;
-  List<String> unavailabilityDates;
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
       about: json["about"],
+      acsReferenceNumber: json["acs_reference_number"],
       address: json["address"],
-      badgeNumber: json["badge_number"],
       city: json["city"],
+      companyContact: json["company_contact"],
+      companyLogo: json["company_logo"],
       contact: json["contact"],
       createdAt: DateTime.parse(json["created_at"]),
-      documents: json["documents"],
-      drive: json["drive"],
-      hourlyRate: json["hourly_rate"],
+      enquirerId: json["enquirer_id"],
       id: json["id"],
-      pinLocation: json["pin_location"],
+      name: json["name"],
       postalCode: json["postal_code"],
-      profilePic: json["profile_pic"],
-      unavailability: json["unavailability"],
+      registrationNumber: json["registration_number"],
       updatedAt: DateTime.parse(json["updated_at"]),
-      userId: json["user_id"],
-      unavailabilityDates: json["unavailable_dates"] == null ? [] : List<String>.from(json["unavailable_dates"]),
     );
   }
 }

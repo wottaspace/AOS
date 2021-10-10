@@ -19,6 +19,9 @@ dependencies:
   double_back_to_close_app:
   flutter_phosphor_icons: ^0.0.1+5
   credit_card_input_form: ^2.3.0
+  device_info: ^2.0.2
+  dio_http_cache: ^0.3.0
+  logger: ^1.1.0
   adaptive_action_sheet: ^2.0.0
   flutter_simple_rating_bar:
     git:

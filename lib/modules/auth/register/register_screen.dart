@@ -41,34 +41,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 SizedBox(height: 40),
                 KTextField.soft(
-                  label: "ORGANISATION NAME",
+                    label: "ORGANISATION NAME *",
+                    controller: controller.businessNameController,
+                    validator: (value) {
+                      controller.validateRequired(fieldName: "Organisation name", value: value);
+                    }),
+                SizedBox(height: 20),
+                KTextField.soft(
+                  label: "EMAIL *",
                   keybordType: TextInputType.emailAddress,
-                  controller: controller.businessNameController,
+                  controller: controller.emailController,
+                  validator: (email) {
+                    controller.validateEmail(fieldName: "Email", email: email!);
+                  },
                 ),
                 SizedBox(height: 20),
                 KTextField.soft(
-                  label: "EMAIL",
-                  keybordType: TextInputType.emailAddress,
-                  controller: controller.emailController,
-                ),
-                SizedBox(height: 20),
-                KTextField.soft(
-                  label: "PASSWORD",
-                  keybordType: TextInputType.emailAddress,
-                  controller: controller.emailController,
+                  label: "PASSWORD *",
+                  isPassword: true,
+                  controller: controller.passwordController,
+                  validator: (String? value) {
+                    return controller.validateMinlength(fieldName: "password", value: value!, min: 8);
+                  },
                 ),
                 SizedBox(height: 20),
                 KTextField.soft(
                   label: "CONFIRM PASSWORD",
-                  keybordType: TextInputType.emailAddress,
-                  controller: controller.emailController,
+                  isPassword: true,
+                  controller: controller.passConfirmController,
+                  validator: (String? value) {
+                    if (controller.passConfirmController.text != controller.passwordController.text) {
+                      return "The passwords does not match";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 20),
-                KTextField.soft(
-                  label: "ORGANISATION NAME ",
-                  keybordType: TextInputType.emailAddress,
-                  controller: controller.emailController,
-                ),
               ],
             ),
           ),
