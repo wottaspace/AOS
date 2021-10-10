@@ -6,9 +6,11 @@ class RatingStars extends StatelessWidget {
   const RatingStars({
     Key? key,
     required this.score,
+    this.iconSize,
   }) : super(key: key);
 
   final double score;
+  final double? iconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +19,17 @@ class RatingStars extends StatelessWidget {
     int emptyStarsCount = (5 - score).abs().floor();
 
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         ...List.generate(
           intPart,
-          (index) => Icon(PhosphorIcons.star_fill, color: ColorConstants.yellow, size: 10),
+          (index) => Icon(PhosphorIcons.star_fill, color: ColorConstants.yellow, size: iconSize ?? 10),
         ),
-        Icon(PhosphorIcons.star_half_fill, color: ColorConstants.yellow, size: 10),
+        // TODO: fix this
+        // Icon(PhosphorIcons.star_half_fill, color: ColorConstants.yellow, size: 10),
         ...List.generate(
           emptyStarsCount,
-          (index) => Icon(PhosphorIcons.star, color: ColorConstants.yellow, size: 10),
+          (index) => Icon(PhosphorIcons.star, color: ColorConstants.yellow, size: iconSize ?? 10),
         )
       ],
     );

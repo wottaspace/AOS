@@ -210,6 +210,9 @@ class _HistoryJobs extends StatelessWidget {
               jobType: "Express Security",
               location: "KITCHENER",
               isCompleted: true,
+              onTap: () {
+                Okito.pushNamed(KRoutes.historyJobDetailsRoute);
+              },
             ),
           );
         },

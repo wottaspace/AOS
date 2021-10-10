@@ -12,6 +12,7 @@ class MemberCard extends StatelessWidget {
     required this.onTap,
     this.hidePayRate = false,
     this.hideLikeButton = false,
+    this.timeCompleted,
   }) : super(key: key);
 
   final String username;
@@ -19,6 +20,7 @@ class MemberCard extends StatelessWidget {
   final Function onTap;
   final bool hidePayRate;
   final bool hideLikeButton;
+  final String? timeCompleted;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,16 @@ class MemberCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 5),
-                        const RatingStars(score: 1.2),
+                        if (timeCompleted == null)
+                          const RatingStars(score: 1.2)
+                        else
+                          Text(
+                            "completed ${timeCompleted!}",
+                            style: Okito.theme.textTheme.bodyText2!.copyWith(
+                            fontSize: 10.0,
+                            color: ColorConstants.greyColor,
+                          ),
+                          )
                       ],
                     ),
                   ],

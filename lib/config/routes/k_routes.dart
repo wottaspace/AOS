@@ -11,6 +11,8 @@ import 'package:arcopen_enquirer/modules/home_screen.dart';
 import 'package:arcopen_enquirer/modules/inbox/inbox_details_screen.dart';
 import 'package:arcopen_enquirer/modules/jobs/active_job/active_job_details_screen.dart';
 import 'package:arcopen_enquirer/modules/jobs/active_job/active_job_member_details/active_job_member_details_screen.dart';
+import 'package:arcopen_enquirer/modules/jobs/history_job/history_job_details_screen.dart';
+import 'package:arcopen_enquirer/modules/jobs/history_job_member_details/history_job_member_details_screen.dart';
 import 'package:arcopen_enquirer/modules/jobs/posted_job/posted_job_details_screen.dart';
 import 'package:arcopen_enquirer/modules/payments/billing_methods_screen.dart';
 import 'package:arcopen_enquirer/modules/payments/payment_successful_screen.dart';
@@ -61,6 +63,8 @@ class KRoutes {
 
   static final String billingMethodsRoute = "/billing-methods";
   static final String paymentSuccessfulRoute = "/payment-successful";
+  static final String historyJobDetailsRoute = "/history-job-details";
+  static final String historyJobMemberDetailsRoute = "/history-job-member-details";
 
   static registerRoutes() {
     KRouter().registerRoute(route: KRoute(name: KRoutes.splashRoute, page: SplashScreen(), isInitial: true));
@@ -96,5 +100,8 @@ class KRoutes {
 
     KRouter().registerRoute(route: KRoute(name: KRoutes.billingMethodsRoute, page: BillingMethodsScreen()));
     KRouter().registerRoute(route: KRoute(name: KRoutes.paymentSuccessfulRoute, page: PaymentSuccessfulScreen()));
+
+    KRouter().registerRoute(route: KRoute(name: KRoutes.historyJobDetailsRoute, page: HistoryJobDetailsScreen()));
+    KRouter().registerRoute(route: KRoute(name: KRoutes.historyJobMemberDetailsRoute, page: HistoryJobMemberDetailsScreen()));
   }
 }
