@@ -7,6 +7,7 @@ class AssetHelper {
   static final String fontAssetsPath = "assets/fonts";
   static final String imageAssetsPath = "assets/images";
   static final String jsonAssetsPath = "assets/animations";
+  static final String baseEmployerProfilePicPath = "https://arcopen.space/files/uploads/employer";
 
   static String getAsset(
       {required String name, AssetType assetType = AssetType.image}) {
@@ -18,6 +19,10 @@ class AssetHelper {
       case AssetType.json:
         return "$jsonAssetsPath/$name";
     }
+  }
+
+  static String getEnquirerProfilePic({required String name}) {
+    return "$baseEmployerProfilePicPath/$name";
   }
 }
 
