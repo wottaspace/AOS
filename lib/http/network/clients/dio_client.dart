@@ -25,7 +25,7 @@ class DioClient with LoggingMixin implements NetworkClient {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          final String? accessToken = KStorage().read(key: AppConstants.accessTokenKey);
+          final String? accessToken = KStorage.read(key: AppConstants.accessTokenKey);
           if (accessToken != null) {
             options.headers.addAll({"Authorization": "Bearer $accessToken"});
           }

@@ -15,7 +15,7 @@ void main() async {
   KRoutes.registerRoutes();
 
   // Initialising storage
-  KStorage().init();
+  KStorage.init();
 
   // Registering service locators
   KService().registerServices();

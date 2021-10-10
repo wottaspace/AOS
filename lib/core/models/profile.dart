@@ -16,19 +16,19 @@ class Profile {
     required this.updatedAt,
   });
 
-  String about;
-  String acsReferenceNumber;
-  String address;
-  String city;
-  String companyContact;
+  String? about;
+  String? acsReferenceNumber;
+  String? address;
+  String? city;
+  String? companyContact;
   String companyLogo;
   String contact;
   DateTime createdAt;
   int enquirerId;
-  int id;
+  String id;
   String name;
-  String postalCode;
-  String registrationNumber;
+  String? postalCode;
+  String? registrationNumber;
   DateTime updatedAt;
 
   factory Profile.fromJson(Map<String, dynamic> json) {

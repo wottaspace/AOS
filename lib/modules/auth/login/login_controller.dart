@@ -1,5 +1,6 @@
 import 'package:arcopen_enquirer/config/routes/k_router.dart';
 import 'package:arcopen_enquirer/constants/app_constants.dart';
+import 'package:arcopen_enquirer/core/models/profile.dart';
 import 'package:arcopen_enquirer/http/requests/login_request.dart';
 import 'package:arcopen_enquirer/utils/helpers/k_storage.dart';
 import 'package:arcopen_enquirer/utils/repositories/auth_repository.dart';
@@ -33,12 +34,13 @@ class LoginController extends OkitoController with ValidationMixin, ToastMixin {
           this.showErrorToast("This app is reserved for users with enquirer profile. Please consider using the member application.");
           return;
         }
-        KStorage().write(key: AppConstants.accessTokenKey, value: value.accessToken);
+        KStorage.write(key: AppConstants.accessTokenKey, value: value.accessToken);
 
         Okito.use<AuthService>().profileExists = value.profileExists;
         Okito.use<AuthService>().user = value.user;
         if (value.profileExists) {
-          // TODO: load employer profile
+          final Profile profile = await _repository.readEnquirerProfile();
+          Okito.use<AuthService>().profile = profile;
           KRouter().push(KRoutes.homeRoute, replace: true);
         } else {
           KRouter().push(KRoutes.userProfileRoute, replace: true);

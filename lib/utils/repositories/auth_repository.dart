@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/core/models/profile.dart';
 import 'package:arcopen_enquirer/http/requests/login_request.dart';
 import 'package:arcopen_enquirer/http/requests/register_request.dart';
 import 'package:arcopen_enquirer/http/responses/login_response.dart';
@@ -34,10 +35,28 @@ class AuthRepository extends BaseRepository {
     }
   }
 
+  Future<Profile> readEnquirerProfile() async {
+    try {
+      final Response response = await client.get(path: "/enquirerProfile/");
+      return Profile.fromJson(response.data["profile"]);
+    } on DioError catch (e) {
+      throw new Exception(this.extractErrorMessageFromDioError(e));
+    }
+  }
+
   Future<ProfileResponse> createProfile({required FormData data}) async {
     try {
       final Response response = await client.post(path: "/enquirerProfile/", args: data);
       return ProfileResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      throw new Exception(this.extractErrorMessageFromDioError(e));
+    }
+  }
+
+  Future<LoginResponse> getLoggedUser() async {
+    try {
+      final Response response = await client.get(path: "/getLoggedInUser/");
+      return LoginResponse.fromJson(response.data);
     } on DioError catch (e) {
       throw new Exception(this.extractErrorMessageFromDioError(e));
     }

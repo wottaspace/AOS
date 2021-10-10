@@ -23,7 +23,7 @@ class BankDetailsController extends OkitoController with ToastMixin {
 
   // Payment methods management
   List<PaymentCard> getPaymentMethods() {
-    return (KStorage().read<List<dynamic>>(key: AppConstants.paymentMethodsKey) ?? [])
+    return (KStorage.read<List<dynamic>>(key: AppConstants.paymentMethodsKey) ?? [])
         .cast<Map<String, dynamic>>()
         .map(
           (e) => PaymentCard.fromJson(e),
@@ -69,6 +69,6 @@ class BankDetailsController extends OkitoController with ToastMixin {
   }
 
   _savePaymentMethods(List<PaymentCard> paymentMethods) {
-    KStorage().write(key: AppConstants.paymentMethodsKey, value: paymentMethods.map((e) => e.toJson()).toList());
+    KStorage.write(key: AppConstants.paymentMethodsKey, value: paymentMethods.map((e) => e.toJson()).toList());
   }
 }

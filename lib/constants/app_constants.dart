@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class AppConstants {
   static final String applicationName = dotenv.env["APPNAME"]!;
 
-  static final String firstAppOpeningKey = "opening-for-the-first-time";
+  static final String firstAppOpeningKey = "opening-app-for-the-first-time";
   static final String accessTokenKey = "access-token";
   static final String paymentMethodsKey = "payment_methods";
 
