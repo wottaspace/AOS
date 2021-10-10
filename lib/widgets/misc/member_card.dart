@@ -64,7 +64,7 @@ class MemberCard extends StatelessWidget {
                         ),
                         SizedBox(height: 5),
                         if (timeCompleted == null)
-                          const RatingStars(score: 1.2)
+                          RatingStars(score: score)
                         else
                           Text(
                             "completed ${timeCompleted!}",

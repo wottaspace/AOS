@@ -21,73 +21,20 @@ class ProfileController extends OkitoController with ToastMixin, ValidationMixin
   File? resumeFile;
   File? profilePicFile;
   String contactDialCode = "+1";
+
+  String companyContactDialCode = "+1";
   final TextEditingController aboutController = TextEditingController();
-  final TextEditingController driveController = TextEditingController();
-  final TextEditingController badgeNumberController = TextEditingController();
   final TextEditingController contactController = TextEditingController();
-  final TextEditingController hourlyRateController = TextEditingController();
-  final TextEditingController unavailabilityController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController postalCodeController = TextEditingController();
+  final TextEditingController registrationNumberController = TextEditingController();
+  final TextEditingController acsRefNumberController = TextEditingController();
+  final TextEditingController companyContactController = TextEditingController();
 
   String? get getResumeFilename => resumeFile == null ? null : basename(resumeFile!.path);
 
-  void prefillForm() {
-    // final AuthService service = Okito.use<AuthService>();
-    // final User user = service.user;
-    // badgeNumberController.text = user.badgeNumber!;
-    // if (service.profileExists) {
-    //   aboutController.text = service.profile.about;
-    //   driveController.text = service.profile.drive ? "YES" : "NO";
-    //   badgeNumberController.text = service.profile.badgeNumber;
-
-    //   List<String> parts = service.profile.contact.split("-");
-    //   contactDialCode = parts.first;
-
-    //   contactController.text = parts.skip(1).join("-");
-    //   hourlyRateController.text = service.profile.hourlyRate;
-    //   unavailabilityController.text = service.profile.unavailabilityDates.join(" - ");
-    //   addressController.text = service.profile.address;
-    //   cityController.text = service.profile.city;
-    //   postalCodeController.text = service.profile.postalCode;
-    // }
-    // setState(() {});
-  }
-
-  pickResumeFile() async {
-    // FilePickerResult? result = await FilePicker.platform.pickFiles(
-    //   allowedExtensions: ["pdf", "docx", "doc"],
-    //   type: FileType.custom,
-    // );
-    // if (result != null) {
-    //   resumeFile = File(result.files.single.path);
-    //   setState(() {});
-    // }
-  }
-
-  void selectUnavailabilityRange() async {
-    final now = DateTime.now();
-    final fieldValue = unavailabilityController.text;
-    final DateTimeRange? range = await showDateRangePicker(
-      context: Okito.context!,
-      initialDateRange: fieldValue.isEmpty
-          ? null
-          : DateTimeRange(
-              start: DateTime.parse(fieldValue.split(" - ").first),
-              end: DateTime.parse(fieldValue.split(" - ").last),
-            ),
-      firstDate: DateTime(now.year),
-      lastDate: DateTime(now.year + 5),
-    );
-
-    if (range != null) {
-      final firstDate = range.start.toString().split(" ").first;
-      final lastDate = range.end.toString().split(" ").first;
-      unavailabilityController.text = "$firstDate - $lastDate";
-      setState(() {});
-    }
-  }
+  void prefillForm() {}
 
   Future<void> pickPictureFile() async {
     // FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -99,8 +46,9 @@ class ProfileController extends OkitoController with ToastMixin, ValidationMixin
     // }
   }
 
-  void pickPhoneCode() {
-    showModalBottomSheet(
+  Future<String?> _pickPhoneCode() async {
+    String? dialCode;
+    await showModalBottomSheet(
       context: Okito.context!,
       isDismissible: true,
       enableDrag: true,
@@ -116,12 +64,22 @@ class ProfileController extends OkitoController with ToastMixin, ValidationMixin
         child: PhoneCodePicker(
           primaryColor: Okito.theme.primaryColor,
           onSelected: (country) {
-            contactDialCode = country.dialCode;
-            setState(() {});
+            dialCode = country.dialCode;
           },
         ),
       ),
     );
+    return dialCode;
+  }
+
+  Future<void> pickPhoneCode() async {
+    contactDialCode = await _pickPhoneCode() ?? "+1";
+    setState(() {});
+  }
+
+  Future<void> pickCompanyPhoneCode() async {
+    companyContactDialCode = await _pickPhoneCode() ?? "+1";
+    setState(() {});
   }
 
   void createOrUpdateProfile() {
@@ -134,18 +92,7 @@ class ProfileController extends OkitoController with ToastMixin, ValidationMixin
   }
 
   FormData computeFormData() {
-    return FormData.fromMap({
-      "about": aboutController.text,
-      "drive": driveController.text,
-      "contact": "$contactDialCode-${contactController.text}",
-      "address": addressController.text,
-      "city": cityController.text,
-      "postal_code": postalCodeController.text,
-      "hourly_rate": hourlyRateController.text,
-      "unavailable_dates": unavailabilityController.text.split(" - "),
-      if (resumeFile != null) "cv": MultipartFile.fromFile(resumeFile!.path),
-      if (profilePicFile != null) "profile_pic": MultipartFile.fromFile(profilePicFile!.path),
-    });
+    return FormData.fromMap({});
   }
 
   _createProfile() {}

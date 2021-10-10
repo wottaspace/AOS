@@ -1,10 +1,10 @@
 import 'package:flutter/services.dart';
 
-class BadgeInputFormatter extends TextInputFormatter {
+class AcsNumberInputFormatter extends TextInputFormatter {
   final String mask;
   final String separator;
 
-  BadgeInputFormatter({
+  AcsNumberInputFormatter({
     required this.mask,
     required this.separator,
   });

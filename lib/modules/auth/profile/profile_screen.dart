@@ -1,11 +1,10 @@
 import 'package:arcopen_enquirer/modules/auth/profile/profile_controller.dart';
-import 'package:arcopen_enquirer/utils/helpers/badge_input_formatter.dart';
+import 'package:arcopen_enquirer/utils/helpers/input_formatters/acs_number_input_formatter.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:arcopen_enquirer/widgets/navigation/kp_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -28,7 +27,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: fix profile fields
     return AnnotatedRegion<SystemUiOverlayStyle>(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -61,28 +59,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               Expanded(
                                 child: KTextField.soft(
-                                  label: "DO YOU DRIVE ?",
-                                  controller: profileController.driveController,
+                                  label: "REGISTRATION NO.",
+                                  controller: profileController.registrationNumberController,
                                   hintText: "Type Yes or No",
-                                  validator: (String? value) {
-                                    return profileController.validateValueEquals(fieldName: "Drive option", value: value!, equalValues: ["yes", "no"]);
-                                  },
                                 ),
                               ),
                               SizedBox(width: 20),
                               Expanded(
                                 child: KTextField.soft(
-                                  label: "BADGE NUMBER",
-                                  controller: profileController.badgeNumberController,
+                                  label: "ACS REFERENCE NUMBER",
+                                  controller: profileController.acsRefNumberController,
                                   inputFormatters: [
-                                    BadgeInputFormatter(
-                                      mask: 'xxxx-xxxx-xxxx-xxxx',
+                                    AcsNumberInputFormatter(
+                                      mask: 'xxx-xxx-xxxx',
                                       separator: '-',
                                     ),
                                   ],
-                                  validator: (String? value) {
-                                    return profileController.validateRequired(fieldName: "badge number", value: value);
-                                  },
                                 ),
                               ),
                             ],
@@ -110,20 +102,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               SizedBox(width: 20),
                               Expanded(
                                 child: KTextField.soft(
-                                  label: "HOURLY RATE",
+                                  label: "COMPANY CONTACT*",
+                                  prefixIcon: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    onPressed: profileController.pickCompanyPhoneCode,
+                                    icon: FittedBox(
+                                      child: Text("${profileController.companyContactDialCode}"),
+                                    ),
+                                  ),
                                   keybordType: TextInputType.number,
-                                  controller: profileController.hourlyRateController,
+                                  controller: profileController.companyContactController,
+                                  validator: (String? value) {
+                                    return profileController.validateRequired(fieldName: "contact", value: value);
+                                  },
                                 ),
                               ),
                             ],
-                          ),
-                          SizedBox(height: 20),
-                          KTextField.soft(
-                            label: "UNAVAILABILITY",
-                            suffixIcon: PhosphorIcons.calendar,
-                            readOnly: true,
-                            onTap: profileController.selectUnavailabilityRange,
-                            controller: profileController.unavailabilityController,
                           ),
                           SizedBox(height: 20),
                           KTextField.soft(

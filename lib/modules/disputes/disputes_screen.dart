@@ -1,5 +1,4 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
-import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/misc/dispute_card.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
 import 'package:flutter/material.dart';
@@ -46,12 +45,6 @@ class _DisputesScreenState extends State<DisputesScreen> {
                         "Dispute Resolution",
                         style: Okito.theme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    KButton.regular(
-                      title: "+ ADD DISPUTE",
-                      onTap: () {
-                        // TODO: create dispute
-                      },
                     ),
                     SizedBox(width: 5),
                   ],

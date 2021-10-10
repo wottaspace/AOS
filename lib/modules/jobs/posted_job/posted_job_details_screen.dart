@@ -1,11 +1,10 @@
-import 'package:arcopen_enquirer/widgets/dialogs/confirm_applicant_dialog.dart';
+import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:arcopen_enquirer/widgets/misc/expandable_text.dart';
 import 'package:arcopen_enquirer/widgets/misc/member_card.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
 import 'package:arcopen_enquirer/widgets/navigation/expanded_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
 
 class PostedJobDetailsScreen extends StatefulWidget {
@@ -82,33 +81,7 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                           score: 3.5,
                           hideLikeButton: true,
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              useSafeArea: true,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          Okito.pop();
-                                        },
-                                        iconSize: 10,
-                                        icon: Icon(PhosphorIcons.x_bold),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "Fund job for Talwar's Residency",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 14.0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  content: ConfirmApplicantDialog(),
-                                );
-                              },
-                            );
+                            Okito.pushNamed(KRoutes.jobApplicationRoute);
                           },
                         );
                       },
