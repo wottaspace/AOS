@@ -25,6 +25,15 @@ class AuthRepository extends BaseRepository {
     }
   }
 
+  Future<String> sendForgotPasswordRequest(data) async {
+    try {
+      final Response response = await client.post(path: "/forgotpassword/", args: data);
+      return response.data["success"];
+    } on DioError catch (e) {
+      throw new Exception(this.extractErrorMessageFromDioError(e));
+    }
+  }
+
   Future<ProfileResponse> createProfile({required FormData data}) async {
     try {
       final Response response = await client.post(path: "/enquirerProfile/", args: data);

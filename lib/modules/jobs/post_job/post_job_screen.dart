@@ -42,8 +42,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
           TitleBar(
             activeIndex: _currentIndex,
             onBackPressed: () {
-              // TODO: block navigation to index 4, same in title bar
-              if (_currentIndex < 5) {
+              if (_currentIndex < 4) {
                 print("$_currentIndex Next");
                 _goTo(++_currentIndex);
               }
