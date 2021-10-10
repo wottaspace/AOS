@@ -2,7 +2,6 @@ import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/utils/navigation/k_app_bar.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/confirm_applicant_dialog.dart';
-import 'package:arcopen_enquirer/widgets/finances/detail_item.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:arcopen_enquirer/widgets/misc/member_card.dart';
 import 'package:flutter/material.dart';
