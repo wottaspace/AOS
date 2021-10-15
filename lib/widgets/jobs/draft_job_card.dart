@@ -59,7 +59,7 @@ class DraftJobCard extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 KChip(
-                  title: "KITCHENER",
+                  title: location,
                   boldText: true,
                   icon: PhosphorIcons.map_pin,
                   circularCorners: true,
@@ -75,7 +75,7 @@ class DraftJobCard extends StatelessWidget {
               children: [
                 RichText(
                   text: TextSpan(
-                    text: "\$15",
+                    text: payRate,
                     style: Okito.theme.textTheme.bodyText2!.copyWith(
                       fontSize: 12.0,
                       fontWeight: FontWeight.w700,

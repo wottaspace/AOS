@@ -8,12 +8,12 @@ class PostedJobDetails {
   });
 
   List<Applicant> applicants;
-  List<JobDetail> jobDetails;
+  List<Job> jobDetails;
 
   factory PostedJobDetails.fromJson(Map<String, dynamic> json) {
     return PostedJobDetails(
       applicants: List<Applicant>.from(json["applicants"].map((x) => Applicant.fromJson(x))),
-      jobDetails: List<JobDetail>.from(json["job_details"].map((x) => JobDetail.fromJson(x))),
+      jobDetails: List<Job>.from(json["job_details"].map((x) => Job.fromJson(x))),
     );
   }
 }

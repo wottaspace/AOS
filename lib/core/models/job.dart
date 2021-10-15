@@ -1,5 +1,5 @@
-class JobDetail {
-  JobDetail({
+class Job {
+  Job({
     required this.budget,
     required this.businessName,
     required this.city,
@@ -20,15 +20,15 @@ class JobDetail {
   String companyName;
   int daysRemaining;
   String jobDescription;
-  String jobId;
+  dynamic jobId;
   String jobType;
   String shiftEndDate;
   String shiftEndTime;
   String shiftStartDate;
   String shiftStartTime;
 
-  factory JobDetail.fromJson(Map<String, dynamic> json) {
-    return JobDetail(
+  factory Job.fromJson(Map<String, dynamic> json) {
+    return Job(
       budget: json["budget"],
       businessName: json["business_name"],
       city: json["city"],

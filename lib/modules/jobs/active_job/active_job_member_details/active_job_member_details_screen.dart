@@ -65,8 +65,9 @@ class _ActiveJobMemberDetailsScreenState extends State<ActiveJobMemberDetailsScr
             children: [
               SizedBox(height: 20),
               MemberCard(
-                username: "Harry Sahir",
+                username: "Harry Sahir", 
                 score: 3.5,
+                profilePic: "", // TODO: fix this
                 onTap: () {},
                 hideLikeButton: true,
               ),

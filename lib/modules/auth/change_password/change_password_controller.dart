@@ -1,12 +1,12 @@
+import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:arcopen_enquirer/http/requests/change_password_request.dart';
 import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 import 'package:arcopen_enquirer/utils/mixins/validation_mixin.dart';
 import 'package:arcopen_enquirer/utils/repositories/auth_repository.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/k_loader.dart';
-import 'package:okito/okito.dart';
 import 'package:flutter/material.dart';
 
-class ChangePasswordController extends OkitoController with ToastMixin, ValidationMixin {
+class ChangePasswordController extends BaseController with ToastMixin, ValidationMixin {
   ChangePasswordController._internal();
   static final ChangePasswordController _singleton = ChangePasswordController._internal();
 

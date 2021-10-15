@@ -1,9 +1,9 @@
+import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:okito/okito.dart';
 import 'package:arcopen_enquirer/core/models/payment_card.dart';
 import 'package:arcopen_enquirer/core/models/plan.dart';
-import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 
-class PaymentController extends OkitoController with ToastMixin {
+class PaymentController extends BaseController {
   List<PaymentCard> paymentMethods = [];
 
   PaymentCard? card;

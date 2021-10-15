@@ -43,7 +43,6 @@ class _PostJobScreenState extends State<PostJobScreen> {
             activeIndex: _currentIndex,
             onBackPressed: () {
               if (_currentIndex < 4) {
-                print("$_currentIndex Next");
                 _goTo(++_currentIndex);
               }
             },

@@ -79,6 +79,7 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                         return MemberCard(
                           username: "Harry Sahir",
                           score: 3.5,
+                          profilePic: "", // TODO: fix this
                           hideLikeButton: true,
                           onTap: () {
                             Okito.pushNamed(KRoutes.jobApplicationRoute);

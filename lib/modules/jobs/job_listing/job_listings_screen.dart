@@ -1,8 +1,12 @@
 import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/core/models/project.dart';
+import 'package:arcopen_enquirer/modules/jobs/job_listing/job_listings_controller.dart';
 import 'package:arcopen_enquirer/modules/jobs/post_job/post_job_screen.dart';
 import 'package:arcopen_enquirer/widgets/jobs/job_card.dart';
+import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
+import 'package:arcopen_enquirer/widgets/states/empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
@@ -20,6 +24,9 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
   @override
   void initState() {
     _selectedIndex = 0;
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      JobsListingsController.shared.loadData();
+    });
     super.initState();
   }
 
@@ -92,17 +99,31 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
               ),
             ),
             SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18.0),
-              child: Column(
-                children: [
-                  SectionTitle(title: "JOB LISTINGS"),
-                ],
-              ),
+            OkitoBuilder(
+              controller: JobsListingsController.shared,
+              builder: () {
+                return PageSkeleton(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 18.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SectionTitle(title: "JOB LISTINGS"),
+                            if (_selectedIndex == 0) _ActiveJobs(jobs: JobsListingsController.shared.activeJobs),
+                            if (_selectedIndex == 1) _PostedJobs(jobs: JobsListingsController.shared.postedJobs),
+                            if (_selectedIndex == 2) _HistoryJobs(jobs: JobsListingsController.shared.pastJobs),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  controller: JobsListingsController.shared,
+                  retryCallback: JobsListingsController.shared.loadData,
+                );
+              },
             ),
-            if (_selectedIndex == 0) const _ActiveJobs(),
-            if (_selectedIndex == 1) const _PostedJobs(),
-            if (_selectedIndex == 2) const _HistoryJobs(),
           ],
         ),
       ),
@@ -130,93 +151,112 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
 }
 
 class _ActiveJobs extends StatelessWidget {
-  const _ActiveJobs({Key? key}) : super(key: key);
+  const _ActiveJobs({
+    Key? key,
+    required this.jobs,
+  }) : super(key: key);
+
+  final List<Project> jobs;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18.0),
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: JobCard(
-              createdAt: DateTime.now(),
-              jobTitle: "Talwar's Residency",
-              jobType: "Express Security",
-              location: "KITCHENER",
-              onTap: () {
-                Okito.pushNamed(KRoutes.activeJobDetailsRoute);
-              },
-            ),
-          );
-        },
-      ),
+    if (jobs.isEmpty) return EmptyState();
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: jobs.length,
+      itemBuilder: (context, index) {
+        final Project job = jobs[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: JobCard(
+            jobTitle: job.businessName,
+            jobType: job.companyName,
+            location: job.city,
+            applicants: job.applicantsArray,
+            onTap: () {
+              Okito.pushNamed(KRoutes.activeJobDetailsRoute, arguments: {
+                "job": job,
+              });
+            },
+          ),
+        );
+      },
     );
   }
 }
 
 class _PostedJobs extends StatelessWidget {
-  const _PostedJobs({Key? key}) : super(key: key);
+  const _PostedJobs({
+    Key? key,
+    required this.jobs,
+  }) : super(key: key);
+
+  final List<Project> jobs;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18.0),
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: JobCard(
-              createdAt: DateTime.now(),
-              jobTitle: "Talwar's Residency",
-              jobType: "Express Security",
-              location: "KITCHENER",
-              daysLeftCount: 24,
-              onTap: () {
-                Okito.pushNamed(KRoutes.postedJobDetailsRoute);
-              },
-            ),
-          );
-        },
-      ),
+    if (jobs.isEmpty) return EmptyState();
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: jobs.length,
+      itemBuilder: (context, index) {
+        final Project job = jobs[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: JobCard(
+            jobTitle: job.businessName,
+            jobType: job.companyName,
+            location: job.city,
+            daysLeftCount: job.daysRemaining,
+            applicants: job.applicantsArray,
+            onTap: () {
+              Okito.pushNamed(KRoutes.postedJobDetailsRoute, arguments: {
+                "job": job,
+              });
+            },
+          ),
+        );
+      },
     );
   }
 }
 
 class _HistoryJobs extends StatelessWidget {
-  const _HistoryJobs({Key? key}) : super(key: key);
+  const _HistoryJobs({
+    Key? key,
+    required this.jobs,
+  }) : super(key: key);
+
+  final List<Project> jobs;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18.0),
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: JobCard(
-              createdAt: DateTime.now(),
-              jobTitle: "Talwar's Residency",
-              jobType: "Express Security",
-              location: "KITCHENER",
-              isCompleted: true,
-              onTap: () {
-                Okito.pushNamed(KRoutes.historyJobDetailsRoute);
-              },
-            ),
-          );
-        },
-      ),
+    if (jobs.isEmpty) return EmptyState();
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: jobs.length,
+      itemBuilder: (context, index) {
+        final Project job = jobs[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: JobCard(
+            jobTitle: job.businessName,
+            jobType: job.companyName,
+            location: job.city,
+            daysLeftCount: job.daysRemaining,
+            isCompleted: true,
+            applicants: job.applicantsArray,
+            onTap: () {
+              Okito.pushNamed(KRoutes.postedJobDetailsRoute, arguments: {
+                "job": job,
+              });
+            },
+          ),
+        );
+      },
     );
   }
 }

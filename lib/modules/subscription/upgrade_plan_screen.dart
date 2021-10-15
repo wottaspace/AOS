@@ -18,20 +18,16 @@ class UpgradePlanScreen extends StatefulWidget {
 
 class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
   final SubscriptionController controller = SubscriptionController();
-  Plan? plan;
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      setState(() {
-        plan = Okito.arguments["plan"];
-      });
-    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final plan = Okito.arguments["plan"];
+    print(Okito.arguments);
     return Scaffold(
       appBar: KAppBar(
         title: "Subscription",
@@ -56,7 +52,7 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         child: Text(
-                          "MEMBER",
+                          "ENQUIRER",
                           style: Okito.theme.textTheme.bodyText2!.copyWith(
                             fontSize: 10.0,
                             color: Colors.white,

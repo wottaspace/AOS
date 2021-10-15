@@ -66,6 +66,7 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                     return MemberCard(
                       username: "Harry Sahir",
                       score: 2.5,
+                      profilePic: "", // TODO: fix this
                       timeCompleted: "15 hours",
                       hideLikeButton: true,
                       onTap: () {

@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:credit_card_input_form/model/card_info.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
@@ -5,9 +6,8 @@ import 'package:arcopen_enquirer/constants/app_constants.dart';
 import 'package:arcopen_enquirer/core/models/payment_card.dart';
 import 'package:arcopen_enquirer/modules/subscription/payment/payment_controller.dart';
 import 'package:arcopen_enquirer/utils/helpers/k_storage.dart';
-import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 
-class BankDetailsController extends OkitoController with ToastMixin {
+class BankDetailsController extends BaseController {
   BankDetailsController._internal();
 
   static final BankDetailsController _singleton = BankDetailsController._internal();

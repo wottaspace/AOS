@@ -1,31 +1,15 @@
-class PostedProjectResponse {
-  PostedProjectResponse({
-    required this.applicants,
-    required this.budget,
-    required this.businessName,
-    required this.city,
-    required this.companyName,
-    required this.daysRemaining,
-    required this.jobId,
+import 'package:arcopen_enquirer/core/models/project.dart';
+
+class PostedJobsResponse {
+  PostedJobsResponse({
+    required this.postedProjects,
   });
 
-  int applicants;
-  String budget;
-  String businessName;
-  String city;
-  String companyName;
-  int daysRemaining;
-  int jobId;
+  List<Project> postedProjects;
 
-  factory PostedProjectResponse.fromJson(Map<String, dynamic> json) {
-    return PostedProjectResponse(
-      applicants: json["applicants"],
-      budget: json["budget"],
-      businessName: json["business_name"],
-      city: json["city"],
-      companyName: json["company_name"],
-      daysRemaining: json["days_remaining"],
-      jobId: json["job_id"],
+  factory PostedJobsResponse.fromJson(Map<String, dynamic> json) {
+    return PostedJobsResponse(
+      postedProjects: List<Project>.from(json["posted_projects"].map((x) => Project.fromJson(x))),
     );
   }
 }

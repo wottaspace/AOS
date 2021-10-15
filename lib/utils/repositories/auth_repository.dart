@@ -1,4 +1,5 @@
 import 'package:arcopen_enquirer/core/models/profile.dart';
+import 'package:arcopen_enquirer/http/exceptions/request_exception.dart';
 import 'package:arcopen_enquirer/http/requests/change_password_request.dart';
 import 'package:arcopen_enquirer/http/requests/login_request.dart';
 import 'package:arcopen_enquirer/http/requests/register_request.dart';
@@ -14,7 +15,7 @@ class AuthRepository extends BaseRepository {
       final Response response = await client.post(path: "/login/", args: request.toJson());
       return LoginResponse.fromJson(response.data);
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 
@@ -23,7 +24,7 @@ class AuthRepository extends BaseRepository {
       final Response response = await client.post(path: "/enquirerSignup/", args: request.toJson());
       return RegisterResponse.fromJson(response.data);
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 
@@ -32,7 +33,7 @@ class AuthRepository extends BaseRepository {
       final Response response = await client.post(path: "/forgotpassword/", args: data);
       return response.data["success"];
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 
@@ -41,7 +42,7 @@ class AuthRepository extends BaseRepository {
       final Response response = await client.get(path: "/enquirerProfile/");
       return Profile.fromJson(response.data["profile"]);
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 
@@ -50,7 +51,7 @@ class AuthRepository extends BaseRepository {
       final Response response = await client.post(path: "/enquirerProfile/", args: data);
       return ProfileResponse.fromJson(response.data);
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 
@@ -59,7 +60,7 @@ class AuthRepository extends BaseRepository {
       final Response response = await client.put(path: "/enquirerProfile/", args: data);
       return ProfileResponse.fromJson(response.data);
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 
@@ -68,7 +69,7 @@ class AuthRepository extends BaseRepository {
       final Response response = await client.get(path: "/getLoggedInUser/");
       return LoginResponse.fromJson(response.data);
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 
@@ -77,7 +78,7 @@ class AuthRepository extends BaseRepository {
       final Response response = await client.post(path: "/apiChangePassword/", args: request.toJson());
       return response.data["success"];
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 }

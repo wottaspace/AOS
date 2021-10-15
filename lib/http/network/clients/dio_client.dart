@@ -32,6 +32,7 @@ class DioClient with LoggingMixin implements NetworkClient {
           options.headers.addAll({
             "Accept-Encoding": "gzip, deflate, br",
             "Accept": "application/json",
+            "User-Agent": "EnquirerApp"
           });
 
           return handler.next(options);

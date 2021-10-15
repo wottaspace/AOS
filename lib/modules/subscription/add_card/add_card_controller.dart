@@ -1,7 +1,7 @@
+import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:credit_card_input_form/model/card_info.dart';
-import 'package:okito/okito.dart';
 
-class AddCardController extends OkitoController {
+class AddCardController extends BaseController {
   CardInfo? cardInfo;
 
   addPaymentMethod() {}

@@ -1,5 +1,6 @@
 import 'package:arcopen_enquirer/config/routes/k_router.dart';
 import 'package:arcopen_enquirer/constants/app_constants.dart';
+import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:arcopen_enquirer/core/models/profile.dart';
 import 'package:arcopen_enquirer/http/requests/login_request.dart';
 import 'package:arcopen_enquirer/utils/helpers/k_storage.dart';
@@ -12,7 +13,7 @@ import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 import 'package:arcopen_enquirer/utils/mixins/validation_mixin.dart';
 
-class LoginController extends OkitoController with ValidationMixin, ToastMixin {
+class LoginController extends BaseController with ValidationMixin, ToastMixin {
   LoginController._internal();
   static final LoginController _singleton = LoginController._internal();
 

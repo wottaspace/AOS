@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:arcopen_enquirer/config/routes/k_routes.dart';
+import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 import 'package:arcopen_enquirer/utils/mixins/validation_mixin.dart';
 import 'package:arcopen_enquirer/utils/repositories/auth_repository.dart';
@@ -13,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:phone_code_picker/phone_code_picker.dart';
 
-class ProfileController extends OkitoController with ToastMixin, ValidationMixin {
+class ProfileController extends BaseController with ToastMixin, ValidationMixin {
   ProfileController._internal();
   static final ProfileController _singleton = ProfileController._internal();
 

@@ -1,4 +1,5 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/utils/helpers/asset_helper.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/misc/circle.dart';
 import 'package:arcopen_enquirer/widgets/misc/rating_stars.dart';
@@ -13,19 +14,25 @@ class TopRatedMemberCard extends StatelessWidget {
     required this.score,
     required this.location,
     required this.onTap,
+    required this.profilePic,
   }) : super(key: key);
 
   final String username;
-  final int score;
+  final double score;
   final String location;
   final VoidCallback onTap;
+  final String profilePic;
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider profilePicture = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
+    if (profilePic.isNotEmpty) {
+      profilePicture = NetworkImage(AssetHelper.getMemberProfilePic(name: profilePic));
+    }
     return Container(
       width: Okito.isLandscape ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.7,
       height: 150,
-      margin: EdgeInsets.only(left: 18.0),
+      margin: EdgeInsets.only(left: 18.0, right: 9.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         color: ColorConstants.purple,
@@ -68,7 +75,7 @@ class TopRatedMemberCard extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              CircleAvatar(),
+                              CircleAvatar(backgroundImage: profilePicture),
                               SizedBox(width: 10),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,5 +140,3 @@ class TopRatedMemberCard extends StatelessWidget {
     );
   }
 }
-
-

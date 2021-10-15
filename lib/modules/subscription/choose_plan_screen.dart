@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -19,8 +20,6 @@ class ChoosePlanScreen extends StatefulWidget {
 }
 
 class _ChoosePlanScreenState extends State<ChoosePlanScreen> {
-  final SubscriptionController controller = SubscriptionController();
-
   late PageController _pageController;
   late int _selectedIndex;
 
@@ -32,7 +31,7 @@ class _ChoosePlanScreenState extends State<ChoosePlanScreen> {
     );
     _selectedIndex = 0;
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      controller.loadData();
+      SubscriptionController.shared.loadData();
     });
     super.initState();
   }
@@ -47,133 +46,88 @@ class _ChoosePlanScreenState extends State<ChoosePlanScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: OkitoBuilder(
-              controller: controller,
+              controller: SubscriptionController.shared,
               builder: () {
-                Widget pageContent = SizedBox();
-
-                Widget pageStateContainer(Widget child) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        child,
-                      ],
-                    ),
-                  );
-                }
-
-                switch (controller.loadingState) {
-                  case LoadingState.failed:
-                    pageContent = pageStateContainer(
-                      KButton(
-                        onPressed: controller.getSubscriptionPlans,
-                        title: "Try again",
-                        color: Okito.theme.primaryColor,
-                      ),
-                    );
-                    break;
-                  case LoadingState.loading:
-                    pageContent = pageStateContainer(
+                final controller = SubscriptionController.shared;
+                return PageSkeleton(
+                  child: Column(
+                    children: [
+                      Divider(),
                       Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(),
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20),
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: ColorConstants.purple.withOpacity(0.15),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Icon(
+                                  PhosphorIcons.link_simple,
+                                  color: ColorConstants.purple,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "Charge on link up",
+                              style: Okito.theme.textTheme.bodyText1,
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Gold inquirer has a little charge like 27p on linkup",
+                              style: Okito.theme.textTheme.bodyText2!.copyWith(color: ColorConstants.greyColor),
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                    break;
-                  case LoadingState.success:
-                    pageContent = controller.subscriptionPlans.isEmpty
-                        ? pageStateContainer(
-                            EmptyState(
-                              stateType: StateType.message,
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              Divider(),
-                              Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: ColorConstants.purple.withOpacity(0.15),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: Icon(
-                                          PhosphorIcons.link_simple,
-                                          color: ColorConstants.purple,
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Charge on link up",
-                                      style: Okito.theme.textTheme.bodyText1,
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      "Gold inquirer has a little charge like 27p on linkup",
-                                      style: Okito.theme.textTheme.bodyText2!.copyWith(color: ColorConstants.greyColor),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ...controller.subscriptionPlans.map((e) {
-                                    final bool isActive = _selectedIndex == controller.subscriptionPlans.indexOf(e);
-                                    return Row(
-                                      children: [
-                                        CircleAvatar(maxRadius: 4, backgroundColor: isActive ? Okito.theme.primaryColor : ColorConstants.lightBlue),
-                                        SizedBox(width: 5),
-                                      ],
-                                    );
-                                  }),
-                                ],
-                              ),
-                              SizedBox(height: 20),
-                              Container(
-                                height: 200,
-                                child: PageView(
-                                  scrollDirection: Axis.horizontal,
-                                  controller: _pageController,
-                                  children: [
-                                    ...controller.subscriptionPlans.map((e) {
-                                      return PackItem(
-                                        label: e.name.toUpperCase(),
-                                        durationUnit: e.planType,
-                                        durationValue: "",
-                                        discount: e.discount,
-                                        frequency: e.yearlyPrice,
-                                        price: e.monthlyPrice ?? "\$0.00flat",
-                                        highlightTitle: _selectedIndex == controller.subscriptionPlans.indexOf(e),
-                                        onTap: () {
-                                          setState(() {
-                                            _selectedIndex = controller.subscriptionPlans.indexOf(e);
-                                          });
-                                        },
-                                      );
-                                    }),
-                                  ],
-                                ),
-                              )
-                            ],
-                          );
-                    break;
-                  case LoadingState.pending:
-                    pageContent = SizedBox();
-                    break;
-                }
-                return pageContent;
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ...controller.subscriptionPlans.map((e) {
+                            final bool isActive = _selectedIndex == controller.subscriptionPlans.indexOf(e);
+                            return Row(
+                              children: [
+                                CircleAvatar(maxRadius: 4, backgroundColor: isActive ? Okito.theme.primaryColor : ColorConstants.lightBlue),
+                                SizedBox(width: 5),
+                              ],
+                            );
+                          }),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        height: 200,
+                        child: PageView(
+                          scrollDirection: Axis.horizontal,
+                          controller: _pageController,
+                          children: [
+                            ...controller.subscriptionPlans.map((e) {
+                              return PackItem(
+                                label: e.name.toUpperCase(),
+                                durationUnit: e.planType,
+                                durationValue: "",
+                                discount: e.discount,
+                                frequency: e.yearlyPrice,
+                                price: e.monthlyPrice ?? "\$0.00flat",
+                                highlightTitle: _selectedIndex == controller.subscriptionPlans.indexOf(e),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIndex = controller.subscriptionPlans.indexOf(e);
+                                  });
+                                },
+                              );
+                            }),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  controller: controller,
+                  retryCallback: controller.loadData,
+                );
               },
             ),
           ),
@@ -182,9 +136,9 @@ class _ChoosePlanScreenState extends State<ChoosePlanScreen> {
           padding: EdgeInsets.all(12.0),
           child: KButton.outlined(
             onPressed: () {
-              final choosenPlan = controller.subscriptionPlans[_selectedIndex];
-              if (controller.activePlan?.planId == choosenPlan.planId) {
-                controller.showWarningToast("The selected plan is the active plan.");
+              final choosenPlan = SubscriptionController.shared.subscriptionPlans[_selectedIndex];
+              if (SubscriptionController.shared.activePlan?.planId == choosenPlan.planId) {
+                SubscriptionController.shared.showWarningToast("The selected plan is the active plan.");
                 return;
               }
               Okito.pushNamed(KRoutes.upgradePlanRoute, arguments: {

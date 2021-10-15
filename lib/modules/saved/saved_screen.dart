@@ -1,7 +1,12 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/core/models/job.dart';
+import 'package:arcopen_enquirer/core/models/saved_member.dart';
+import 'package:arcopen_enquirer/modules/saved/saved_screen_controller.dart';
 import 'package:arcopen_enquirer/widgets/jobs/draft_job_card.dart';
 import 'package:arcopen_enquirer/widgets/misc/member_card.dart';
+import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
+import 'package:arcopen_enquirer/widgets/states/empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
 
@@ -18,13 +23,15 @@ class _SavedScreenState extends State<SavedScreen> {
   @override
   void initState() {
     _selectedIndex = 0;
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      SavedScreenController.shared.loadData();
+    });
     super.initState();
   }
 
   void _updateActiveIndex(index) {
     setState(() {
       _selectedIndex = index;
-      // TODO: toggle filter between paid and unpaid bills
     });
   }
 
@@ -33,53 +40,68 @@ class _SavedScreenState extends State<SavedScreen> {
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 25.0),
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              alignment: Alignment.center,
-              height: 40,
-              child: ToggleButtons(
-                borderRadius: BorderRadius.circular(8.0),
-                borderWidth: 0,
-                borderColor: Okito.theme.primaryColor,
-                onPressed: (index) {
-                  _updateActiveIndex(index);
-                },
+        child: OkitoBuilder(
+          controller: SavedScreenController.shared,
+          builder: () {
+            return PageSkeleton(
+              controller: SavedScreenController.shared,
+              retryCallback: SavedScreenController.shared.loadData,
+              child: Column(
                 children: [
+                  SizedBox(height: 20),
                   Container(
-                    color: _selectedIndex == 0 ? Okito.theme.primaryColor : Colors.white,
-                    height: 50,
-                    width: MediaQuery.of(context).size.width * 0.4,
+                    width: MediaQuery.of(context).size.width,
                     alignment: Alignment.center,
-                    child: Text(
-                      "Draft Jobs",
-                      style: Okito.theme.textTheme.bodyText2!.copyWith(
-                        fontSize: 12.0,
-                        color: _selectedIndex == 0 ? Colors.white : ColorConstants.greyColor,
-                      ),
+                    height: 40,
+                    child: ToggleButtons(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderWidth: 0,
+                      borderColor: Okito.theme.primaryColor,
+                      onPressed: (index) {
+                        _updateActiveIndex(index);
+                      },
+                      children: [
+                        Container(
+                          color: _selectedIndex == 0 ? Okito.theme.primaryColor : Colors.white,
+                          height: 50,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Draft Jobs",
+                            style: Okito.theme.textTheme.bodyText2!.copyWith(
+                              fontSize: 12.0,
+                              color: _selectedIndex == 0 ? Colors.white : ColorConstants.greyColor,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: _selectedIndex == 1 ? Okito.theme.primaryColor : Colors.white,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Saved Members",
+                            style: Okito.theme.textTheme.bodyText2!.copyWith(
+                              fontSize: 12.0,
+                              color: _selectedIndex == 1 ? Colors.white : ColorConstants.greyColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                      isSelected: [_selectedIndex == 0, _selectedIndex == 1],
                     ),
                   ),
-                  Container(
-                    color: _selectedIndex == 1 ? Okito.theme.primaryColor : Colors.white,
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Saved Members",
-                      style: Okito.theme.textTheme.bodyText2!.copyWith(
-                        fontSize: 12.0,
-                        color: _selectedIndex == 1 ? Colors.white : ColorConstants.greyColor,
-                      ),
+                  if (_selectedIndex == 0)
+                    _DraftJobs(
+                      jobs: SavedScreenController.shared.drafts,
                     ),
-                  ),
+                  if (_selectedIndex == 1)
+                    _SavedMembers(
+                      members: SavedScreenController.shared.members,
+                    ),
                 ],
-                isSelected: [_selectedIndex == 0, _selectedIndex == 1],
               ),
-            ),
-            if (_selectedIndex == 0) const _DraftJobs(),
-            if (_selectedIndex == 1) const _SavedMembers(),
-          ],
+            );
+          },
         ),
       ),
     );
@@ -87,10 +109,16 @@ class _SavedScreenState extends State<SavedScreen> {
 }
 
 class _DraftJobs extends StatelessWidget {
-  const _DraftJobs({Key? key}) : super(key: key);
+  const _DraftJobs({
+    Key? key,
+    required this.jobs,
+  }) : super(key: key);
+
+  final List<Job> jobs;
 
   @override
   Widget build(BuildContext context) {
+    if (jobs.isEmpty) return EmptyState(stateType: StateType.job);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -98,15 +126,16 @@ class _DraftJobs extends StatelessWidget {
         SectionTitle(title: "DRAFTS"),
         SizedBox(height: 20),
         ListView.builder(
-          itemCount: 3,
+          itemCount: jobs.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
+            final Job job = jobs[index];
             return DraftJobCard(
-              businessName: "Talwar's Residency",
-              location: "KITCHENER",
-              payRate: "\$20-\$25",
-              contractType: "Express Security",
+              businessName: job.businessName.isEmpty ? "Not defined" : job.businessName,
+              location: job.city.isEmpty ? "Not defined" : job.city,
+              payRate: job.budget.isEmpty ? "Not defined" : job.budget,
+              contractType: job.jobType.isEmpty ? "Not defined" : job.jobType,
             );
           },
         ),
@@ -116,10 +145,16 @@ class _DraftJobs extends StatelessWidget {
 }
 
 class _SavedMembers extends StatelessWidget {
-  const _SavedMembers({Key? key}) : super(key: key);
+  const _SavedMembers({
+    Key? key,
+    required this.members,
+  }) : super(key: key);
+
+  final List<SavedMember> members;
 
   @override
   Widget build(BuildContext context) {
+    if (members.isEmpty) return EmptyState(stateType: StateType.misc);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -127,15 +162,22 @@ class _SavedMembers extends StatelessWidget {
         SectionTitle(title: "SAVED"),
         SizedBox(height: 20),
         ListView.builder(
-          itemCount: 3,
+          itemCount: members.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
+            final SavedMember member = members[index];
             return MemberCard(
-              score: 2,
+              score: member.rating,
               hidePayRate: true,
               onTap: () {},
-              username: "Harry Sahir",
+              username: member.memberName,
+              profilePic: member.profilePic,
+              canDelete: true,
+              hideLikeButton: true,
+              deleteCallback: () {
+                SavedScreenController.shared.removeSavedMember(instanceId: member.saveInstanceId);
+              },
             );
           },
         ),

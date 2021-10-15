@@ -31,6 +31,7 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
               MemberCard(
                 username: "Harry Sahir",
                 score: 5,
+                profilePic: "", // TODO: fix this
                 hideLikeButton: true,
                 onTap: () {},
               ),

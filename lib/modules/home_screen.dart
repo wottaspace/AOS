@@ -1,8 +1,9 @@
 import 'package:arcopen_enquirer/modules/explore/explore_screen.dart';
 import 'package:arcopen_enquirer/modules/finances/finances_screen.dart';
 import 'package:arcopen_enquirer/modules/inbox/inbox_list/inbox_screen.dart';
-import 'package:arcopen_enquirer/modules/jobs/listing/job_listings_screen.dart';
+import 'package:arcopen_enquirer/modules/jobs/job_listing/job_listings_screen.dart';
 import 'package:arcopen_enquirer/modules/saved/saved_screen.dart';
+import 'package:arcopen_enquirer/utils/services/auth_service.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,6 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     ImageProvider profilePicture = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
+
+    final authService = Okito.use<AuthService>();
+    if (authService.profileExists && authService.profile.companyLogo.isNotEmpty) {
+      profilePicture = NetworkImage(AssetHelper.getMemberProfilePic(name: authService.profile.companyLogo));
+    }
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(

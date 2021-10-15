@@ -1,12 +1,11 @@
+import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:arcopen_enquirer/utils/repositories/auth_repository.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/k_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
 import 'package:arcopen_enquirer/config/routes/k_routes.dart';
-import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
-import 'package:arcopen_enquirer/utils/mixins/validation_mixin.dart';
 
-class PasswordController extends OkitoController with ToastMixin, ValidationMixin {
+class PasswordController extends BaseController {
   PasswordController._internal();
   static final PasswordController _singleton = PasswordController._internal();
 

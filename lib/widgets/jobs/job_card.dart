@@ -1,4 +1,6 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/core/models/applicant.dart';
+import 'package:arcopen_enquirer/utils/helpers/asset_helper.dart';
 import 'package:arcopen_enquirer/widgets/misc/k_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -7,16 +9,16 @@ import 'package:okito/okito.dart';
 class JobCard extends StatelessWidget {
   const JobCard({
     Key? key,
-    required this.createdAt,
     required this.jobTitle,
     required this.jobType,
     required this.location,
+    required this.applicants,
     this.daysLeftCount,
     this.isCompleted = false,
     this.onTap,
   }) : super(key: key);
 
-  final DateTime createdAt;
+  final List<Applicant> applicants;
   final String jobTitle;
   final String jobType;
   final String location;
@@ -139,39 +141,13 @@ class JobCard extends StatelessWidget {
                 SizedBox(height: 10),
                 Row(
                   children: [
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          CircleAvatar(maxRadius: 15),
-                          Positioned(
-                            left: 10,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white),
-                              ),
-                              child: CircleAvatar(maxRadius: 15),
-                            ),
-                          ),
-                          Positioned(
-                            left: 20,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white),
-                              ),
-                              child: CircleAvatar(maxRadius: 15),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    Expanded(child: _ApplicantsUserProfile(applicants: applicants)),
                     Expanded(
                       flex: 5,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
-                          "Harry Sahir & 3 members are working",
+                          _computeMembersTitle(),
                           style: Okito.theme.textTheme.bodyText2!.copyWith(
                             fontSize: 12.0,
                           ),
@@ -184,6 +160,62 @@ class JobCard extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  String _computeMembersTitle() {
+    if (applicants.length == 1)
+      return "${applicants.first.applicantName} is working";
+    else
+      return "${applicants.first.applicantName} and ${applicants.length - 1} are working";
+  }
+}
+
+class _ApplicantsUserProfile extends StatelessWidget {
+  const _ApplicantsUserProfile({
+    Key? key,
+    required this.applicants,
+  }) : super(key: key);
+
+  final List<Applicant> applicants;
+
+  ImageProvider _getMemberPicture(String profilePicture) {
+    ImageProvider pp = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
+    if (profilePicture.isNotEmpty) {
+      pp = NetworkImage(AssetHelper.getMemberProfilePic(name: profilePicture));
+    }
+    return pp;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (applicants.isEmpty) return SizedBox();
+    double leftPadding = 0.0;
+    return Container(
+      height: 50,
+      child: Stack(
+        children: [
+          ...applicants.take(3).map<Widget>(
+            (member) {
+              Widget child = Positioned(
+                left: leftPadding,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white),
+                  ),
+                  child: CircleAvatar(
+                    maxRadius: 15,
+                    backgroundImage: _getMemberPicture(member.profilePic ?? ""),
+                  ),
+                ),
+              );
+              leftPadding += 10;
+              return child;
+            },
+          )
+        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/utils/helpers/asset_helper.dart';
 import 'package:arcopen_enquirer/widgets/misc/rating_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -10,20 +11,31 @@ class MemberCard extends StatelessWidget {
     required this.username,
     required this.score,
     required this.onTap,
+    required this.profilePic,
     this.hidePayRate = false,
     this.hideLikeButton = false,
+    this.canDelete = false,
     this.timeCompleted,
+    this.deleteCallback,
   }) : super(key: key);
 
   final String username;
+  final String profilePic;
   final double score;
   final Function onTap;
   final bool hidePayRate;
   final bool hideLikeButton;
+  final bool canDelete;
   final String? timeCompleted;
+  final Function? deleteCallback;
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider profilePicture = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
+    if (profilePic.isNotEmpty) {
+      profilePicture = NetworkImage(AssetHelper.getMemberProfilePic(name: profilePic));
+    }
+
     return Container(
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.symmetric(vertical: 6),
@@ -50,7 +62,9 @@ class MemberCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(),
+                    CircleAvatar(
+                      backgroundImage: profilePicture,
+                    ),
                     SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,9 +83,9 @@ class MemberCard extends StatelessWidget {
                           Text(
                             "completed ${timeCompleted!}",
                             style: Okito.theme.textTheme.bodyText2!.copyWith(
-                            fontSize: 10.0,
-                            color: ColorConstants.greyColor,
-                          ),
+                              fontSize: 10.0,
+                              color: ColorConstants.greyColor,
+                            ),
                           )
                       ],
                     ),
@@ -114,6 +128,27 @@ class MemberCard extends StatelessWidget {
                           onPressed: () {},
                           icon: Icon(
                             PhosphorIcons.heart,
+                            size: 12,
+                            color: ColorConstants.greyColor,
+                          ),
+                        ),
+                      ),
+                    if (canDelete)
+                      Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: ColorConstants.greyColor),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            if (deleteCallback != null) {
+                              deleteCallback!();
+                            }
+                          },
+                          icon: Icon(
+                            PhosphorIcons.trash,
                             size: 12,
                             color: ColorConstants.greyColor,
                           ),

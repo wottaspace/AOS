@@ -1,16 +1,14 @@
 import 'dart:io';
 
 import 'package:arcopen_enquirer/config/routes/k_router.dart';
+import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:arcopen_enquirer/http/requests/register_request.dart';
 import 'package:arcopen_enquirer/utils/repositories/auth_repository.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/k_loader.dart';
 import 'package:device_info/device_info.dart';
-import 'package:okito/okito.dart';
 import 'package:flutter/material.dart';
-import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
-import 'package:arcopen_enquirer/utils/mixins/validation_mixin.dart';
 
-class RegisterController extends OkitoController with ValidationMixin, ToastMixin {
+class RegisterController extends BaseController {
   RegisterController._internal();
   static final RegisterController _singleton = RegisterController._internal();
 

@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:arcopen_enquirer/core/models/profile.dart';
 import 'package:arcopen_enquirer/http/exceptions/auth_exception.dart';
 import 'package:arcopen_enquirer/http/responses/login_response.dart';
@@ -11,7 +12,7 @@ import 'package:arcopen_enquirer/constants/app_constants.dart';
 import 'package:arcopen_enquirer/utils/helpers/k_storage.dart';
 import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 
-class SplashScreenController extends OkitoController with ToastMixin {
+class SplashScreenController extends BaseController with ToastMixin {
   SplashScreenController._internal();
   static final SplashScreenController _singleton = SplashScreenController._internal();
 

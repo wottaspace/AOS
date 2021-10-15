@@ -26,7 +26,6 @@ class RatingStars extends StatelessWidget {
           intPart,
           (index) => Icon(PhosphorIcons.star_fill, color: ColorConstants.yellow, size: iconSize ?? 10),
         ),
-        // TODO: fix this
         if (decimalPart > 0) Icon(PhosphorIcons.star_half_fill, color: ColorConstants.yellow, size: 10),
         ...List.generate(
           emptyStarsCount,
