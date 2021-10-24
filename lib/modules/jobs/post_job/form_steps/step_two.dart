@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/modules/jobs/post_job/create_job_controller.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:flutter/material.dart';
@@ -18,16 +19,7 @@ class StepTwo extends StatefulWidget {
 }
 
 class _StepTwoState extends State<StepTwo> {
-  final TextEditingController businessController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController vacanciesCountController = TextEditingController();
-  final TextEditingController startDateController = TextEditingController();
-  final TextEditingController endDateController = TextEditingController();
-  final TextEditingController startTimeController = TextEditingController();
-  final TextEditingController endTimeController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
-
+  final CreateJobController jobController = CreateJobController();
   final List<String> shiftTypes = ["Day", "Night"];
 
   String? shiftType;
@@ -35,6 +27,7 @@ class _StepTwoState extends State<StepTwo> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      jobController.shiftType = shiftTypes.first;
       setState(() {
         shiftType = shiftTypes.first;
       });
@@ -49,39 +42,59 @@ class _StepTwoState extends State<StepTwo> {
       child: ListView(
         children: [
           KTextField.soft(
-            label: "BUSINESS NAME",
-            controller: businessController,
-          ),
+              label: "BUSINESS NAME",
+              controller: jobController.businessController,
+              validator: (value) {
+                jobController.validateDate(
+                    fieldName: "business name",
+                    value: jobController.businessController.text);
+              }),
           SizedBox(height: 20),
           KTextField.soft(
-            label: "DESCRIPTION",
-            minLines: 3,
-            maxLines: 4,
-            controller: descriptionController,
-          ),
+              label: "DESCRIPTION",
+              minLines: 3,
+              maxLines: 4,
+              controller: jobController.descriptionController,
+              validator: (value) {
+                jobController.validateRequired(
+                    fieldName: "description",
+                    value: jobController.descriptionController.text);
+              }),
           SizedBox(height: 20),
           KTextField.soft(
-            label: "NO. OF VACANCIES",
-            keybordType: TextInputType.number,
-            controller: vacanciesCountController,
-          ),
+              label: "NO. OF VACANCIES",
+              keybordType: TextInputType.number,
+              controller: jobController.vacanciesCountController,
+              validator: (value) {
+                jobController.validateRequired(
+                    fieldName: "no. of vacancies",
+                    value: jobController.vacanciesCountController.text);
+              }),
           SizedBox(height: 20),
           Row(
             children: [
               Expanded(
                 child: KTextField.soft(
-                  label: "SHIFT START DATE",
-                  keybordType: TextInputType.number,
-                  controller: startDateController,
-                ),
+                    label: "SHIFT START DATE",
+                    keybordType: TextInputType.text,
+                    controller: jobController.startDateController,
+                    validator: (value) {
+                      jobController.validateDate(
+                          fieldName: "shift start date",
+                          value: jobController.endDateController.text);
+                    }),
               ),
               SizedBox(width: 10),
               Expanded(
                 child: KTextField.soft(
-                  label: "SHIFT END DATE",
-                  keybordType: TextInputType.number,
-                  controller: endDateController,
-                ),
+                    label: "SHIFT END DATE",
+                    keybordType: TextInputType.text,
+                    controller: jobController.endDateController,
+                    validator: (value) {
+                      jobController.validateDate(
+                          fieldName: "shift end date",
+                          value: jobController.endDateController.text);
+                    }),
               ),
             ],
           ),
@@ -90,18 +103,26 @@ class _StepTwoState extends State<StepTwo> {
             children: [
               Expanded(
                 child: KTextField.soft(
-                  label: "SHIFT START TIME",
-                  keybordType: TextInputType.number,
-                  controller: startTimeController,
-                ),
+                    label: "SHIFT START TIME",
+                    keybordType: TextInputType.text,
+                    controller: jobController.startTimeController,
+                    validator: (value) {
+                      jobController.validateTime(
+                          fieldName: "shift start time",
+                          value: jobController.endDateController.text);
+                    }),
               ),
               SizedBox(width: 10),
               Expanded(
                 child: KTextField.soft(
-                  label: "SHIFT END TIME",
-                  keybordType: TextInputType.number,
-                  controller: endTimeController,
-                ),
+                    label: "SHIFT END TIME",
+                    keybordType: TextInputType.text,
+                    controller: jobController.endTimeController,
+                    validator: (value) {
+                      jobController.validateTime(
+                          fieldName: "shift end time",
+                          value: jobController.endTimeController.text);
+                    }),
               ),
             ],
           ),
@@ -115,8 +136,9 @@ class _StepTwoState extends State<StepTwo> {
                     groupValue: shiftType,
                     title: Text(e),
                     onChanged: (value) {
+                      jobController.shiftType = value!;
                       setState(() {
-                        shiftType = value!;
+                        shiftType = value;
                       });
                     },
                   );

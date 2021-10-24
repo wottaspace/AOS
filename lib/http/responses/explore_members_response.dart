@@ -11,8 +11,10 @@ class ExploreMembersResponse {
 
   factory ExploreMembersResponse.fromJson(Map<String, dynamic> json) {
     return ExploreMembersResponse(
-      allMembers: List<Member>.from(json["all_members"].map((x) => Member.fromJson(x))),
-      highRated: List<Member>.from(json["high_rated"].map((x) => Member.fromJson(x))),
+      allMembers:
+          List<Member>.from(json["all_members"].map((x) => Member.fromJson(x))),
+      highRated:
+          List<Member>.from(json["high_rated"].map((x) => Member.fromJson(x))),
     );
   }
 }

@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/modules/jobs/post_job/create_job_controller.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
+import 'package:file_picker/file_picker.dart';
 
 class StepFour extends StatefulWidget {
   const StepFour({
@@ -19,7 +24,8 @@ class StepFour extends StatefulWidget {
 }
 
 class _StepFourState extends State<StepFour> {
-  final TextEditingController contractTermsController = TextEditingController();
+  CreateJobController jobController = CreateJobController();
+  late File file;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +37,9 @@ class _StepFourState extends State<StepFour> {
           KTextField.soft(
             label: "CONTRACT TERMS",
             minLines: 6,
+            readOnly: jobController.fileName.isNotEmpty,
             maxLines: 6,
-            controller: contractTermsController,
+            controller: jobController.contractController,
           ),
           SizedBox(height: 20),
           Row(
@@ -53,9 +60,26 @@ class _StepFourState extends State<StepFour> {
           ),
           SizedBox(height: 20),
           KButton(
-            onPressed: () {},
+            onPressed: () async {
+              if (jobController.contractController.text.isEmpty) {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                    allowCompression: true,
+                    allowedExtensions: ['pdf'],
+                    type: FileType.custom);
+
+                if (result != null) {
+                  file = File(result.files.single.path!);
+
+                  PlatformFile platformFile = result.files.first;
+                  jobController.fileName = platformFile.name;
+                  jobController.contract = base64Encode(file.readAsBytesSync());
+                }
+              }
+            },
             title: "UPLOAD CONTRACT",
-            color: Okito.theme.primaryColor,
+            color: jobController.contractController.text.isEmpty
+                ? Okito.theme.primaryColor
+                : Colors.grey,
           ),
           Spacer(),
           Row(
@@ -73,7 +97,8 @@ class _StepFourState extends State<StepFour> {
               Expanded(
                 child: KButton.outlined(
                   onPressed: () {
-                    widget.onNextButtonTapped();
+                    // widget.onNextButtonTapped();
+                    jobController.saveJob();
                   },
                   title: "DONE",
                   color: Okito.theme.primaryColor,

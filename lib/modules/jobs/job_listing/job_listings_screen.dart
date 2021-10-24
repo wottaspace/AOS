@@ -58,7 +58,9 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
                 },
                 children: [
                   Container(
-                    color: _selectedIndex == 0 ? Okito.theme.primaryColor : Colors.white,
+                    color: _selectedIndex == 0
+                        ? Okito.theme.primaryColor
+                        : Colors.white,
                     height: 50,
                     width: MediaQuery.of(context).size.width * 0.3,
                     alignment: Alignment.center,
@@ -66,36 +68,50 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
                       "Active",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 12.0,
-                        color: _selectedIndex == 0 ? Colors.white : ColorConstants.greyColor,
+                        color: _selectedIndex == 0
+                            ? Colors.white
+                            : ColorConstants.greyColor,
                       ),
                     ),
                   ),
                   Container(
-                    color: _selectedIndex == 1 ? Okito.theme.primaryColor : Colors.white,
+                    color: _selectedIndex == 1
+                        ? Okito.theme.primaryColor
+                        : Colors.white,
                     width: MediaQuery.of(context).size.width * 0.3,
                     alignment: Alignment.center,
                     child: Text(
                       "Posted",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 12.0,
-                        color: _selectedIndex == 1 ? Colors.white : ColorConstants.greyColor,
+                        color: _selectedIndex == 1
+                            ? Colors.white
+                            : ColorConstants.greyColor,
                       ),
                     ),
                   ),
                   Container(
-                    color: _selectedIndex == 2 ? Okito.theme.primaryColor : Colors.white,
+                    color: _selectedIndex == 2
+                        ? Okito.theme.primaryColor
+                        : Colors.white,
                     width: MediaQuery.of(context).size.width * 0.3,
                     alignment: Alignment.center,
                     child: Text(
                       "Past",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 12.0,
-                        color: _selectedIndex == 2 ? Colors.white : ColorConstants.greyColor,
+                        color: _selectedIndex == 2
+                            ? Colors.white
+                            : ColorConstants.greyColor,
                       ),
                     ),
                   ),
                 ],
-                isSelected: [_selectedIndex == 0, _selectedIndex == 1, _selectedIndex == 2],
+                isSelected: [
+                  _selectedIndex == 0,
+                  _selectedIndex == 1,
+                  _selectedIndex == 2
+                ],
               ),
             ),
             SizedBox(height: 20),
@@ -111,9 +127,17 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SectionTitle(title: "JOB LISTINGS"),
-                            if (_selectedIndex == 0) _ActiveJobs(jobs: JobsListingsController.shared.activeJobs),
-                            if (_selectedIndex == 1) _PostedJobs(jobs: JobsListingsController.shared.postedJobs),
-                            if (_selectedIndex == 2) _HistoryJobs(jobs: JobsListingsController.shared.pastJobs),
+                            if (_selectedIndex == 0)
+                              _ActiveJobs(
+                                  jobs:
+                                      JobsListingsController.shared.activeJobs),
+                            if (_selectedIndex == 1)
+                              _PostedJobs(
+                                  jobs:
+                                      JobsListingsController.shared.postedJobs),
+                            if (_selectedIndex == 2)
+                              _HistoryJobs(
+                                  jobs: JobsListingsController.shared.pastJobs),
                           ],
                         ),
                       ),
@@ -127,24 +151,30 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(PhosphorIcons.plus),
-        backgroundColor: Okito.theme.primaryColor,
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12.0),
-                topRight: Radius.circular(12.0),
-              ),
+      floatingActionButton: Stack(
+        children: [
+          if (_selectedIndex == 1) ...[
+            FloatingActionButton(
+              child: Icon(PhosphorIcons.plus),
+              backgroundColor: Okito.theme.primaryColor,
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12.0),
+                      topRight: Radius.circular(12.0),
+                    ),
+                  ),
+                  builder: (context) {
+                    return PostJobScreen();
+                  },
+                );
+              },
             ),
-            builder: (context) {
-              return PostJobScreen();
-            },
-          );
-        },
+          ]
+        ],
       ),
     );
   }

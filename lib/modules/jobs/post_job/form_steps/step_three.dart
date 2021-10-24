@@ -1,4 +1,5 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/modules/jobs/post_job/create_job_controller.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +21,7 @@ class StepThree extends StatefulWidget {
 }
 
 class _StepThreeState extends State<StepThree> {
-  final TextEditingController budgetController = TextEditingController();
-  final TextEditingController emergencyController = TextEditingController();
-
+  CreateJobController jobController = CreateJobController();
   final List<Map<String, dynamic>> jobTypes = [
     {
       "name": "Contract",
@@ -40,6 +39,7 @@ class _StepThreeState extends State<StepThree> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      jobController.jobType = jobTypes.first["name"];
       setState(() {
         jobType = jobTypes.first["name"];
       });
@@ -73,13 +73,16 @@ class _StepThreeState extends State<StepThree> {
                     final bool isSelected = e["name"] == jobType;
                     final activeColor = Okito.theme.primaryColor;
                     return Container(
-                      color: isSelected ? activeColor.withOpacity(0.1) : Colors.white,
+                      color: isSelected
+                          ? activeColor.withOpacity(0.1)
+                          : Colors.white,
                       child: RadioListTile<String>(
                         value: e["name"]!,
                         groupValue: jobType,
                         onChanged: (value) {
+                          jobController.jobType = value!;
                           setState(() {
-                            jobType = value!;
+                            jobType = value;
                           });
                         },
                         title: Row(
@@ -87,7 +90,9 @@ class _StepThreeState extends State<StepThree> {
                             Icon(
                               e["icon"] as IconData,
                               size: 22,
-                              color: isSelected ? activeColor : ColorConstants.greyColor,
+                              color: isSelected
+                                  ? activeColor
+                                  : ColorConstants.greyColor,
                             ),
                             SizedBox(width: 10),
                             Expanded(
@@ -96,7 +101,8 @@ class _StepThreeState extends State<StepThree> {
                                 contentPadding: EdgeInsets.zero,
                                 title: Text(
                                   e["name"]!,
-                                  style: Okito.theme.textTheme.bodyText2!.copyWith(
+                                  style:
+                                      Okito.theme.textTheme.bodyText2!.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -115,12 +121,12 @@ class _StepThreeState extends State<StepThree> {
           SizedBox(height: 20),
           KTextField.soft(
             label: "BUDGET",
-            controller: budgetController,
+            controller: jobController.budgetController,
           ),
           SizedBox(height: 20),
           KTextField.soft(
             label: "EMERGENCY RATE",
-            controller: emergencyController,
+            controller: jobController.emergencyRateController,
           ),
           SizedBox(height: 40),
           Row(

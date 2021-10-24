@@ -1,4 +1,5 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/modules/jobs/post_job/create_job_controller.dart';
 import 'package:arcopen_enquirer/modules/jobs/post_job/form_steps/step_five.dart';
 import 'package:arcopen_enquirer/modules/jobs/post_job/form_steps/step_four.dart';
 import 'package:arcopen_enquirer/modules/jobs/post_job/form_steps/step_one.dart';
@@ -17,6 +18,7 @@ class PostJobScreen extends StatefulWidget {
 class _PostJobScreenState extends State<PostJobScreen> {
   late int _currentIndex;
   final PageController pageController = PageController();
+  final CreateJobController jobController = CreateJobController();
 
   @override
   void initState() {
@@ -44,52 +46,56 @@ class _PostJobScreenState extends State<PostJobScreen> {
             onBackPressed: () {
               if (_currentIndex < 4) {
                 _goTo(++_currentIndex);
+              } else {
+                jobController.saveJob();
               }
             },
           ),
           Expanded(
-            child: PageView(
-              controller: pageController,
-              physics: PageScrollPhysics(),
-              children: [
-                StepOne(
-                  onCategorySelected: (category) {
-                    _goTo(++_currentIndex);
-                  },
-                ),
-                StepTwo(
-                  onNextButtonTapped: () {
-                    _goTo(++_currentIndex);
-                  },
-                  onSaveDraftsTapped: () {
-                    // TODO: save draft
-                  },
-                ),
-                StepThree(
-                  onNextButtonTapped: () {
-                    _goTo(++_currentIndex);
-                  },
-                  onSaveDraftsTapped: () {
-                    // TODO: save draft
-                  },
-                ),
-                StepFour(
-                  onNextButtonTapped: () {
-                    _goTo(++_currentIndex);
-                  },
-                  onSaveDraftsTapped: () {
-                    // TODO: save draft
-                  },
-                ),
-                StepFive(
-                  onNextButtonTapped: () {
-                    _goTo(++_currentIndex);
-                  },
-                  onSaveDraftsTapped: () {
-                    // TODO: save draft
-                  },
-                ),
-              ],
+            child: Form(
+              key: jobController.formKey,
+              child: PageView(
+                controller: pageController,
+                physics: PageScrollPhysics(),
+                children: [
+                  StepOne(
+                    onCategorySelected: (category) {
+                      _goTo(++_currentIndex);
+                      jobController.jobCategory = category.name;
+                    },
+                  ),
+                  StepTwo(
+                    onNextButtonTapped: () {
+                      _goTo(++_currentIndex);
+                    },
+                    onSaveDraftsTapped: () {},
+                  ),
+                  StepThree(
+                    onNextButtonTapped: () {
+                      _goTo(++_currentIndex);
+                    },
+                    onSaveDraftsTapped: () {
+                      // TODO: save draft
+                    },
+                  ),
+                  StepFour(
+                    onNextButtonTapped: () {
+                      _goTo(++_currentIndex);
+                    },
+                    onSaveDraftsTapped: () {
+                      // TODO: save draft
+                    },
+                  ),
+                  StepFive(
+                    onNextButtonTapped: () {
+                      _goTo(++_currentIndex);
+                    },
+                    onSaveDraftsTapped: () {
+                      // TODO: save draft
+                    },
+                  ),
+                ],
+              ),
             ),
           )
         ],

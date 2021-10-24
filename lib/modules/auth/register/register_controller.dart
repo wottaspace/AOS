@@ -40,22 +40,28 @@ class RegisterController extends BaseController {
       deviceType = "unknown";
       deviceId = "unknown";
     }
-    KLoader().show();
-    _repository.register(
-      request: RegisterRequest(
-        deviceId: deviceId,
-        deviceType: deviceType,
-        email: emailController.text,
-        organisationName: businessNameController.text,
-        password: passwordController.text,
-      ),
-    ).then((value) {
-      this.showSuccessToast(value.success);
-      KLoader.hide();
-      KRouter().pop();
-    }).catchError((e) {
-      KLoader.hide();
-      this.showErrorToast(e.message);
-    });
+    if (passwordController.text == passConfirmController.text) {
+      KLoader().show();
+      _repository
+          .register(
+        request: RegisterRequest(
+          deviceId: deviceId,
+          deviceType: deviceType,
+          email: emailController.text,
+          organisationName: businessNameController.text,
+          password: passwordController.text,
+        ),
+      )
+          .then((value) {
+        this.showSuccessToast(value.success);
+        KLoader.hide();
+        KRouter().pop();
+      }).catchError((e) {
+        KLoader.hide();
+        this.showErrorToast(e.message);
+      });
+    } else {
+      this.showErrorToast("password doesn't match");
+    }
   }
 }

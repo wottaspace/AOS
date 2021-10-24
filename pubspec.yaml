@@ -22,13 +22,15 @@ dependencies:
   device_info: ^2.0.2
   dio_http_cache: ^0.3.0
   logger: ^1.1.0
+  file_picker: ^4.0.2
   adaptive_action_sheet: ^2.0.0
+  url_launcher:
+  simple_moment: ^1.1.1
+
   flutter_simple_rating_bar:
     git:
       url: https://github.com/docwei2050/flutter_simple_rating_bar
-  url_launcher:
-  file_picker: ^4.0.2
-  simple_moment: ^1.1.1
+  
   phone_code_picker:
     git:
       url: https://github.com/stevenosse/phone_code_picker

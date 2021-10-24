@@ -33,11 +33,13 @@ class StepFive extends StatelessWidget {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return InviteMemberCard(
-                username: "Harry Sahir",
-                score: 3.5,
-                onTap: () {},
-                isInvited: index == 3,
+              return GestureDetector(
+                child: InviteMemberCard(
+                  username: "Harry Sahir",
+                  score: 3.5,
+                  onTap: () {},
+                  isInvited: index == 3,
+                ),
               );
             },
           )
