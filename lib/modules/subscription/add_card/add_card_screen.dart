@@ -28,7 +28,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
     final buttonTextStyle = TextStyle(color: Colors.white, fontSize: 14);
 
     final cardDecoration = BoxDecoration(
-      boxShadow: <BoxShadow>[BoxShadow(color: Colors.black54, blurRadius: 15.0, offset: Offset(0, 8))],
+      boxShadow: <BoxShadow>[
+        BoxShadow(color: Colors.black54, blurRadius: 15.0, offset: Offset(0, 8))
+      ],
       gradient: LinearGradient(
         colors: [
           Colors.blue,
@@ -82,6 +84,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
           color: ColorConstants.greenColor,
           onPressed: () {
             controller.addPaymentMethod();
+            Okito.pop();
           },
           title: "SAVE",
         ),

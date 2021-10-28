@@ -62,7 +62,9 @@ class _SavedScreenState extends State<SavedScreen> {
                       },
                       children: [
                         Container(
-                          color: _selectedIndex == 0 ? Okito.theme.primaryColor : Colors.white,
+                          color: _selectedIndex == 0
+                              ? Okito.theme.primaryColor
+                              : Colors.white,
                           height: 50,
                           width: MediaQuery.of(context).size.width * 0.4,
                           alignment: Alignment.center,
@@ -70,19 +72,25 @@ class _SavedScreenState extends State<SavedScreen> {
                             "Draft Jobs",
                             style: Okito.theme.textTheme.bodyText2!.copyWith(
                               fontSize: 12.0,
-                              color: _selectedIndex == 0 ? Colors.white : ColorConstants.greyColor,
+                              color: _selectedIndex == 0
+                                  ? Colors.white
+                                  : ColorConstants.greyColor,
                             ),
                           ),
                         ),
                         Container(
-                          color: _selectedIndex == 1 ? Okito.theme.primaryColor : Colors.white,
+                          color: _selectedIndex == 1
+                              ? Okito.theme.primaryColor
+                              : Colors.white,
                           width: MediaQuery.of(context).size.width * 0.4,
                           alignment: Alignment.center,
                           child: Text(
                             "Saved Members",
                             style: Okito.theme.textTheme.bodyText2!.copyWith(
                               fontSize: 12.0,
-                              color: _selectedIndex == 1 ? Colors.white : ColorConstants.greyColor,
+                              color: _selectedIndex == 1
+                                  ? Colors.white
+                                  : ColorConstants.greyColor,
                             ),
                           ),
                         ),
@@ -132,7 +140,8 @@ class _DraftJobs extends StatelessWidget {
           itemBuilder: (context, index) {
             final Job job = jobs[index];
             return DraftJobCard(
-              businessName: job.businessName.isEmpty ? "Not defined" : job.businessName,
+              businessName:
+                  job.businessName.isEmpty ? "Not defined" : job.businessName,
               location: job.city.isEmpty ? "Not defined" : job.city,
               payRate: job.budget.isEmpty ? "Not defined" : job.budget,
               contractType: job.jobType.isEmpty ? "Not defined" : job.jobType,
@@ -169,14 +178,15 @@ class _SavedMembers extends StatelessWidget {
             final SavedMember member = members[index];
             return MemberCard(
               score: member.rating,
+              hourlyRate: "14",
               hidePayRate: true,
-              onTap: () {},
               username: member.memberName,
               profilePic: member.profilePic,
               canDelete: true,
               hideLikeButton: true,
               deleteCallback: () {
-                SavedScreenController.shared.removeSavedMember(instanceId: member.saveInstanceId);
+                SavedScreenController.shared
+                    .removeSavedMember(instanceId: member.saveInstanceId);
               },
             );
           },

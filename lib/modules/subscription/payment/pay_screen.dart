@@ -49,7 +49,8 @@ class _PayScreenState extends State<PayScreen> {
                               padding: const EdgeInsets.all(12.0),
                               child: Text(
                                 "Select a billing cycle",
-                                style: Okito.theme.textTheme.headline2!.copyWith(
+                                style:
+                                    Okito.theme.textTheme.headline2!.copyWith(
                                   fontSize: 16.0,
                                 ),
                               ),
@@ -79,13 +80,14 @@ class _PayScreenState extends State<PayScreen> {
                               padding: const EdgeInsets.all(12.0),
                               child: Text(
                                 "Select your payment method",
-                                style: Okito.theme.textTheme.headline2!.copyWith(
+                                style:
+                                    Okito.theme.textTheme.headline2!.copyWith(
                                   fontSize: 16.0,
                                 ),
                               ),
                             ),
                             PayBody(
-                              paymentMethods: controller.paymentMethods,
+                              paymentMethods: controller.getPaymentMethods(),
                               onItemDeleted: () {
                                 setState(() {});
                               },

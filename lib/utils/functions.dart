@@ -41,3 +41,22 @@ PreferredSize customAppBar(BuildContext context,
     ),
   );
 }
+
+String month(int value) {
+  List<String> months = [
+    "January",
+    "Febuary",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  return months[value - 1];
+}

@@ -1,4 +1,6 @@
+import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/core/models/applicant.dart';
 import 'package:arcopen_enquirer/utils/helpers/asset_helper.dart';
 import 'package:arcopen_enquirer/widgets/misc/rating_stars.dart';
 import 'package:flutter/material.dart';
@@ -6,34 +8,38 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
 
 class MemberCard extends StatelessWidget {
-  const MemberCard({
-    Key? key,
-    required this.username,
-    required this.score,
-    required this.onTap,
-    required this.profilePic,
-    this.hidePayRate = false,
-    this.hideLikeButton = false,
-    this.canDelete = false,
-    this.timeCompleted,
-    this.deleteCallback,
-  }) : super(key: key);
+  const MemberCard(
+      {Key? key,
+      required this.username,
+      required this.score,
+      required this.profilePic,
+      required this.hourlyRate,
+      this.hidePayRate = false,
+      this.hideLikeButton = false,
+      this.canDelete = false,
+      this.timeCompleted,
+      this.applicant,
+      this.deleteCallback})
+      : super(key: key);
 
   final String username;
   final String profilePic;
   final double score;
-  final Function onTap;
+  final String hourlyRate;
   final bool hidePayRate;
   final bool hideLikeButton;
   final bool canDelete;
+  final Applicant? applicant;
   final String? timeCompleted;
   final Function? deleteCallback;
 
   @override
   Widget build(BuildContext context) {
-    ImageProvider profilePicture = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
+    ImageProvider profilePicture = AssetImage(
+        AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
     if (profilePic.isNotEmpty) {
-      profilePicture = NetworkImage(AssetHelper.getMemberProfilePic(name: profilePic));
+      profilePicture =
+          NetworkImage(AssetHelper.getMemberProfilePic(name: profilePic));
     }
 
     return Container(
@@ -54,7 +60,8 @@ class MemberCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            onTap();
+            Okito.pushNamed(KRoutes.jobApplicationRoute,
+                arguments: {"applicant": applicant});
           },
           child: Padding(
             padding: const EdgeInsets.all(18.0),
@@ -98,7 +105,7 @@ class MemberCard extends StatelessWidget {
                     if (!hidePayRate) ...[
                       RichText(
                         text: TextSpan(
-                          text: "\$15",
+                          text: hourlyRate,
                           style: Okito.theme.textTheme.bodyText2!.copyWith(
                             fontSize: 12.0,
                             fontWeight: FontWeight.w700,

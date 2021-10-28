@@ -1,4 +1,6 @@
 import 'package:arcopen_enquirer/config/routes/k_routes.dart';
+import 'package:arcopen_enquirer/core/models/applicant.dart';
+import 'package:arcopen_enquirer/core/models/project.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:arcopen_enquirer/widgets/misc/expandable_text.dart';
 import 'package:arcopen_enquirer/widgets/misc/member_card.dart';
@@ -15,6 +17,13 @@ class PostedJobDetailsScreen extends StatefulWidget {
 }
 
 class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
+  Project? job;
+  @override
+  void initState() {
+    super.initState();
+    job = Okito.arguments["job"];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,11 +32,11 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
           child: Column(
             children: [
               ExpandedAppBar(
-                company: "Express Security",
-                jobTitle: "Talwar's Residency",
-                duration: "11 March 2021",
+                company: job!.companyName,
+                jobTitle: job!.businessName,
+                duration: "${job!.daysRemaining} Days",
                 type: "TEMPORARY",
-                location: "KITCHENER",
+                location: job!.city,
               ),
               SizedBox(height: 20),
               Padding(
@@ -38,21 +47,28 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                     SectionTitle(title: "DESCRIPTION"),
                     SizedBox(height: 10),
                     ExpandableText(
-                      text: "Looking for a gate security guard. Should have a strong build, should be punctual, spontaneous, CRP certificate required. The shift will be from 11PM to 7AM in the morning.",
+                      text: "",
                     ),
                     SizedBox(height: 20),
-                    KTextField.soft(label: "JOB TYPE"),
+                    KTextField.soft(
+                      label: "JOB TYPE",
+                      hintText: job!.businessName,
+                    ),
                     SizedBox(height: 10),
-                    KTextField.soft(label: "BUDGET"),
+                    KTextField.soft(label: "BUDGET", hintText: job!.budget),
                     SizedBox(height: 10),
                     Row(
                       children: [
                         Expanded(
-                          child: KTextField.soft(label: "START DATE"),
+                          child: KTextField.soft(
+                            label: "START DATE",
+                          ),
                         ),
                         SizedBox(width: 10),
                         Expanded(
-                          child: KTextField.soft(label: "END DATE"),
+                          child: KTextField.soft(
+                            label: "END DATE",
+                          ),
                         ),
                       ],
                     ),
@@ -73,18 +89,17 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                     SizedBox(height: 10),
                     ListView.builder(
                       shrinkWrap: true,
-                      itemCount: 3,
+                      itemCount: job!.applicantsArray.length,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
+                        Applicant applicant = job!.applicantsArray[index];
                         return MemberCard(
-                          username: "Harry Sahir",
-                          score: 3.5,
-                          profilePic: "", // TODO: fix this
-                          hideLikeButton: true,
-                          onTap: () {
-                            Okito.pushNamed(KRoutes.jobApplicationRoute);
-                          },
-                        );
+                            username: applicant.applicantName!,
+                            score: applicant.rating ?? 0,
+                            hideLikeButton: true,
+                            applicant: applicant,
+                            hourlyRate: applicant.hourlyRate ?? "£0",
+                            profilePic: applicant.profilePic!);
                       },
                     ),
                   ],

@@ -51,7 +51,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           KTextField.circular(
                             hintText: "Search",
                             leading: PhosphorIcons.magnifying_glass,
-                            controller: ExploreScreenController.shared.searchController,
+                            controller:
+                                ExploreScreenController.shared.searchController,
                           ),
                           SizedBox(height: 20),
                           Wrap(
@@ -77,23 +78,26 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         ],
                       ),
                     ),
-                    if (ExploreScreenController.shared.topRatedMembers.isNotEmpty) ...[
+                    if (ExploreScreenController
+                        .shared.topRatedMembers.isNotEmpty) ...[
                       SectionTitle(title: "HIGH RATED"),
                       SizedBox(height: 10),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            ...ExploreScreenController.shared.topRatedMembers.map<Widget>((member) {
+                            ...ExploreScreenController.shared.topRatedMembers
+                                .map<Widget>((member) {
                               return TopRatedMemberCard(
                                 username: member.memberName,
                                 score: member.rating,
                                 profilePic: member.profilePic,
                                 location: member.city,
                                 onTap: () {
-                                  Okito.pushNamed(KRoutes.applicantProfileRoute, arguments: {
-                                    "member": member,
-                                  });
+                                  Okito.pushNamed(KRoutes.applicantProfileRoute,
+                                      arguments: {
+                                        "member": member,
+                                      });
                                 },
                               );
                             }),
@@ -115,16 +119,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                final Member member = ExploreScreenController.shared.allMembers[index];
+                                final Member member = ExploreScreenController
+                                    .shared.allMembers[index];
                                 return MemberCard(
+                                  hourlyRate: "14",
                                   username: member.memberName,
                                   score: member.rating,
                                   profilePic: member.profilePic,
-                                  onTap: () {
-                                    Okito.pushNamed(KRoutes.applicantProfileRoute, arguments: {
-                                      "member": member,
-                                    });
-                                  },
                                 );
                               },
                             )

@@ -12,10 +12,12 @@ class ActiveJobMemberDetailsScreen extends StatefulWidget {
   const ActiveJobMemberDetailsScreen({Key? key}) : super(key: key);
 
   @override
-  _ActiveJobMemberDetailsScreenState createState() => _ActiveJobMemberDetailsScreenState();
+  _ActiveJobMemberDetailsScreenState createState() =>
+      _ActiveJobMemberDetailsScreenState();
 }
 
-class _ActiveJobMemberDetailsScreenState extends State<ActiveJobMemberDetailsScreen> {
+class _ActiveJobMemberDetailsScreenState
+    extends State<ActiveJobMemberDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,10 +67,10 @@ class _ActiveJobMemberDetailsScreenState extends State<ActiveJobMemberDetailsScr
             children: [
               SizedBox(height: 20),
               MemberCard(
-                username: "Harry Sahir", 
+                username: "Harry Sahir",
+                hourlyRate: "14",
                 score: 3.5,
                 profilePic: "", // TODO: fix this
-                onTap: () {},
                 hideLikeButton: true,
               ),
               SizedBox(height: 20),

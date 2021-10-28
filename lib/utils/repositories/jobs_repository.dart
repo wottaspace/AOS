@@ -2,6 +2,7 @@ import 'package:arcopen_enquirer/core/models/job.dart';
 import 'package:arcopen_enquirer/http/exceptions/request_exception.dart';
 import 'package:arcopen_enquirer/http/requests/job_request.dart';
 import 'package:arcopen_enquirer/http/responses/active_jobs_response.dart';
+import 'package:arcopen_enquirer/http/responses/dispute_response.dart';
 import 'package:arcopen_enquirer/http/responses/past_jobs_response.dart';
 import 'package:arcopen_enquirer/http/responses/posted_jobs_response.dart';
 import 'package:arcopen_enquirer/http/responses/remove_saved_member_response.dart';
@@ -71,6 +72,15 @@ class JobsRepository extends BaseRepository {
       final Response response =
           await client.post(path: "/jobs/api/job/", args: request.toJson());
       return Job.fromJson(response.data);
+    } on DioError catch (e) {
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
+    }
+  }
+
+  Future<DisputeResponse> getDisputeJobs() async {
+    try {
+      Response response = await client.get(path: "/jobs/api/getDisputes/");
+      return DisputeResponse.fromJson(response.data);
     } on DioError catch (e) {
       throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
