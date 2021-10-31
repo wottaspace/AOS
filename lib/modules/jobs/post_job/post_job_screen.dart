@@ -7,6 +7,7 @@ import 'package:arcopen_enquirer/modules/jobs/post_job/form_steps/step_three.dar
 import 'package:arcopen_enquirer/modules/jobs/post_job/form_steps/step_two.dart';
 import 'package:arcopen_enquirer/widgets/jobs/title_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:okito/okito.dart';
 
 class PostJobScreen extends StatefulWidget {
   const PostJobScreen({Key? key}) : super(key: key);
@@ -28,78 +29,84 @@ class _PostJobScreenState extends State<PostJobScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: ColorConstants.lightBlue,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(12.0),
-          topRight: Radius.circular(12.0),
-        ),
-      ),
-      height: MediaQuery.of(context).size.height * 0.9,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TitleBar(
-            activeIndex: _currentIndex,
-            onBackPressed: () {
-              if (_currentIndex < 4) {
-                _goTo(++_currentIndex);
-              } else {
-                jobController.saveJob();
-              }
-            },
-          ),
-          Expanded(
-            child: Form(
-              key: jobController.formKey,
-              child: PageView(
-                controller: pageController,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  StepOne(
-                    onCategorySelected: (category) {
-                      _goTo(++_currentIndex);
-                      jobController.jobCategory = category.name;
-                    },
-                  ),
-                  StepTwo(
-                    onNextButtonTapped: () {
-                      _goTo(++_currentIndex);
-                    },
-                    onSaveDraftsTapped: () {},
-                  ),
-                  StepThree(
-                    onNextButtonTapped: () {
-                      _goTo(++_currentIndex);
-                    },
-                    onSaveDraftsTapped: () {
-                      // TODO: save draft
-                    },
-                  ),
-                  StepFour(
-                    onNextButtonTapped: () {
-                      jobController.saveJob();
-                    },
-                    onSaveDraftsTapped: () {
-                      // TODO: save draft
-                    },
-                  ),
-                  StepFive(
-                    onNextButtonTapped: () {
-                      _goTo(++_currentIndex);
-                    },
-                    onSaveDraftsTapped: () {
-                      // TODO: save draft
-                    },
-                  ),
-                ],
-              ),
+    return OkitoBuilder(
+      controller: jobController,
+      activateLifecycleForOtherControllers: true,
+      builder: () {
+        return Container(
+          decoration: BoxDecoration(
+            color: ColorConstants.lightBlue,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12.0),
+              topRight: Radius.circular(12.0),
             ),
-          )
-        ],
-      ),
+          ),
+          height: MediaQuery.of(context).size.height * 0.9,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TitleBar(
+                activeIndex: _currentIndex,
+                onBackPressed: () {
+                  if (_currentIndex < 4) {
+                    _goTo(++_currentIndex);
+                  } else {
+                    jobController.saveJob();
+                  }
+                },
+              ),
+              Expanded(
+                child: Form(
+                  key: jobController.formKey,
+                  child: PageView(
+                    controller: pageController,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: [
+                      StepOne(
+                        onCategorySelected: (category) {
+                          _goTo(++_currentIndex);
+                          jobController.jobCategory = category.name;
+                        },
+                      ),
+                      StepTwo(
+                        onNextButtonTapped: () {
+                          _goTo(++_currentIndex);
+                        },
+                        onSaveDraftsTapped: () {},
+                      ),
+                      StepThree(
+                        onNextButtonTapped: () {
+                          _goTo(++_currentIndex);
+                        },
+                        onSaveDraftsTapped: () {
+                          // TODO: save draft
+                        },
+                      ),
+                      StepFour(
+                        onNextButtonTapped: () {
+                          jobController.saveJob();
+                        },
+                        onSaveDraftsTapped: () {
+                          // TODO: save draft
+                        },
+                      ),
+                      StepFive(
+                        onNextButtonTapped: () {
+                          _goTo(++_currentIndex);
+                        },
+                        onSaveDraftsTapped: () {
+                          // TODO: save draft
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 

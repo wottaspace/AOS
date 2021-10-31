@@ -40,6 +40,27 @@ class CreateJobController extends BaseController {
 
   final JobsRepository _repository = JobsRepository();
 
+  @override
+  dispose() {
+    jobCategory = "";
+    jobType = "";
+    fileName = "";
+    contract = "";
+    budgetController.clear();
+    emergencyRateController.clear();
+    businessController.clear();
+    descriptionController.clear();
+    vacanciesCountController.clear();
+    startDateController.clear();
+    endDateController.clear();
+    startTimeController.clear();
+    endTimeController.clear();
+    addressController.clear();
+    locationController.clear();
+    contractController.clear();
+    super.dispose();
+  }
+
   saveJob() {
     KLoader().show();
     final CreateJobRequest _createJobRequest = CreateJobRequest(
