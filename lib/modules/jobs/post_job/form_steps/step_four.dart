@@ -37,7 +37,7 @@ class _StepFourState extends State<StepFour> {
           KTextField.soft(
             label: "CONTRACT TERMS",
             minLines: 6,
-            readOnly: jobController.fileName.isNotEmpty,
+            readOnly: jobController.fileName?.isNotEmpty ?? false,
             maxLines: 6,
             controller: jobController.contractController,
           ),
@@ -62,10 +62,7 @@ class _StepFourState extends State<StepFour> {
           KButton(
             onPressed: () async {
               if (jobController.contractController.text.isEmpty) {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                    allowCompression: true,
-                    allowedExtensions: ['pdf'],
-                    type: FileType.custom);
+                FilePickerResult? result = await FilePicker.platform.pickFiles(allowCompression: true, allowedExtensions: ['pdf'], type: FileType.custom);
 
                 if (result != null) {
                   file = File(result.files.single.path!);
@@ -77,9 +74,7 @@ class _StepFourState extends State<StepFour> {
               }
             },
             title: "UPLOAD CONTRACT",
-            color: jobController.contractController.text.isEmpty
-                ? Okito.theme.primaryColor
-                : Colors.grey,
+            color: jobController.contractController.text.isEmpty ? Okito.theme.primaryColor : Colors.grey,
           ),
           Spacer(),
           Row(
@@ -97,8 +92,7 @@ class _StepFourState extends State<StepFour> {
               Expanded(
                 child: KButton.outlined(
                   onPressed: () {
-                    // widget.onNextButtonTapped();
-                    jobController.saveJob();
+                    widget.onNextButtonTapped();
                   },
                   title: "DONE",
                   color: Okito.theme.primaryColor,

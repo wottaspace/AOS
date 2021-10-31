@@ -1,6 +1,6 @@
 import 'package:arcopen_enquirer/config/routes/k_router.dart';
 import 'package:arcopen_enquirer/core/base_controller.dart';
-import 'package:arcopen_enquirer/http/requests/job_request.dart';
+import 'package:arcopen_enquirer/http/requests/create_job_request.dart';
 import 'package:arcopen_enquirer/utils/repositories/jobs_repository.dart';
 import 'package:arcopen_enquirer/utils/services/auth_service.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/k_loader.dart';
@@ -18,19 +18,18 @@ class CreateJobController extends BaseController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   bool isDraft = false;
-  late String jobCategory;
-  late String shiftType;
-  late String jobType;
-  late String city = Okito.use<AuthService>().profile.city!;
-  late String fileName = "";
-  late String? contract;
+  String? jobCategory;
+  String? shiftType;
+  String? jobType;
+  String? city = Okito.use<AuthService>().profile.city!;
+  String? fileName = "";
+  String? contract;
 
   final TextEditingController budgetController = TextEditingController();
   final TextEditingController emergencyRateController = TextEditingController();
   final TextEditingController businessController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController vacanciesCountController =
-      TextEditingController();
+  final TextEditingController vacanciesCountController = TextEditingController();
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
   final TextEditingController startTimeController = TextEditingController();
@@ -43,28 +42,27 @@ class CreateJobController extends BaseController {
 
   saveJob() {
     KLoader().show();
-    _repository
-        .createJob(
-      request: JobRequest(
-          address: addressController.text,
-          budget: budgetController.text,
-          businessName: businessController.text,
-          city: city,
-          contract: contract ?? contractController.text,
-          fileName: fileName,
-          emergencyRate: emergencyRateController.text,
-          isDraft: isDraft.toString(),
-          jobCategory: jobCategory,
-          jobDescription: descriptionController.text,
-          jobType: jobType,
-          shiftEndDate: endDateController.text,
-          shiftEndTime: endTimeController.text,
-          shiftStartDate: startDateController.text,
-          shiftStartTime: startTimeController.text,
-          shiftType: shiftType,
-          vacancies: vacanciesCountController.text),
-    )
-        .then((value) {
+    final CreateJobRequest _createJobRequest = CreateJobRequest(
+      address: addressController.text,
+      budget: budgetController.text,
+      businessName: businessController.text,
+      city: city,
+      contract: contract ?? contractController.text,
+      fileName: fileName,
+      emergencyRate: emergencyRateController.text,
+      isDraft: isDraft.toString(),
+      jobCategory: jobCategory,
+      jobDescription: descriptionController.text,
+      jobType: jobType,
+      shiftEndDate: endDateController.text,
+      shiftEndTime: endTimeController.text,
+      shiftStartDate: startDateController.text,
+      shiftStartTime: startTimeController.text,
+      shiftType: shiftType,
+      vacancies: vacanciesCountController.text,
+    );
+
+    _repository.createJob(request: _createJobRequest).then((value) {
       this.showSuccessToast("Job created successfully!");
       KLoader.hide();
       KRouter().pop();

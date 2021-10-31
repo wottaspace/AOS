@@ -1,13 +1,12 @@
-import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/core/models/applicant.dart';
 import 'package:arcopen_enquirer/core/models/project.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
-import 'package:arcopen_enquirer/widgets/misc/expandable_text.dart';
 import 'package:arcopen_enquirer/widgets/misc/member_card.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
 import 'package:arcopen_enquirer/widgets/navigation/expanded_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
+import 'package:readmore/readmore.dart';
 
 class PostedJobDetailsScreen extends StatefulWidget {
   const PostedJobDetailsScreen({Key? key}) : super(key: key);
@@ -46,8 +45,14 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                   children: [
                     SectionTitle(title: "DESCRIPTION"),
                     SizedBox(height: 10),
-                    ExpandableText(
-                      text: "",
+                    ReadMoreText(
+                      "todo",
+                      trimLines: 2,
+                      colorClickableText: Colors.pink,
+                      trimMode: TrimMode.Line,
+                      trimCollapsedText: 'Show more',
+                      trimExpandedText: 'Show less',
+                      moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 20),
                     KTextField.soft(
@@ -94,12 +99,13 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                       itemBuilder: (context, index) {
                         Applicant applicant = job!.applicantsArray[index];
                         return MemberCard(
-                            username: applicant.applicantName!,
-                            score: applicant.rating ?? 0,
-                            hideLikeButton: true,
-                            applicant: applicant,
-                            hourlyRate: applicant.hourlyRate ?? "£0",
-                            profilePic: applicant.profilePic!);
+                          username: applicant.applicantName!,
+                          score: applicant.rating ?? 0,
+                          hideLikeButton: true,
+                          applicant: applicant,
+                          hourlyRate: applicant.hourlyRate ?? "£0",
+                          profilePic: applicant.profilePic!,
+                        );
                       },
                     ),
                   ],

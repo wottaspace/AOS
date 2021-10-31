@@ -1,5 +1,4 @@
 import 'package:arcopen_enquirer/core/models/finance.dart';
-import 'package:arcopen_enquirer/core/models/user.dart';
 
 class FinanceResponse {
   FinanceResponse(

@@ -56,7 +56,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
               key: jobController.formKey,
               child: PageView(
                 controller: pageController,
-                physics: PageScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 children: [
                   StepOne(
                     onCategorySelected: (category) {
@@ -80,7 +80,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
                   ),
                   StepFour(
                     onNextButtonTapped: () {
-                      _goTo(++_currentIndex);
+                      jobController.saveJob();
                     },
                     onSaveDraftsTapped: () {
                       // TODO: save draft

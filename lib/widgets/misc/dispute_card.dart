@@ -1,7 +1,6 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
-import 'package:simple_moment/simple_moment.dart';
 
 class DisputeCard extends StatelessWidget {
   const DisputeCard({
@@ -15,7 +14,7 @@ class DisputeCard extends StatelessWidget {
 
   final String name;
   final String description;
-  final DateTime createdAt;
+  final String createdAt;
   final bool isClosed;
   final VoidCallback onTap;
 
@@ -54,7 +53,7 @@ class DisputeCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      Moment.fromDate(createdAt).format("dd/MM/yyyy"),
+                      createdAt,
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 10.0,

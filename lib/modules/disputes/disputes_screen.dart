@@ -57,8 +57,7 @@ class _DisputesScreenState extends State<DisputesScreen> {
                     Expanded(
                       child: Text(
                         "Dispute Resolution",
-                        style: Okito.theme.textTheme.bodyText2!
-                            .copyWith(fontWeight: FontWeight.bold),
+                        style: Okito.theme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(width: 5),
@@ -68,73 +67,65 @@ class _DisputesScreenState extends State<DisputesScreen> {
               ),
             ),
             OkitoBuilder(
-                controller: _controller,
-                builder: () {
-                  return PageSkeleton(
-                      child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 20),
-                            SectionTitle(title: "OPEN"),
-                            SizedBox(height: 10),
-                            ListView.builder(
-                                itemCount: _controller.disputes
-                                    .where((element) => element.active)
-                                    .length,
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  Dispute dispute = _controller.disputes
-                                      .where((element) => element.active)
-                                      .elementAt(index);
-                                  return Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 10.0),
-                                    child: DisputeCard(
-                                      onTap: () {},
-                                      createdAt:
-                                          DateTime.parse(dispute.createdOn),
-                                      description: dispute.description,
-                                      isClosed: false,
-                                      name: dispute.disputeType,
-                                    ),
-                                  );
-                                }),
-                            SizedBox(height: 20),
-                            SectionTitle(title: "RESOLVED DISPUTES"),
-                            SizedBox(height: 10),
-                            ListView.builder(
-                                itemCount: _controller.disputes
-                                    .where((element) => element.active)
-                                    .length,
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  Dispute dispute = _controller.disputes
-                                      .where((element) => !element.active)
-                                      .elementAt(index);
-                                  return Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 10.0),
-                                    child: DisputeCard(
-                                      onTap: () {},
-                                      createdAt:
-                                          DateTime.parse(dispute.createdOn),
-                                      description: dispute.description,
-                                      isClosed: false,
-                                      name: dispute.disputeType,
-                                    ),
-                                  );
-                                }),
-                            SizedBox(height: 20),
-                          ],
+              controller: _controller,
+              builder: () {
+                return PageSkeleton(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 20),
+                        SectionTitle(title: "OPEN"),
+                        SizedBox(height: 10),
+                        ListView.builder(
+                          itemCount: _controller.disputes.where((element) => element.active).length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            Dispute dispute = _controller.disputes.where((element) => element.active).elementAt(index);
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: DisputeCard(
+                                onTap: () {},
+                                createdAt: dispute.createdOn,
+                                description: dispute.description,
+                                isClosed: false,
+                                name: dispute.disputeType,
+                              ),
+                            );
+                          },
                         ),
-                      ),
-                      controller: _controller,
-                      retryCallback: _controller.loadDispute);
-                })
+                        SizedBox(height: 20),
+                        SectionTitle(title: "RESOLVED DISPUTES"),
+                        SizedBox(height: 10),
+                        ListView.builder(
+                          itemCount: _controller.disputes.where((element) => !element.active).length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            Dispute dispute = _controller.disputes.where((element) => !element.active).elementAt(index);
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: DisputeCard(
+                                onTap: () {},
+                                createdAt: dispute.createdOn,
+                                description: dispute.description,
+                                isClosed: false,
+                                name: dispute.disputeType,
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                  controller: _controller,
+                  retryCallback: _controller.loadDispute,
+                );
+              },
+            )
           ],
         ),
       ),
