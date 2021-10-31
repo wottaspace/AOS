@@ -3,7 +3,6 @@ import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
-import 'package:simple_moment/simple_moment.dart';
 
 class StepTwo extends StatefulWidget {
   StepTwo({

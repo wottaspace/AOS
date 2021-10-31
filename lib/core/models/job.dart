@@ -1,6 +1,6 @@
 class Job {
   Job({
-    required this.budget,
+    this.budget,
     required this.businessName,
     required this.city,
     required this.companyName,
@@ -14,10 +14,10 @@ class Job {
     required this.shiftStartTime,
   });
 
-  String budget;
+  String? budget;
   String businessName;
   String city;
-  String companyName;
+  String? companyName;
   int daysRemaining;
   String jobDescription;
   dynamic jobId;

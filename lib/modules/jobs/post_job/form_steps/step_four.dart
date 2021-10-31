@@ -12,12 +12,14 @@ import 'package:file_picker/file_picker.dart';
 class StepFour extends StatefulWidget {
   const StepFour({
     Key? key,
-    required this.onNextButtonTapped,
+    this.onNextButtonTapped,
+    required this.onDone,
     required this.onSaveDraftsTapped,
   }) : super(key: key);
 
-  final Function onSaveDraftsTapped;
-  final Function onNextButtonTapped;
+  final VoidCallback onSaveDraftsTapped;
+  final VoidCallback? onNextButtonTapped;
+  final VoidCallback onDone;
 
   @override
   _StepFourState createState() => _StepFourState();
@@ -92,7 +94,7 @@ class _StepFourState extends State<StepFour> {
               Expanded(
                 child: KButton.outlined(
                   onPressed: () {
-                    widget.onNextButtonTapped();
+                    widget.onDone();
                   },
                   title: "DONE",
                   color: Okito.theme.primaryColor,

@@ -48,11 +48,18 @@ class _PostJobScreenState extends State<PostJobScreen> {
             children: [
               TitleBar(
                 activeIndex: _currentIndex,
-                onBackPressed: () {
-                  if (_currentIndex < 4) {
-                    _goTo(++_currentIndex);
+                onBack: () {
+                  if (_currentIndex == 0) {
+                    Okito.pop();
                   } else {
+                    _goTo(--_currentIndex);
+                  }
+                },
+                onNext: () {
+                  if (_currentIndex == 3) {
                     jobController.saveJob();
+                  } else {
+                    _goTo(++_currentIndex);
                   }
                 },
               ),
@@ -84,7 +91,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
                         },
                       ),
                       StepFour(
-                        onNextButtonTapped: () {
+                        onDone: () {
                           jobController.saveJob();
                         },
                         onSaveDraftsTapped: () {

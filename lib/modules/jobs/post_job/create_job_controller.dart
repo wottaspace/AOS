@@ -1,13 +1,13 @@
-import 'package:arcopen_enquirer/config/routes/k_router.dart';
 import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:arcopen_enquirer/http/requests/create_job_request.dart';
+import 'package:arcopen_enquirer/utils/mixins/dialog_mixin.dart';
 import 'package:arcopen_enquirer/utils/repositories/jobs_repository.dart';
 import 'package:arcopen_enquirer/utils/services/auth_service.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/k_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:okito/okito.dart';
 
-class CreateJobController extends BaseController {
+class CreateJobController extends BaseController with DialogMixin {
   CreateJobController._internal();
   static final CreateJobController _singleton = CreateJobController._internal();
 
@@ -84,12 +84,12 @@ class CreateJobController extends BaseController {
     );
 
     _repository.createJob(request: _createJobRequest).then((value) {
-      this.showSuccessToast("Job created successfully!");
       KLoader.hide();
-      KRouter().pop();
+      Okito.pop(result: true);
+      this.showSuccessToast("Job created successfully!");
     }).catchError((e) {
       KLoader.hide();
-      this.showErrorToast(e.message);
+      showNotification(e.message);
     });
   }
 

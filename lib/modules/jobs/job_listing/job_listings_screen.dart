@@ -170,7 +170,11 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
                   builder: (context) {
                     return PostJobScreen();
                   },
-                );
+                ).then((value) {
+                  if (value != null && value) {
+                    JobsListingsController.shared.loadData();
+                  }
+                });
               },
             ),
           ]

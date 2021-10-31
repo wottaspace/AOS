@@ -5,11 +5,13 @@ import 'package:okito/okito.dart';
 class TitleBar extends StatelessWidget {
   TitleBar({
     Key? key,
-    required this.onBackPressed,
+    this.onNext,
+    this.onBack,
     required this.activeIndex,
   }) : super(key: key);
 
-  final Function onBackPressed;
+  final VoidCallback? onNext;
+  final VoidCallback? onBack;
   final int activeIndex;
 
   @override
@@ -39,9 +41,9 @@ class TitleBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextButton(
-              onPressed: Okito.pop,
+              onPressed: onBack,
               child: Text(
-                "Cancel",
+                activeIndex == 0 ? "Cancel" : "Back",
                 style: actionTextStyle,
               ),
             ),
@@ -51,14 +53,10 @@ class TitleBar extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             TextButton(
-              onPressed: activeIndex == 5
-                  ? null
-                  : () {
-                      onBackPressed();
-                    },
+              onPressed: onNext,
               child: Text(
                 "Next",
-                style: activeIndex == 5
+                style: onNext == null
                     ? actionTextStyle
                     : actionTextStyle.copyWith(
                         color: Okito.theme.primaryColor,

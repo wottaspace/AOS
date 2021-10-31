@@ -28,7 +28,7 @@ mixin ValidationMixin {
 
   String? validateTime({required String fieldName, required String value}) {
     final String validationMessage = "$fieldName is not a valid time";
-    final RegExp timeRegExp = RegExp(r"[0-23]{2}:[0-60]{2}");
+    final RegExp timeRegExp = RegExp(r"[0-9]{2}:[0-9]{2}");
 
     if (!timeRegExp.hasMatch(value) || value.isEmpty) return validationMessage;
     return null;
