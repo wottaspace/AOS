@@ -207,11 +207,12 @@ class _ActiveJobs extends StatelessWidget {
             jobTitle: job.businessName,
             jobType: job.companyName,
             location: job.city,
+            budget: job.budget,
+            daysLeftCount: job.daysRemaining,
             applicants: job.applicantsArray,
             onTap: () {
-              Okito.pushNamed(KRoutes.activeJobDetailsRoute, arguments: {
-                "job": job,
-              });
+              Okito.pushNamed(KRoutes.activeJobDetailsRoute,
+                  arguments: {"job": job});
             },
           ),
         );
@@ -243,12 +244,12 @@ class _PostedJobs extends StatelessWidget {
             jobTitle: job.businessName,
             jobType: job.companyName,
             location: job.city,
+            budget: job.budget,
             daysLeftCount: job.daysRemaining,
             applicants: job.applicantsArray,
             onTap: () {
-              Okito.pushNamed(KRoutes.postedJobDetailsRoute, arguments: {
-                "job": job,
-              });
+              Okito.pushNamed(KRoutes.postedJobDetailsRoute,
+                  arguments: {"job": job});
             },
           ),
         );
@@ -277,16 +278,16 @@ class _HistoryJobs extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: JobCard(
+            budget: job.budget,
             jobTitle: job.businessName,
             jobType: job.companyName,
             location: job.city,
             daysLeftCount: job.daysRemaining,
             isCompleted: true,
-            applicants: job.applicantsArray,
+            applicants: job.applicants,
             onTap: () {
-              Okito.pushNamed(KRoutes.postedJobDetailsRoute, arguments: {
-                "job": job,
-              });
+              Okito.pushNamed(KRoutes.historyJobDetailsRoute,
+                  arguments: {"job": job});
             },
           ),
         );

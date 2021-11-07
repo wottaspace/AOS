@@ -61,7 +61,9 @@ class _StepTwoState extends State<StepTwo> {
               maxLines: 4,
               controller: jobController.descriptionController,
               validator: (value) {
-                return jobController.validateRequired(fieldName: "description", value: jobController.descriptionController.text);
+                return jobController.validateRequired(
+                    fieldName: "description",
+                    value: jobController.descriptionController.text);
               },
             ),
             SizedBox(height: 20),
@@ -70,7 +72,9 @@ class _StepTwoState extends State<StepTwo> {
               keybordType: TextInputType.number,
               controller: jobController.vacanciesCountController,
               validator: (value) {
-                return jobController.validateRequired(fieldName: "no. of vacancies", value: jobController.vacanciesCountController.text);
+                return jobController.validateRequired(
+                    fieldName: "no. of vacancies",
+                    value: jobController.vacanciesCountController.text);
               },
             ),
             SizedBox(height: 20),
@@ -93,12 +97,15 @@ class _StepTwoState extends State<StepTwo> {
                       );
                       if (date != null) {
                         setState(() {
-                          jobController.startDateController.text = date.toIso8601String().split("T").first;
+                          jobController.startDateController.text =
+                              date.toIso8601String().split("T").first;
                         });
                       }
                     },
                     validator: (value) {
-                      return jobController.validateDate(fieldName: "shift start date", value: jobController.startDateController.text);
+                      return jobController.validateDate(
+                          fieldName: "shift start date",
+                          value: jobController.startDateController.text);
                     },
                   ),
                 ),
@@ -109,7 +116,9 @@ class _StepTwoState extends State<StepTwo> {
                     keybordType: TextInputType.text,
                     controller: jobController.endDateController,
                     validator: (value) {
-                      return jobController.validateDate(fieldName: "shift end date", value: jobController.endDateController.text);
+                      return jobController.validateDate(
+                          fieldName: "shift end date",
+                          value: jobController.endDateController.text);
                     },
                     readOnly: true,
                     onTap: () async {
@@ -123,7 +132,8 @@ class _StepTwoState extends State<StepTwo> {
                       );
                       if (date != null) {
                         setState(() {
-                          jobController.endDateController.text = date.toIso8601String().split("T").first;
+                          jobController.endDateController.text =
+                              date.toIso8601String().split("T").first;
                         });
                       }
                     },
@@ -146,13 +156,16 @@ class _StepTwoState extends State<StepTwo> {
                       );
                       if (time != null) {
                         setState(() {
-                          jobController.startTimeController.text = time.format(context);
+                          jobController.startTimeController.text =
+                              time.format(context);
                         });
                       }
                     },
                     readOnly: true,
                     validator: (value) {
-                      return jobController.validateTime(fieldName: "shift start time", value: jobController.startTimeController.text);
+                      return jobController.validateTime(
+                          fieldName: "shift start time",
+                          value: jobController.startTimeController.text);
                     },
                   ),
                 ),
@@ -170,12 +183,15 @@ class _StepTwoState extends State<StepTwo> {
                       );
                       if (time != null) {
                         setState(() {
-                          jobController.endTimeController.text = time.format(context);
+                          jobController.endTimeController.text =
+                              time.format(context);
                         });
                       }
                     },
                     validator: (value) {
-                      return jobController.validateTime(fieldName: "shift end time", value: jobController.endTimeController.text);
+                      return jobController.validateTime(
+                          fieldName: "shift end time",
+                          value: jobController.endTimeController.text);
                     },
                   ),
                 ),

@@ -58,6 +58,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 onNext: () {
                   if (_currentIndex == 3) {
                     jobController.saveJob();
+                    _goTo(++_currentIndex);
                   } else {
                     _goTo(++_currentIndex);
                   }
@@ -84,7 +85,13 @@ class _PostJobScreenState extends State<PostJobScreen> {
                       ),
                       StepThree(
                         onNextButtonTapped: () {
-                          _goTo(++_currentIndex);
+                          if (jobController.jobType == "Contract")
+                            _goTo(++_currentIndex);
+                          else {
+                            jobController
+                                .saveJob()
+                                .then((value) => _goTo(_currentIndex + 2));
+                          }
                         },
                         onSaveDraftsTapped: () {
                           // TODO: save draft
@@ -92,7 +99,9 @@ class _PostJobScreenState extends State<PostJobScreen> {
                       ),
                       StepFour(
                         onDone: () {
-                          jobController.saveJob();
+                          jobController
+                              .saveJob()
+                              .then((value) => _goTo(++_currentIndex));
                         },
                         onSaveDraftsTapped: () {
                           // TODO: save draft

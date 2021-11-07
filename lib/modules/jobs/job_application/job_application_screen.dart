@@ -1,5 +1,6 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/core/models/applicant.dart';
+import 'package:arcopen_enquirer/modules/jobs/job_application/job_application_controller.dart';
 import 'package:arcopen_enquirer/utils/navigation/k_app_bar.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/confirm_applicant_dialog.dart';
@@ -18,6 +19,7 @@ class JobApplicationScreen extends StatefulWidget {
 
 class _JobApplicationScreenState extends State<JobApplicationScreen> {
   Applicant? applicant;
+  JobApplicationController _applicationController = JobApplicationController();
 
   @override
   void initState() {
@@ -38,18 +40,18 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
             children: [
               SizedBox(height: 20),
               MemberCard(
-                hourlyRate: applicant!.hourlyRate ?? "£0",
-                username: applicant!.applicantName!,
-                score: applicant!.rating ?? 0,
-                profilePic: applicant!.profilePic!,
-                hideLikeButton: true,
-              ),
+                  hourlyRate: applicant!.hourlyRate ?? "£0",
+                  username: applicant!.applicantName!,
+                  score: applicant!.rating ?? 0,
+                  profilePic: applicant!.profilePic!,
+                  hideLikeButton: true,
+                  clickable: false),
               SizedBox(height: 20),
               Row(
                 children: [
                   Text("Offer Rate"),
                   Spacer(),
-                  Text("\$0/hr"),
+                  Text("${applicant!.hourlyRate}/hr"),
                 ],
               ),
               SizedBox(height: 20),
@@ -85,14 +87,14 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
                           ),
                           Expanded(
                             child: Text(
-                              "Fund job for Talwar's Residency",
+                              "Fund job for ${applicant!.applicantName}",
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 14.0),
                             ),
                           ),
                         ],
                       ),
-                      content: ConfirmApplicantDialog(),
+                      content: ConfirmApplicantDialog(applicant: applicant),
                     );
                   },
                 );
@@ -114,7 +116,8 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
                 SizedBox(width: 10),
                 Expanded(
                   child: KButton.outlined(
-                    onPressed: () {},
+                    onPressed: () => _applicationController
+                        .rejectApplication(applicant!.memberId!),
                     title: "DECLINE",
                     color: ColorConstants.red,
                   ),

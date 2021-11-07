@@ -11,6 +11,8 @@ class MemberCard extends StatelessWidget {
   const MemberCard(
       {Key? key,
       required this.username,
+      this.clickable = true,
+      this.voidCallback,
       required this.score,
       required this.profilePic,
       required this.hourlyRate,
@@ -22,6 +24,8 @@ class MemberCard extends StatelessWidget {
       this.deleteCallback})
       : super(key: key);
 
+  final bool clickable;
+  final VoidCallback? voidCallback;
   final String username;
   final String profilePic;
   final double score;
@@ -60,8 +64,11 @@ class MemberCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Okito.pushNamed(KRoutes.jobApplicationRoute,
-                arguments: {"applicant": applicant});
+            if (clickable) {
+              Okito.pushNamed(KRoutes.jobApplicationRoute,
+                  arguments: {"applicant": applicant});
+              voidCallback!();
+            }
           },
           child: Padding(
             padding: const EdgeInsets.all(18.0),

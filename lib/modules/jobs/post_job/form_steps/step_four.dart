@@ -61,22 +61,33 @@ class _StepFourState extends State<StepFour> {
             ],
           ),
           SizedBox(height: 20),
+          if (jobController.fileName!.isNotEmpty) ...[
+            Text("Contract: ${jobController.fileName}"),
+            SizedBox(height: 20),
+          ],
           KButton(
             onPressed: () async {
               if (jobController.contractController.text.isEmpty) {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(allowCompression: true, allowedExtensions: ['pdf'], type: FileType.custom);
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                    allowCompression: true,
+                    allowedExtensions: ['pdf'],
+                    type: FileType.custom);
 
                 if (result != null) {
                   file = File(result.files.single.path!);
 
                   PlatformFile platformFile = result.files.first;
-                  jobController.fileName = platformFile.name;
+                  setState(() {
+                    jobController.fileName = platformFile.name;
+                  });
                   jobController.contract = base64Encode(file.readAsBytesSync());
                 }
               }
             },
             title: "UPLOAD CONTRACT",
-            color: jobController.contractController.text.isEmpty ? Okito.theme.primaryColor : Colors.grey,
+            color: jobController.contractController.text.isEmpty
+                ? Okito.theme.primaryColor
+                : Colors.grey,
           ),
           Spacer(),
           Row(

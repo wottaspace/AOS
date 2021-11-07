@@ -76,7 +76,9 @@ class _StepThreeState extends State<StepThree> {
                       final bool isSelected = e["name"] == jobType;
                       final activeColor = Okito.theme.primaryColor;
                       return Container(
-                        color: isSelected ? activeColor.withOpacity(0.1) : Colors.white,
+                        color: isSelected
+                            ? activeColor.withOpacity(0.1)
+                            : Colors.white,
                         child: RadioListTile<String>(
                           value: e["name"]!,
                           groupValue: jobType,
@@ -91,7 +93,9 @@ class _StepThreeState extends State<StepThree> {
                               Icon(
                                 e["icon"] as IconData,
                                 size: 22,
-                                color: isSelected ? activeColor : ColorConstants.greyColor,
+                                color: isSelected
+                                    ? activeColor
+                                    : ColorConstants.greyColor,
                               ),
                               SizedBox(width: 10),
                               Expanded(
@@ -100,7 +104,8 @@ class _StepThreeState extends State<StepThree> {
                                   contentPadding: EdgeInsets.zero,
                                   title: Text(
                                     e["name"]!,
-                                    style: Okito.theme.textTheme.bodyText2!.copyWith(
+                                    style: Okito.theme.textTheme.bodyText2!
+                                        .copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -121,7 +126,8 @@ class _StepThreeState extends State<StepThree> {
               label: "BUDGET",
               controller: jobController.budgetController,
               validator: (value) {
-                return jobController.validateRequired(fieldName: "budget", value: value);
+                return jobController.validateRequired(
+                    fieldName: "budget", value: value);
               },
             ),
             SizedBox(height: 20),

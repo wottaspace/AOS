@@ -1,7 +1,10 @@
 import 'package:arcopen_enquirer/core/base_controller.dart';
+import 'package:arcopen_enquirer/core/models/member.dart';
 import 'package:arcopen_enquirer/http/requests/create_job_request.dart';
+import 'package:arcopen_enquirer/utils/helpers/loading_state.dart';
 import 'package:arcopen_enquirer/utils/mixins/dialog_mixin.dart';
 import 'package:arcopen_enquirer/utils/repositories/jobs_repository.dart';
+import 'package:arcopen_enquirer/utils/repositories/members_repository.dart';
 import 'package:arcopen_enquirer/utils/services/auth_service.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/k_loader.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,11 +28,16 @@ class CreateJobController extends BaseController with DialogMixin {
   String? fileName = "";
   String? contract;
 
+  List<Member> members = [];
+  List<Member> invitedMember = [];
+  final MembersRepository membersRepository = MembersRepository();
+
   final TextEditingController budgetController = TextEditingController();
   final TextEditingController emergencyRateController = TextEditingController();
   final TextEditingController businessController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController vacanciesCountController = TextEditingController();
+  final TextEditingController vacanciesCountController =
+      TextEditingController();
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
   final TextEditingController startTimeController = TextEditingController();
@@ -61,7 +69,18 @@ class CreateJobController extends BaseController with DialogMixin {
     super.dispose();
   }
 
-  saveJob() {
+  inviteFriends({memberId, jobId}) {
+    KLoader().show();
+    Map<String, dynamic> params = {"guard_id": memberId, "job_id": jobId};
+    _repository.inviteFriends(params: params).then((value) {
+      KLoader.hide();
+    }).catchError((e) {
+      KLoader.hide();
+      showNotification(e.message);
+    });
+  }
+
+  Future<void> saveJob() async {
     KLoader().show();
     final CreateJobRequest _createJobRequest = CreateJobRequest(
       address: addressController.text,
@@ -85,13 +104,45 @@ class CreateJobController extends BaseController with DialogMixin {
 
     _repository.createJob(request: _createJobRequest).then((value) {
       KLoader.hide();
-      Okito.pop(result: true);
       this.showSuccessToast("Job created successfully!");
+      Okito.arguments["jobId"] = value.jobDetails.id;
+      // Okito.pop(result: true);
     }).catchError((e) {
       KLoader.hide();
       showNotification(e.message);
     });
   }
 
-  loadMembers() {}
+  loadMembers() {
+    setState(() {
+      state = LoadingState.loading;
+    });
+    membersRepository.exploreMembers().then((value) {
+      setState(() {
+        state = LoadingState.success;
+      });
+      members = List<Member>.from(value.allMembers.map((e) => e));
+    }).catchError((e) {
+      setState(() {
+        state = LoadingState.success;
+      });
+
+      this.showErrorToast("Failed to load members. Please try again later.");
+    });
+  }
+
+  void inviteMember(int id, int userId) {
+    setState(() {
+      state = LoadingState.loading;
+    });
+    _repository.loadMembers().then((value) {
+      setState(() {
+        state = LoadingState.success;
+      });
+    }).catchError((e) {
+      setState(() {
+        state = LoadingState.failed;
+      });
+    });
+  }
 }
