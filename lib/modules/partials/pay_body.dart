@@ -83,14 +83,14 @@ class _PayBodyState extends State<PayBody> {
                               children: [
                                 Row(
                                   children: [
-                                    SizedBox(
-                                      height: 25,
-                                      width: 40,
-                                      child: Image.asset(
-                                        "assets/images/bank/${e.cardType.replaceAll(" ", "-").toLowerCase()}.png",
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
+                                    // SizedBox(
+                                    //   height: 25,
+                                    //   width: 40,
+                                    //   child: Image.asset(
+                                    //     "assets/images/bank/${e.cardType.replaceAll(" ", "-").toLowerCase()}.png",
+                                    //     fit: BoxFit.cover,
+                                    //   ),
+                                    // ),
                                     SizedBox(width: 20),
                                     Expanded(
                                       child: RadioListTile<KCard>(
@@ -165,10 +165,11 @@ class _PayBodyState extends State<PayBody> {
                             value: false,
                             groupValue: true,
                             onChanged: (value) {
-                              Okito.pushNamed(KRoutes.addPaymentMethodRoute);
-                              //     .then((value) {
-                              //   widget.onItemAdded();
-                              // });
+                              Okito.pushNamed(KRoutes.addPaymentMethodRoute,
+                                      arguments: {"cards": controller.cards})
+                                  .then((value) {
+                                widget.onItemAdded();
+                              });
                             },
                             title: Text("Add Card"),
                           ),
