@@ -1,4 +1,5 @@
 import 'package:arcopen_enquirer/http/exceptions/request_exception.dart';
+import 'package:arcopen_enquirer/http/requests/add_dispute_request.dart';
 import 'package:arcopen_enquirer/http/requests/create_job_request.dart';
 import 'package:arcopen_enquirer/http/responses/active_jobs_response.dart';
 import 'package:arcopen_enquirer/http/responses/create_job_response.dart';
@@ -138,6 +139,15 @@ class JobsRepository extends BaseRepository {
   Future<bool> inviteFriends({params}) async {
     try {
       await client.post(path: "/jobs/api/inviteGuard", args: params);
+      return true;
+    } on DioError catch (e) {
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
+    }
+  }
+
+  Future<bool> addDispute({required AddDisputeRequest request}) async {
+    try {
+      await client.post(path: "/jobs/api/addDispute/", args: request);
       return true;
     } on DioError catch (e) {
       throw new RequestException(this.extractErrorMessageFromDioError(e));

@@ -17,6 +17,7 @@ import 'package:arcopen_enquirer/modules/jobs/job_application/job_application_sc
 import 'package:arcopen_enquirer/modules/jobs/posted_job/posted_job_details_screen.dart';
 import 'package:arcopen_enquirer/modules/payments/billing_methods_screen.dart';
 import 'package:arcopen_enquirer/modules/payments/payment_successful_screen.dart';
+import 'package:arcopen_enquirer/modules/payments/subscription_successful.dart';
 import 'package:arcopen_enquirer/modules/settings/bank_details/bank_details_screen.dart';
 import 'package:arcopen_enquirer/modules/settings/settings_screen.dart';
 import 'package:arcopen_enquirer/modules/splash_screen/splash_screen.dart';
@@ -66,6 +67,7 @@ class KRoutes {
 
   static final String billingMethodsRoute = "/billing-methods";
   static final String paymentSuccessfulRoute = "/payment-successful";
+  static final String subscriptionSuccessfulUpdate = "/subscription-successful";
   static final String historyJobDetailsRoute = "/history-job-details";
   static final String historyJobMemberDetailsRoute =
       "/history-job-member-details";
@@ -149,6 +151,10 @@ class KRoutes {
         route: KRoute(
             name: KRoutes.paymentSuccessfulRoute,
             page: PaymentSuccessfulScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.subscriptionSuccessfulUpdate,
+            page: SubscriptionSuccessfulScreen()));
 
     KRouter().registerRoute(
         route: KRoute(
