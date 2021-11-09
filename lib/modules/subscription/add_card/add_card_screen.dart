@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/core/models/k_card.dart';
 import 'package:credit_card_input_form/constants/constanst.dart';
 import 'package:credit_card_input_form/credit_card_input_form.dart';
 import 'package:credit_card_input_form/model/card_info.dart';
@@ -8,15 +9,21 @@ import 'package:arcopen_enquirer/modules/subscription/add_card/add_card_controll
 import 'package:arcopen_enquirer/utils/navigation/k_app_bar.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 
-class AddCardScreen extends StatefulWidget {
-  const AddCardScreen({Key? key}) : super(key: key);
+class AddCardWidget extends StatefulWidget {
+  const AddCardWidget({Key? key}) : super(key: key);
 
   @override
   _AddCardScreenState createState() => _AddCardScreenState();
 }
 
-class _AddCardScreenState extends State<AddCardScreen> {
+class _AddCardScreenState extends State<AddCardWidget> {
   final AddCardController controller = AddCardController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.exitingCards = Okito.arguments["cards"];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +52,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
         Radius.circular(15),
       ),
     );
+
     return Scaffold(
       appBar: KAppBar(
         title: "Add Payment method",

@@ -19,6 +19,13 @@ class PostedJobDetailsController extends BaseController with DialogMixin {
     return _singleton;
   }
 
+  @override
+  void dispose() {
+    applicants = [];
+    job = null;
+    super.dispose();
+  }
+
   void loadJobDetails({required int jobId}) {
     setState(() {
       state = LoadingState.loading;
@@ -26,9 +33,9 @@ class PostedJobDetailsController extends BaseController with DialogMixin {
     _repository.getJobDetails(jobId).then((value) {
       setState(() {
         state = LoadingState.success;
-        job = value.jobDetails.first;
-        applicants = value.applicants;
       });
+      job = value.jobDetails.first;
+      applicants = value.applicants;
     }).catchError((e) {
       setState(() {
         state = LoadingState.failed;

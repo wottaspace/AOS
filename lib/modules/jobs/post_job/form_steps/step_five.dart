@@ -36,50 +36,49 @@ class _StepFiveState extends State<StepFive> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18.0),
-      child: ListView(
-        children: [
-          SizedBox(height: 20),
-          KTextField.circular(
-            hintText: "Search",
-            leading: PhosphorIcons.magnifying_glass,
-            controller: searchController,
-          ),
-          SizedBox(height: 20),
-          OkitoBuilder(
-              controller: _controller,
-              builder: () {
-                print(_controller.members);
-                return PageSkeleton(
-                    child: ListView.builder(
-                      itemCount: _controller.members.length,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        Member member = _controller.members[index];
-                        return GestureDetector(
-                          child: InviteMemberCard(
-                            username: member.memberName,
-                            score: member.rating,
-                            onTap: () {
-                              setState(() {
-                                _controller.invitedMember.add(member);
-                              });
-                              _controller.inviteFriends(
-                                  jobId: Okito.arguments['jobId'],
-                                  memberId: member.memberId);
-                            },
-                            isInvited:
-                                _controller.invitedMember.contains(member),
-                          ),
-                        );
-                      },
-                    ),
-                    controller: _controller,
-                    retryCallback: () => _controller.loadMembers());
-              })
-        ],
+    return Material(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+        child: ListView(
+          children: [
+            SizedBox(height: 20),
+            KTextField.circular(
+              hintText: "Search",
+              leading: PhosphorIcons.magnifying_glass,
+              controller: searchController,
+            ),
+            SizedBox(height: 20),
+            OkitoBuilder(
+                controller: _controller,
+                builder: () {
+                  return PageSkeleton(
+                      child: ListView.builder(
+                        itemCount: _controller.members.length,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          Member member = _controller.members[index];
+                          return GestureDetector(
+                            child: InviteMemberCard(
+                              username: member.memberName,
+                              score: member.rating,
+                              onTap: () {},
+                              onInviteTap: () {
+                                _controller.inviteMembers(
+                                    jobId: Okito.arguments['jobId'],
+                                    memberId: member.memberId);
+                              },
+                              isInvited: _controller.invitedMembers
+                                  .contains(member.memberId),
+                            ),
+                          );
+                        },
+                      ),
+                      controller: _controller,
+                      retryCallback: () => _controller.loadMembers());
+                })
+          ],
+        ),
       ),
     );
   }

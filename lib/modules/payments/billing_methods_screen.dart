@@ -52,7 +52,8 @@ class _BillingMethodsScreenState extends State<BillingMethodsScreen> {
                               children: [
                                 TextSpan(
                                   text: "\$0.00",
-                                  style: Okito.theme.textTheme.bodyText2!.copyWith(
+                                  style:
+                                      Okito.theme.textTheme.bodyText2!.copyWith(
                                     color: Okito.theme.primaryColor,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -76,7 +77,7 @@ class _BillingMethodsScreenState extends State<BillingMethodsScreen> {
                 ),
               ),
               PayBody(
-                paymentMethods: [],
+                // paymentMethods: [],
                 onItemDeleted: (item) {},
                 onItemSelected: (item) {},
                 onItemAdded: (item) {},

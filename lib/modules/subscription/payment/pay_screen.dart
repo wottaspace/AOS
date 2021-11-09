@@ -87,7 +87,6 @@ class _PayScreenState extends State<PayScreen> {
                               ),
                             ),
                             PayBody(
-                              paymentMethods: controller.getPaymentMethods(),
                               onItemDeleted: () {
                                 setState(() {});
                               },

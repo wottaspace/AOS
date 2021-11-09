@@ -2,6 +2,7 @@ import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/core/models/dispute.dart';
 import 'package:arcopen_enquirer/modules/disputes/dispute_controller.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
+import 'package:arcopen_enquirer/widgets/dialogs/raise_dispute_dialog.dart';
 import 'package:arcopen_enquirer/widgets/misc/dispute_card.dart';
 import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
@@ -57,11 +58,42 @@ class _DisputesScreenState extends State<DisputesScreen> {
                     Expanded(
                       child: Text(
                         "Dispute Resolution",
-                        style: Okito.theme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold),
+                        style: Okito.theme.textTheme.bodyText2!
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(width: 5),
-                    KButton.regular(title: "+ ADD DISPUTE", onTap: () {})
+                    KButton.regular(
+                        title: "+ ADD DISPUTE",
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            useSafeArea: true,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Okito.pop();
+                                      },
+                                      iconSize: 10,
+                                      icon: Icon(PhosphorIcons.x_bold),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "Add dispute",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 14.0),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                content: RaiseDisputeDialog(),
+                              );
+                            },
+                          );
+                        })
                   ],
                 ),
               ),
@@ -79,11 +111,15 @@ class _DisputesScreenState extends State<DisputesScreen> {
                         SectionTitle(title: "OPEN"),
                         SizedBox(height: 10),
                         ListView.builder(
-                          itemCount: _controller.disputes.where((element) => element.active).length,
+                          itemCount: _controller.disputes
+                              .where((element) => element.active)
+                              .length,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            Dispute dispute = _controller.disputes.where((element) => element.active).elementAt(index);
+                            Dispute dispute = _controller.disputes
+                                .where((element) => element.active)
+                                .elementAt(index);
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: DisputeCard(
@@ -100,11 +136,15 @@ class _DisputesScreenState extends State<DisputesScreen> {
                         SectionTitle(title: "RESOLVED DISPUTES"),
                         SizedBox(height: 10),
                         ListView.builder(
-                          itemCount: _controller.disputes.where((element) => !element.active).length,
+                          itemCount: _controller.disputes
+                              .where((element) => !element.active)
+                              .length,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            Dispute dispute = _controller.disputes.where((element) => !element.active).elementAt(index);
+                            Dispute dispute = _controller.disputes
+                                .where((element) => !element.active)
+                                .elementAt(index);
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: DisputeCard(

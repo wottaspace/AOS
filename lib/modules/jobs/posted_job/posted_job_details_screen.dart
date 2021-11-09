@@ -109,10 +109,12 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                           itemBuilder: (context, index) {
                             Applicant applicant = _jobDetailsController.applicants[index];
                             return MemberCard(
+                              voidCallback: () {},
                               username: applicant.applicantName!,
                               score: applicant.rating ?? 0,
                               hideLikeButton: true,
                               applicant: applicant,
+                              jobId: job.jobId,
                               hourlyRate: applicant.hourlyRate ?? "£0",
                               profilePic: applicant.profilePic!,
                             );

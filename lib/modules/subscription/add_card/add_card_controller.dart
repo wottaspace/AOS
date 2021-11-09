@@ -1,7 +1,11 @@
 import 'package:arcopen_enquirer/constants/app_constants.dart';
 import 'package:arcopen_enquirer/core/base_controller.dart';
-import 'package:arcopen_enquirer/core/models/payment_card.dart';
-import 'package:arcopen_enquirer/utils/helpers/k_storage.dart';
+import 'package:arcopen_enquirer/core/models/k_card.dart';
+import 'package:arcopen_enquirer/http/requests/add_card_request.dart';
+import 'package:arcopen_enquirer/modules/partials/pay_body.dart';
+import 'package:arcopen_enquirer/modules/partials/pay_body_controller.dart';
+import 'package:arcopen_enquirer/utils/repositories/subscriptions_repository.dart';
+import 'package:arcopen_enquirer/widgets/dialogs/k_loader.dart';
 import 'package:credit_card_input_form/model/card_info.dart';
 import 'package:okito/okito.dart';
 
@@ -14,29 +18,36 @@ class AddCardController extends BaseController {
     return _singleton;
   }
 
-//  CardInfo? cardInfo;
-
-//   addPaymentMethod() {}
-
-  final AddCardController paymentController = AddCardController();
+  SubscriptionsRepository repository = SubscriptionsRepository();
 
   CardInfo? cardInfo;
+  KCard? kCard;
+  List<KCard> exitingCards = [];
 
-  // Payment methods management
-  List<PaymentCard> getPaymentMethods() {
-    return (KStorage.read<List<dynamic>>(key: AppConstants.paymentMethodsKey) ??
-            [])
-        .cast<Map<String, dynamic>>()
-        .map(
-          (e) => PaymentCard.fromJson(e),
-        )
-        .toList();
+  String retrieveTypeOfCard(String cardNumber) {
+    if (cardNumber.contains(RegExp(r'^4[0-9]{6,}$'))) {
+      return "Visa";
+    } else if (cardNumber.contains(RegExp(
+        r"^5[1-5][0-9]{5,}|222[1-9][0-9]{3,}|22[3-9][0-9]{4,}|2[3-6][0-9]{5,}|27[01][0-9]{4,}|2720[0-9]{3,}$"))) {
+      return "MasterCard";
+    } else if (cardNumber.contains(RegExp(r"^3[47][0-9]{5,}$"))) {
+      return "American Express";
+    } else if (cardNumber.contains(RegExp(r"^6(?:011|5[0-9]{2})[0-9]{3,}$"))) {
+      return "Discover";
+    } else if (cardNumber
+        .contains(RegExp(r"^3(?:0[0-5]|[68][0-9])[0-9]{4,}$"))) {
+      return "Diners Club";
+    } else if (cardNumber
+        .contains(RegExp(r"^(?:2131|1800|35[0-9]{3})[0-9]{3,}$"))) {
+      return "JCB";
+    } else {
+      return "Unkown";
+    }
   }
 
-  void addPaymentMethod() {
+  addPaymentMethod() {
     if (cardInfo != null) {
-      var paymentMethods = this.getPaymentMethods();
-      if (paymentMethods
+      if (exitingCards
           .where((element) => element.cardNumber == cardInfo!.cardNumber)
           .isNotEmpty) {
         this.showErrorToast("You've already added this card.");
@@ -46,35 +57,26 @@ class AddCardController extends BaseController {
         this.showErrorToast("Invalid validity date.");
         return;
       }
-      paymentMethods.add(
-        PaymentCard.fromJson({
-          "cardNumber": cardInfo!.cardNumber,
-          "expirationMonth": cardInfo!.validate!.split("/").first,
-          "expirationYear": cardInfo!.validate!.split("/").last,
-        }),
-      );
-
-      _savePaymentMethods(paymentMethods);
-      paymentController.getPaymentMethods();
-      Okito.pop();
-      this.showSuccessToast("Payment method successfully added.");
+      KLoader().show();
+      repository
+          .addCard(
+              request: AddCardRequest(
+                  cardNumber: cardInfo!.cardNumber!,
+                  nameOnCard: cardInfo!.name!,
+                  expiryDate: cardInfo!.validate!,
+                  cardType: retrieveTypeOfCard(cardInfo!.cardNumber!),
+                  cvv: cardInfo!.cvv!))
+          .then((value) async {
+        KLoader.hide();
+        Okito.pop(result: true);
+        await PayBodyController().getCards();
+        this.showSuccessToast("Payment method successfully added.");
+      }).catchError((e) {
+        KLoader.hide();
+        this.showErrorToast(e.message);
+      });
     } else {
       this.showErrorToast("Please fill all the card info.");
     }
-  }
-
-  void removeCard(PaymentCard e) {
-    var paymentMethods = this.getPaymentMethods();
-    paymentMethods.removeWhere((element) => element.cardNumber == e.cardNumber);
-    _savePaymentMethods(paymentMethods);
-    paymentController.getPaymentMethods();
-    Okito.pop();
-    this.showSuccessToast("Payment method successfully removed.");
-  }
-
-  _savePaymentMethods(List<PaymentCard> paymentMethods) {
-    KStorage.write(
-        key: AppConstants.paymentMethodsKey,
-        value: paymentMethods.map((e) => e.toJson()).toList());
   }
 }

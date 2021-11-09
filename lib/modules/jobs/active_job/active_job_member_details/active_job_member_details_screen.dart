@@ -67,6 +67,7 @@ class _ActiveJobMemberDetailsScreenState
             children: [
               SizedBox(height: 20),
               MemberCard(
+                voidCallback: () {},
                 username: "Harry Sahir",
                 hourlyRate: "14",
                 score: 3.5,

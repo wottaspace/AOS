@@ -1,21 +1,30 @@
+import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/constants/app_constants.dart';
 import 'package:arcopen_enquirer/core/base_controller.dart';
+import 'package:arcopen_enquirer/core/models/k_card.dart';
+import 'package:arcopen_enquirer/http/requests/pay_subscription_request.dart';
 import 'package:arcopen_enquirer/utils/helpers/k_storage.dart';
+import 'package:arcopen_enquirer/utils/mixins/dialog_mixin.dart';
+import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
+import 'package:arcopen_enquirer/utils/repositories/subscriptions_repository.dart';
+import 'package:arcopen_enquirer/widgets/dialogs/k_loader.dart';
 import 'package:okito/okito.dart';
 import 'package:arcopen_enquirer/core/models/payment_card.dart';
 import 'package:arcopen_enquirer/core/models/plan.dart';
 
-class PaymentController extends BaseController {
+class PaymentController extends BaseController with ToastMixin, DialogMixin {
+  SubscriptionsRepository repository = SubscriptionsRepository();
+
   List<PaymentCard> paymentMethods = [];
 
-  PaymentCard? card;
+  KCard? card;
   String? cvv;
   Plan? plan;
   String? billingCycle = "yearly";
 
   final List<String> billingCycles = ["monthly", "yearly"];
 
-  set setSelectedPaymentMethod(PaymentCard card) {
+  set setSelectedPaymentMethod(KCard card) {
     setState(() {
       this.card = card;
     });
@@ -60,5 +69,21 @@ class PaymentController extends BaseController {
       this.showErrorToast("Unknown billing cycle");
       return;
     }
+
+    KLoader().show();
+    repository
+        .cardSubscription(
+            request: PaySubscriptionRequest(
+                card: this.card!,
+                plan: this.plan!,
+                cycle: this.billingCycle!,
+                cvv: this.cvv!))
+        .then((value) {
+      KLoader.hide();
+      Okito.pushNamed(KRoutes.subscriptionSuccessfulUpdate);
+    }).catchError((e) {
+      KLoader.hide();
+      this.showErrorToast(e.message);
+    });
   }
 }

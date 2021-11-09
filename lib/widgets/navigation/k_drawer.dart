@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/modules/jobs/post_job/form_steps/step_five.dart';
 import 'package:arcopen_enquirer/utils/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -14,13 +15,17 @@ class KDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle titleStyle = Okito.theme.textTheme.bodyText2!.copyWith(fontSize: 16.0);
-    ImageProvider profilePicture = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
+    final TextStyle titleStyle =
+        Okito.theme.textTheme.bodyText2!.copyWith(fontSize: 16.0);
+    ImageProvider profilePicture = AssetImage(
+        AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
     final authService = Okito.use<AuthService>();
-    if (authService.profileExists && authService.profile.companyLogo.isNotEmpty) {
-      profilePicture = NetworkImage(AssetHelper.getMemberProfilePic(name: authService.profile.companyLogo));
+    if (authService.profileExists &&
+        authService.profile.companyLogo.isNotEmpty) {
+      profilePicture = NetworkImage(AssetHelper.getMemberProfilePic(
+          name: authService.profile.companyLogo));
     }
-    
+
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,

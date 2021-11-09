@@ -26,7 +26,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
             child: Column(
               children: [
                 PayBody(
-                  paymentMethods: controller.getPaymentMethods(),
+                  // paymentMethods: controller.getPaymentMethods(),
                   onItemDeleted: () {
                     setState(() {});
                   },

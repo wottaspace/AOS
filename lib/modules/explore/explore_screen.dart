@@ -126,6 +126,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   username: member.memberName,
                                   score: member.rating,
                                   profilePic: member.profilePic,
+                                  voidCallback: () {},
                                 );
                               },
                             )
