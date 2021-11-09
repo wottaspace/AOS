@@ -22,10 +22,15 @@ mixin ValidationMixin {
 
   String? validateDate({required String fieldName, required String value}) {
     String validationMessage = "$fieldName is not a valid date";
+    if (DateTime.tryParse(value) == null) return validationMessage;
+    return null;
+  }
 
-    if (DateTime.tryParse(value) == null) {
-      return validationMessage;
-    }
+  String? validateTime({required String fieldName, required String value}) {
+    final String validationMessage = "$fieldName is not a valid time";
+    final RegExp timeRegExp = RegExp(r"[0-9]{2}:[0-9]{2}");
+
+    if (!timeRegExp.hasMatch(value) || value.isEmpty) return validationMessage;
     return null;
   }
 

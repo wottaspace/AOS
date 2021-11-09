@@ -1,18 +1,29 @@
 import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/core/models/applicant.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/finances/detail_item.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
 
 class ConfirmApplicantDialog extends StatefulWidget {
-  const ConfirmApplicantDialog({Key? key}) : super(key: key);
+  const ConfirmApplicantDialog({Key? key, this.applicant}) : super(key: key);
+
+  final Applicant? applicant;
 
   @override
   _ConfirmApplicantDialogState createState() => _ConfirmApplicantDialogState();
 }
 
 class _ConfirmApplicantDialogState extends State<ConfirmApplicantDialog> {
+  Applicant? applicant;
+
+  @override
+  void initState() {
+    super.initState();
+    applicant = widget.applicant;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -23,7 +34,7 @@ class _ConfirmApplicantDialogState extends State<ConfirmApplicantDialog> {
           Align(
             alignment: Alignment.center,
             child: Text(
-              "\$130.99",
+              applicant!.profilePic.toString(),
               style: Okito.theme.textTheme.bodyText2!.copyWith(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,

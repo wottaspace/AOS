@@ -1,4 +1,6 @@
+import 'package:arcopen_enquirer/constants/app_constants.dart';
 import 'package:arcopen_enquirer/core/base_controller.dart';
+import 'package:arcopen_enquirer/utils/helpers/k_storage.dart';
 import 'package:okito/okito.dart';
 import 'package:arcopen_enquirer/core/models/payment_card.dart';
 import 'package:arcopen_enquirer/core/models/plan.dart';
@@ -35,7 +37,15 @@ class PaymentController extends BaseController {
     this.getPaymentMethods();
   }
 
-  getPaymentMethods() {}
+  List<PaymentCard> getPaymentMethods() {
+    return (KStorage.read<List<dynamic>>(key: AppConstants.paymentMethodsKey) ??
+            [])
+        .cast<Map<String, dynamic>>()
+        .map(
+          (e) => PaymentCard.fromJson(e),
+        )
+        .toList();
+  }
 
   void paySubscription() {
     if (this.card == null) {

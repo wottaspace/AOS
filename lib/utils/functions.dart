@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:arcopen_enquirer/config/routes/k_router.dart';
 import 'package:arcopen_enquirer/utils/extensions/build_context.dart';
 
-PreferredSize customAppBar(BuildContext context,
-    {required String title, Widget? trailing}) {
+PreferredSize customAppBar(BuildContext context, {required String title, Widget? trailing}) {
   return PreferredSize(
     preferredSize: Size.fromHeight(90),
     child: Container(
@@ -16,12 +15,13 @@ PreferredSize customAppBar(BuildContext context,
           children: [
             SizedBox(width: 10),
             GestureDetector(
-                onTap: KRouter().pop,
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  size: 20,
-                  color: Colors.black54,
-                )),
+              onTap: KRouter().pop,
+              child: Icon(
+                Icons.arrow_back_ios,
+                size: 20,
+                color: Colors.black54,
+              ),
+            ),
             SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -40,4 +40,10 @@ PreferredSize customAppBar(BuildContext context,
       ),
     ),
   );
+}
+
+String month(int value) {
+  List<String> months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  return months[value - 1];
 }

@@ -13,6 +13,7 @@ class JobCard extends StatelessWidget {
     required this.jobType,
     required this.location,
     required this.applicants,
+    required this.budget,
     this.daysLeftCount,
     this.isCompleted = false,
     this.onTap,
@@ -22,6 +23,7 @@ class JobCard extends StatelessWidget {
   final String jobTitle;
   final String jobType;
   final String location;
+  final String budget;
   final int? daysLeftCount;
   final bool isCompleted;
   final void Function()? onTap;
@@ -76,7 +78,7 @@ class JobCard extends StatelessWidget {
                       children: [
                         RichText(
                           text: TextSpan(
-                            text: "\$15",
+                            text: "$budget",
                             style: Okito.theme.textTheme.bodyText2!.copyWith(
                               fontSize: 12.0,
                               fontWeight: FontWeight.w700,
@@ -85,7 +87,8 @@ class JobCard extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text: "/hr",
-                                style: Okito.theme.textTheme.bodyText2!.copyWith(
+                                style:
+                                    Okito.theme.textTheme.bodyText2!.copyWith(
                                   color: ColorConstants.greyColor,
                                 ),
                               ),
@@ -138,10 +141,11 @@ class JobCard extends StatelessWidget {
                     ]
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(child: _ApplicantsUserProfile(applicants: applicants)),
+                if (applicants.isNotEmpty) ...[
+                  SizedBox(height: 10),
+                  Row(children: [
+                    Expanded(
+                        child: _ApplicantsUserProfile(applicants: applicants)),
                     Expanded(
                       flex: 5,
                       child: Padding(
@@ -154,8 +158,8 @@ class JobCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ]),
+                ]
               ],
             ),
           ),
@@ -165,10 +169,13 @@ class JobCard extends StatelessWidget {
   }
 
   String _computeMembersTitle() {
-    if (applicants.length == 1)
-      return "${applicants.first.applicantName} is working";
-    else
-      return "${applicants.first.applicantName} and ${applicants.length - 1} are working";
+    if (applicants.isNotEmpty) {
+      if (applicants.length == 1)
+        return "${applicants.first.applicantName} is working";
+      else
+        return "${applicants.first.applicantName} and ${applicants.length - 1} are working";
+    }
+    return "";
   }
 }
 
@@ -181,7 +188,8 @@ class _ApplicantsUserProfile extends StatelessWidget {
   final List<Applicant> applicants;
 
   ImageProvider _getMemberPicture(String profilePicture) {
-    ImageProvider pp = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
+    ImageProvider pp = AssetImage(
+        AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
     if (profilePicture.isNotEmpty) {
       pp = NetworkImage(AssetHelper.getMemberProfilePic(name: profilePicture));
     }

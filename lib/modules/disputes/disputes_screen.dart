@@ -1,5 +1,9 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/core/models/dispute.dart';
+import 'package:arcopen_enquirer/modules/disputes/dispute_controller.dart';
+import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/misc/dispute_card.dart';
+import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -13,6 +17,16 @@ class DisputesScreen extends StatefulWidget {
 }
 
 class _DisputesScreenState extends State<DisputesScreen> {
+  DisputeController _controller = DisputeController();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      _controller.loadDispute();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,47 +61,71 @@ class _DisputesScreenState extends State<DisputesScreen> {
                       ),
                     ),
                     SizedBox(width: 5),
+                    KButton.regular(title: "+ ADD DISPUTE", onTap: () {})
                   ],
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 20),
-                  SectionTitle(title: "OPEN"),
-                  SizedBox(height: 10),
-                  DisputeCard(
-                    onTap: () {},
-                    createdAt: DateTime.now(),
-                    description: "Lorem ipsum dolot sit atmet consectur",
-                    isClosed: false,
-                    name: "Punctuality",
+            OkitoBuilder(
+              controller: _controller,
+              builder: () {
+                return PageSkeleton(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 20),
+                        SectionTitle(title: "OPEN"),
+                        SizedBox(height: 10),
+                        ListView.builder(
+                          itemCount: _controller.disputes.where((element) => element.active).length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            Dispute dispute = _controller.disputes.where((element) => element.active).elementAt(index);
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: DisputeCard(
+                                onTap: () {},
+                                createdAt: dispute.createdOn,
+                                description: dispute.description,
+                                isClosed: false,
+                                name: dispute.disputeType,
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        SectionTitle(title: "RESOLVED DISPUTES"),
+                        SizedBox(height: 10),
+                        ListView.builder(
+                          itemCount: _controller.disputes.where((element) => !element.active).length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            Dispute dispute = _controller.disputes.where((element) => !element.active).elementAt(index);
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: DisputeCard(
+                                onTap: () {},
+                                createdAt: dispute.createdOn,
+                                description: dispute.description,
+                                isClosed: false,
+                                name: dispute.disputeType,
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 20),
-                  DisputeCard(
-                    onTap: () {},
-                    createdAt: DateTime.now(),
-                    description: "Lorem ipsum dolot sit atmet consectur",
-                    isClosed: false,
-                    name: "Damage property",
-                  ),
-                  SizedBox(height: 20),
-                  SectionTitle(title: "RESOLVED DISPUTES"),
-                  SizedBox(height: 10),
-                  DisputeCard(
-                    onTap: () {},
-                    createdAt: DateTime.now(),
-                    description: "Lorem ipsum dolot sit atmet consectur",
-                    isClosed: true,
-                    name: "Damage property",
-                  ),
-                  SizedBox(height: 20),
-                ],
-              ),
-            ),
+                  controller: _controller,
+                  retryCallback: _controller.loadDispute,
+                );
+              },
+            )
           ],
         ),
       ),

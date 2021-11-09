@@ -134,7 +134,7 @@ class _DraftJobs extends StatelessWidget {
             return DraftJobCard(
               businessName: job.businessName.isEmpty ? "Not defined" : job.businessName,
               location: job.city.isEmpty ? "Not defined" : job.city,
-              payRate: job.budget.isEmpty ? "Not defined" : job.budget,
+              payRate: (job.budget?.isEmpty ?? true) ? "Not defined" : job.budget!,
               contractType: job.jobType.isEmpty ? "Not defined" : job.jobType,
             );
           },
@@ -169,8 +169,8 @@ class _SavedMembers extends StatelessWidget {
             final SavedMember member = members[index];
             return MemberCard(
               score: member.rating,
+              hourlyRate: "14",
               hidePayRate: true,
-              onTap: () {},
               username: member.memberName,
               profilePic: member.profilePic,
               canDelete: true,

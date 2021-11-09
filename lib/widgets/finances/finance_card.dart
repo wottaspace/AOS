@@ -1,4 +1,5 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/core/models/finance.dart';
 import 'package:arcopen_enquirer/widgets/misc/rating_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
@@ -6,22 +7,12 @@ import 'package:okito/okito.dart';
 class FinanceCard extends StatelessWidget {
   const FinanceCard({
     Key? key,
-    required this.createdAt,
-    required this.company,
-    required this.jobTitle,
+    required this.finance,
     required this.onTap,
-    required this.date,
-    required this.jobType,
-    this.status,
   }) : super(key: key);
 
-  final String company;
-  final String jobTitle;
-  final DateTime createdAt;
+  final Finance finance;
   final VoidCallback onTap;
-  final String? status;
-  final String date;
-  final String jobType;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +42,7 @@ class FinanceCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "$jobType",
+                      finance.jobType,
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 10.0,
                         fontWeight: FontWeight.w600,
@@ -60,7 +51,7 @@ class FinanceCard extends StatelessWidget {
                     ),
                     Spacer(),
                     Text(
-                      "$date",
+                      finance.date,
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 10.0,
                         letterSpacing: 1.3,
@@ -75,7 +66,7 @@ class FinanceCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "$jobTitle",
+                        finance.jobTitle,
                         style: Okito.theme.textTheme.bodyText2!.copyWith(
                           fontSize: 14.0,
                           fontWeight: FontWeight.bold,
@@ -84,7 +75,7 @@ class FinanceCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "\$130.99",
+                      finance.amount,
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 14.0,
                         fontWeight: FontWeight.bold,
@@ -103,7 +94,7 @@ class FinanceCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "$company",
+                            finance.company,
                             style: Okito.theme.textTheme.bodyText2!.copyWith(
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,

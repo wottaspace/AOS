@@ -1,9 +1,13 @@
+import 'package:arcopen_enquirer/core/models/member.dart';
+import 'package:arcopen_enquirer/modules/jobs/post_job/create_job_controller.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:arcopen_enquirer/widgets/misc/invite_member_card.dart';
+import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:okito/okito.dart';
 
-class StepFive extends StatelessWidget {
+class StepFive extends StatefulWidget {
   StepFive({
     Key? key,
     required this.onNextButtonTapped,
@@ -13,7 +17,22 @@ class StepFive extends StatelessWidget {
   final Function onSaveDraftsTapped;
   final Function onNextButtonTapped;
 
+  @override
+  State<StepFive> createState() => _StepFiveState();
+}
+
+class _StepFiveState extends State<StepFive> {
   final TextEditingController searchController = TextEditingController();
+
+  final CreateJobController _controller = CreateJobController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      _controller.loadMembers();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +47,38 @@ class StepFive extends StatelessWidget {
             controller: searchController,
           ),
           SizedBox(height: 20),
-          ListView.builder(
-            itemCount: 4,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return InviteMemberCard(
-                username: "Harry Sahir",
-                score: 3.5,
-                onTap: () {},
-                isInvited: index == 3,
-              );
-            },
-          )
+          OkitoBuilder(
+              controller: _controller,
+              builder: () {
+                print(_controller.members);
+                return PageSkeleton(
+                    child: ListView.builder(
+                      itemCount: _controller.members.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        Member member = _controller.members[index];
+                        return GestureDetector(
+                          child: InviteMemberCard(
+                            username: member.memberName,
+                            score: member.rating,
+                            onTap: () {
+                              setState(() {
+                                _controller.invitedMember.add(member);
+                              });
+                              _controller.inviteFriends(
+                                  jobId: Okito.arguments['jobId'],
+                                  memberId: member.memberId);
+                            },
+                            isInvited:
+                                _controller.invitedMember.contains(member),
+                          ),
+                        );
+                      },
+                    ),
+                    controller: _controller,
+                    retryCallback: () => _controller.loadMembers());
+              })
         ],
       ),
     );

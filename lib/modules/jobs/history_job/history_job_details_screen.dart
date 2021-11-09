@@ -1,4 +1,3 @@
-import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/widgets/misc/member_card.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
@@ -10,7 +9,8 @@ class HistoryJobDetailsScreen extends StatefulWidget {
   const HistoryJobDetailsScreen({Key? key}) : super(key: key);
 
   @override
-  _HistoryJobDetailsScreenState createState() => _HistoryJobDetailsScreenState();
+  _HistoryJobDetailsScreenState createState() =>
+      _HistoryJobDetailsScreenState();
 }
 
 class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
@@ -64,14 +64,12 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return MemberCard(
+                      hourlyRate: "14",
                       username: "Harry Sahir",
                       score: 2.5,
                       profilePic: "", // TODO: fix this
                       timeCompleted: "15 hours",
                       hideLikeButton: true,
-                      onTap: () {
-                        Okito.pushNamed(KRoutes.historyJobMemberDetailsRoute);
-                      },
                     );
                   },
                 ),

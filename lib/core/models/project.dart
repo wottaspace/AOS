@@ -24,7 +24,10 @@ class Project {
   factory Project.fromJson(Map<String, dynamic> json) {
     return Project(
       applicants: json["applicants"],
-      applicantsArray: List<Applicant>.from(json["applicants_array"].map((x) => Applicant.fromJson(x))),
+      applicantsArray: json['applicants'] == 0
+          ? []
+          : List<Applicant>.from(
+              json["applicants_array"]!.map((x) => Applicant.fromJson(x))),
       budget: json["budget"],
       businessName: json["business_name"],
       city: json["city"],
