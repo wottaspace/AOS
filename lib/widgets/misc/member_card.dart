@@ -10,9 +10,10 @@ import 'package:okito/okito.dart';
 class MemberCard extends StatelessWidget {
   const MemberCard(
       {Key? key,
+      this.jobId,
       required this.username,
       this.clickable = true,
-      this.voidCallback,
+      required this.voidCallback,
       required this.score,
       required this.profilePic,
       required this.hourlyRate,
@@ -25,7 +26,8 @@ class MemberCard extends StatelessWidget {
       : super(key: key);
 
   final bool clickable;
-  final VoidCallback? voidCallback;
+  final int? jobId;
+  final Function voidCallback;
   final String username;
   final String profilePic;
   final double score;
@@ -67,7 +69,7 @@ class MemberCard extends StatelessWidget {
             if (clickable) {
               Okito.pushNamed(KRoutes.jobApplicationRoute,
                   arguments: {"applicant": applicant});
-              voidCallback!();
+              voidCallback();
             }
           },
           child: Padding(

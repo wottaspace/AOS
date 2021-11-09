@@ -87,7 +87,7 @@ class _PayScreenState extends State<PayScreen> {
                               ),
                             ),
                             PayBody(
-                              paymentMethods: controller.getPaymentMethods(),
+                              // paymentMethods: controller.getPaymentMethods(),
                               onItemDeleted: () {
                                 setState(() {});
                               },
@@ -98,7 +98,7 @@ class _PayScreenState extends State<PayScreen> {
                                 setState(() {});
                               },
                               onItemSelected: (e) {
-                                controller.setSelectedPaymentMethod = e!;
+                                // controller.setSelectedPaymentMethod = e!;
                               },
                             ),
                           ],

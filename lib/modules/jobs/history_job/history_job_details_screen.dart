@@ -64,6 +64,7 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return MemberCard(
+                      voidCallback: () {},
                       hourlyRate: "14",
                       username: "Harry Sahir",
                       score: 2.5,

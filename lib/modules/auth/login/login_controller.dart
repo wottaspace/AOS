@@ -23,19 +23,28 @@ class LoginController extends BaseController with ValidationMixin, ToastMixin {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final AuthRepository _repository = AuthRepository();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController =
+      TextEditingController(text: "koh.lanta@yopmail.com");
+  final TextEditingController passwordController =
+      TextEditingController(text: "12345678");
 
   void login() {
     if (formKey.currentState!.validate()) {
       KLoader().show();
-      _repository.login(request: LoginRequest(email: emailController.text, password: passwordController.text)).then((value) async {
+      _repository
+          .login(
+              request: LoginRequest(
+                  email: emailController.text,
+                  password: passwordController.text))
+          .then((value) async {
         KLoader.hide();
         if (value.user.userType != "enquirer") {
-          this.showErrorToast("This app is reserved for users with enquirer profile. Please consider using the member application.");
+          this.showErrorToast(
+              "This app is reserved for users with enquirer profile. Please consider using the member application.");
           return;
         }
-        KStorage.write(key: AppConstants.accessTokenKey, value: value.accessToken);
+        KStorage.write(
+            key: AppConstants.accessTokenKey, value: value.accessToken);
 
         Okito.use<AuthService>().profileExists = value.profileExists;
         Okito.use<AuthService>().user = value.user;

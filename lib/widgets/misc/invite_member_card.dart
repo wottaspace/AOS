@@ -11,6 +11,7 @@ class InviteMemberCard extends StatelessWidget {
     required this.username,
     required this.score,
     required this.onTap,
+    this.onInviteTap,
     this.isInvited = false,
   }) : super(key: key);
 
@@ -18,6 +19,7 @@ class InviteMemberCard extends StatelessWidget {
   final double score;
   final Function onTap;
   final bool isInvited;
+  final Function? onInviteTap;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,8 @@ class InviteMemberCard extends StatelessWidget {
                             RichText(
                               text: TextSpan(
                                 text: "\$15",
-                                style: Okito.theme.textTheme.bodyText2!.copyWith(
+                                style:
+                                    Okito.theme.textTheme.bodyText2!.copyWith(
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.w700,
                                   color: Okito.theme.primaryColor,
@@ -73,7 +76,8 @@ class InviteMemberCard extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text: "/hr",
-                                    style: Okito.theme.textTheme.bodyText2!.copyWith(
+                                    style: Okito.theme.textTheme.bodyText2!
+                                        .copyWith(
                                       color: ColorConstants.greyColor,
                                     ),
                                   ),
@@ -111,7 +115,9 @@ class InviteMemberCard extends StatelessWidget {
                           hasShadow: false,
                           color: Okito.theme.primaryColor.withOpacity(0.2),
                           textColor: Okito.theme.primaryColor,
-                          onTap: () {},
+                          onTap: () {
+                            onInviteTap!();
+                          },
                         ),
                 )
               ],

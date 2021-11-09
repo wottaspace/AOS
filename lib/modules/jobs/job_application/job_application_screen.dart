@@ -40,6 +40,7 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
             children: [
               SizedBox(height: 20),
               MemberCard(
+                  voidCallback: () {},
                   hourlyRate: applicant!.hourlyRate ?? "£0",
                   username: applicant!.applicantName!,
                   score: applicant!.rating ?? 0,

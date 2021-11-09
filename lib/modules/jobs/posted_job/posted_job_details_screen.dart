@@ -49,11 +49,11 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
               return PageSkeleton(
                 child: Column(children: [
                   ExpandedAppBar(
-                    company: _jobDetailsController.job!.companyName!,
-                    jobTitle: _jobDetailsController.job!.businessName,
+                    company: _jobDetailsController.job?.companyName ?? "",
+                    jobTitle: _jobDetailsController.job?.businessName ?? "",
                     duration:
-                        "${_jobDetailsController.job!.daysRemaining} Days",
-                    type: _jobDetailsController.job!.jobType,
+                        "${_jobDetailsController.job?.daysRemaining} Days",
+                    type: _jobDetailsController.job?.jobType ?? "",
                     location: job.city,
                   ),
                   SizedBox(height: 20),
@@ -65,7 +65,7 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                         SectionTitle(title: "DESCRIPTION"),
                         SizedBox(height: 10),
                         ReadMoreText(
-                          _jobDetailsController.job!.jobDescription,
+                          _jobDetailsController.job?.jobDescription ?? "",
                           trimLines: 2,
                           colorClickableText: Colors.pink,
                           trimMode: TrimMode.Line,
@@ -77,13 +77,11 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                         SizedBox(height: 20),
                         KTextField.soft(
                             label: "JOB TYPE",
-                            hintText:
-                                _jobDetailsController.job!.jobType.toString()),
+                            hintText: _jobDetailsController.job?.jobType),
                         SizedBox(height: 10),
                         KTextField.soft(
                             label: "BUDGET",
-                            hintText:
-                                _jobDetailsController.job!.budget.toString()),
+                            hintText: _jobDetailsController.job?.budget),
                         SizedBox(height: 10),
                         Row(
                           children: [
@@ -91,16 +89,14 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                               child: KTextField.soft(
                                   label: "START DATE",
                                   hintText: _jobDetailsController
-                                      .job!.shiftStartDate
-                                      .toString()),
+                                      .job?.shiftStartDate),
                             ),
                             SizedBox(width: 10),
                             Expanded(
                               child: KTextField.soft(
                                   label: "END DATE",
-                                  hintText: _jobDetailsController
-                                      .job!.shiftEndDate
-                                      .toString()),
+                                  hintText:
+                                      _jobDetailsController.job?.shiftEndDate),
                             ),
                           ],
                         ),
@@ -111,16 +107,14 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                               child: KTextField.soft(
                                   label: "START TIME",
                                   hintText: _jobDetailsController
-                                      .job!.shiftStartTime
-                                      .toString()),
+                                      .job?.shiftStartTime),
                             ),
                             SizedBox(width: 10),
                             Expanded(
                               child: KTextField.soft(
                                   label: "END TIME",
-                                  hintText: _jobDetailsController
-                                      .job!.shiftEndTime
-                                      .toString()),
+                                  hintText:
+                                      _jobDetailsController.job?.shiftEndTime),
                             ),
                           ],
                         ),
@@ -135,10 +129,12 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                             Applicant applicant =
                                 _jobDetailsController.applicants[index];
                             return MemberCard(
+                              voidCallback: () {},
                               username: applicant.applicantName!,
                               score: applicant.rating ?? 0,
                               hideLikeButton: true,
                               applicant: applicant,
+                              jobId: job.jobId,
                               hourlyRate: applicant.hourlyRate ?? "£0",
                               profilePic: applicant.profilePic!,
                             );

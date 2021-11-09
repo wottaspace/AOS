@@ -27,7 +27,6 @@ class StepFour extends StatefulWidget {
 
 class _StepFourState extends State<StepFour> {
   CreateJobController jobController = CreateJobController();
-  late File file;
 
   @override
   Widget build(BuildContext context) {
@@ -68,20 +67,7 @@ class _StepFourState extends State<StepFour> {
           KButton(
             onPressed: () async {
               if (jobController.contractController.text.isEmpty) {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                    allowCompression: true,
-                    allowedExtensions: ['pdf'],
-                    type: FileType.custom);
-
-                if (result != null) {
-                  file = File(result.files.single.path!);
-
-                  PlatformFile platformFile = result.files.first;
-                  setState(() {
-                    jobController.fileName = platformFile.name;
-                  });
-                  jobController.contract = base64Encode(file.readAsBytesSync());
-                }
+                jobController.pickContract();
               }
             },
             title: "UPLOAD CONTRACT",

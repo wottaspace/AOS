@@ -39,7 +39,8 @@ class KRoutes {
   static final String loginRoute = "/login";
   static final String registerRoute = "/register";
   static final String resetPasswordRoute = "/reset-password-route";
-  static final String resetPasswordSuccessRoute = "/reset-password-success-route";
+  static final String resetPasswordSuccessRoute =
+      "/reset-password-success-route";
   static final String changePasswordRoute = "/change-password";
   static final String userProfileRoute = "/user-profile";
 
@@ -59,54 +60,106 @@ class KRoutes {
   static final String inboxDetailsRoute = "/inbox-details";
 
   static final String activeJobDetailsRoute = "/active-job-details";
-  static final String activeJobMemberDetailsRoute = "/active-job-member-details";
+  static final String activeJobMemberDetailsRoute =
+      "/active-job-member-details";
   static final String postedJobDetailsRoute = "/posted-job-details";
 
   static final String billingMethodsRoute = "/billing-methods";
   static final String paymentSuccessfulRoute = "/payment-successful";
   static final String historyJobDetailsRoute = "/history-job-details";
-  static final String historyJobMemberDetailsRoute = "/history-job-member-details";
+  static final String historyJobMemberDetailsRoute =
+      "/history-job-member-details";
   static final String jobApplicationRoute = "/application-details";
 
   static final String applicantProfileRoute = "/application-profile";
 
   static registerRoutes() {
-    KRouter().registerRoute(route: KRoute(name: KRoutes.splashRoute, page: SplashScreen(), isInitial: true));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.stepperRoute, page: StartScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.splashRoute, page: SplashScreen(), isInitial: true));
+    KRouter().registerRoute(
+        route: KRoute(name: KRoutes.stepperRoute, page: StartScreen()));
 
-    KRouter().registerRoute(route: KRoute(name: KRoutes.registerRoute, page: RegisterScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.loginRoute, page: LoginScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.userProfileRoute, page: ProfileScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.homeRoute, page: HomeScreen()));
+    KRouter().registerRoute(
+        route: KRoute(name: KRoutes.registerRoute, page: RegisterScreen()));
+    KRouter().registerRoute(
+        route: KRoute(name: KRoutes.loginRoute, page: LoginScreen()));
+    KRouter().registerRoute(
+        route: KRoute(name: KRoutes.userProfileRoute, page: ProfileScreen()));
+    KRouter().registerRoute(
+        route: KRoute(name: KRoutes.homeRoute, page: HomeScreen()));
 
-    KRouter().registerRoute(route: KRoute(name: KRoutes.locationFilterRoute, page: LocationFilterScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.filterRoute, page: FilterScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.locationFilterRoute, page: LocationFilterScreen()));
+    KRouter().registerRoute(
+        route: KRoute(name: KRoutes.filterRoute, page: FilterScreen()));
 
-    KRouter().registerRoute(route: KRoute(name: KRoutes.resetPasswordRoute, page: ResetPasswordScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.resetPasswordSuccessRoute, page: ResetPasswordSuccessScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.changePasswordRoute, page: ChangePasswordScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.resetPasswordRoute, page: ResetPasswordScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.resetPasswordSuccessRoute,
+            page: ResetPasswordSuccessScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.changePasswordRoute, page: ChangePasswordScreen()));
 
-    KRouter().registerRoute(route: KRoute(name: KRoutes.settingsRoute, page: SettingsScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.addPaymentMethodRoute, page: AddCardScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.payRoute, page: PayScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.bankDetailsRoute, page: BankDetailsScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.addPaymentMethodRoute, page: AddCardScreen()));
+    KRouter().registerRoute(
+        route: KRoute(name: KRoutes.settingsRoute, page: SettingsScreen()));
+    KRouter().registerRoute(
+        route:
+            KRoute(name: KRoutes.addPaymentMethodRoute, page: AddCardWidget()));
+    KRouter().registerRoute(
+        route: KRoute(name: KRoutes.payRoute, page: PayScreen()));
+    KRouter().registerRoute(
+        route:
+            KRoute(name: KRoutes.bankDetailsRoute, page: BankDetailsScreen()));
 
-    KRouter().registerRoute(route: KRoute(name: KRoutes.choosePlanRoute, page: ChoosePlanScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.upgradePlanRoute, page: UpgradePlanScreen()));
+    KRouter().registerRoute(
+        route: KRoute(name: KRoutes.choosePlanRoute, page: ChoosePlanScreen()));
+    KRouter().registerRoute(
+        route:
+            KRoute(name: KRoutes.upgradePlanRoute, page: UpgradePlanScreen()));
 
-    KRouter().registerRoute(route: KRoute(name: KRoutes.disputesRoute, page: DisputesScreen()));
+    KRouter().registerRoute(
+        route: KRoute(name: KRoutes.disputesRoute, page: DisputesScreen()));
 
-    KRouter().registerRoute(route: KRoute(name: KRoutes.inboxDetailsRoute, page: InboxDetailsScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.activeJobDetailsRoute, page: ActiveJobDetailsScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.activeJobMemberDetailsRoute, page: ActiveJobMemberDetailsScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.postedJobDetailsRoute, page: PostedJobDetailsScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.inboxDetailsRoute, page: InboxDetailsScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.activeJobDetailsRoute,
+            page: ActiveJobDetailsScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.activeJobMemberDetailsRoute,
+            page: ActiveJobMemberDetailsScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.postedJobDetailsRoute,
+            page: PostedJobDetailsScreen()));
 
-    KRouter().registerRoute(route: KRoute(name: KRoutes.billingMethodsRoute, page: BillingMethodsScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.paymentSuccessfulRoute, page: PaymentSuccessfulScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.billingMethodsRoute, page: BillingMethodsScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.paymentSuccessfulRoute,
+            page: PaymentSuccessfulScreen()));
 
-    KRouter().registerRoute(route: KRoute(name: KRoutes.historyJobDetailsRoute, page: HistoryJobDetailsScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.historyJobMemberDetailsRoute, page: HistoryJobMemberDetailsScreen()));
-    KRouter().registerRoute(route: KRoute(name: KRoutes.jobApplicationRoute, page: JobApplicationScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.historyJobDetailsRoute,
+            page: HistoryJobDetailsScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.historyJobMemberDetailsRoute,
+            page: HistoryJobMemberDetailsScreen()));
+    KRouter().registerRoute(
+        route: KRoute(
+            name: KRoutes.jobApplicationRoute, page: JobApplicationScreen()));
   }
 }

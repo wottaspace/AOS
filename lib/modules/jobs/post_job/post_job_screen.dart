@@ -57,8 +57,9 @@ class _PostJobScreenState extends State<PostJobScreen> {
                 },
                 onNext: () {
                   if (_currentIndex == 3) {
-                    jobController.saveJob();
-                    _goTo(++_currentIndex);
+                    jobController.saveJob().then((value) {
+                      _goTo(++_currentIndex);
+                    });
                   } else {
                     _goTo(++_currentIndex);
                   }
@@ -132,6 +133,7 @@ class _PostJobScreenState extends State<PostJobScreen> {
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
+
     setState(() {});
   }
 }
