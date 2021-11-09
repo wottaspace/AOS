@@ -7,8 +7,6 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
 import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
-import 'package:arcopen_enquirer/core/models/payment_card.dart';
-import 'package:arcopen_enquirer/modules/settings/bank_details/bank_details_controller.dart';
 
 class PayBody extends StatefulWidget {
   const PayBody({
@@ -83,14 +81,14 @@ class _PayBodyState extends State<PayBody> {
                               children: [
                                 Row(
                                   children: [
-                                    // SizedBox(
-                                    //   height: 25,
-                                    //   width: 40,
-                                    //   child: Image.asset(
-                                    //     "assets/images/bank/${e.cardType.replaceAll(" ", "-").toLowerCase()}.png",
-                                    //     fit: BoxFit.cover,
-                                    //   ),
-                                    // ),
+                                    SizedBox(
+                                      height: 25,
+                                      width: 40,
+                                      child: Image.asset(
+                                        "assets/images/bank/${e.cardType.replaceAll(" ", "-").toLowerCase()}.png",
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                     SizedBox(width: 20),
                                     Expanded(
                                       child: RadioListTile<KCard>(

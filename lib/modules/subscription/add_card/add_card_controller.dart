@@ -1,8 +1,6 @@
-import 'package:arcopen_enquirer/constants/app_constants.dart';
 import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:arcopen_enquirer/core/models/k_card.dart';
 import 'package:arcopen_enquirer/http/requests/add_card_request.dart';
-import 'package:arcopen_enquirer/modules/partials/pay_body.dart';
 import 'package:arcopen_enquirer/modules/partials/pay_body_controller.dart';
 import 'package:arcopen_enquirer/utils/repositories/subscriptions_repository.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/k_loader.dart';
@@ -25,31 +23,27 @@ class AddCardController extends BaseController {
   List<KCard> exitingCards = [];
 
   String retrieveTypeOfCard(String cardNumber) {
-    if (cardNumber.contains(RegExp(r'^4[0-9]{6,}$'))) {
+    final String formattedCardNumber = cardNumber.replaceAll(" ", "");
+    if (formattedCardNumber.contains(RegExp(r'^4[0-9]{6,}$'))) {
       return "Visa";
-    } else if (cardNumber.contains(RegExp(
-        r"^5[1-5][0-9]{5,}|222[1-9][0-9]{3,}|22[3-9][0-9]{4,}|2[3-6][0-9]{5,}|27[01][0-9]{4,}|2720[0-9]{3,}$"))) {
+    } else if (formattedCardNumber.contains(RegExp(r"^5[1-5][0-9]{5,}|222[1-9][0-9]{3,}|22[3-9][0-9]{4,}|2[3-6][0-9]{5,}|27[01][0-9]{4,}|2720[0-9]{3,}$"))) {
       return "MasterCard";
-    } else if (cardNumber.contains(RegExp(r"^3[47][0-9]{5,}$"))) {
+    } else if (formattedCardNumber.contains(RegExp(r"^3[47][0-9]{5,}$"))) {
       return "American Express";
-    } else if (cardNumber.contains(RegExp(r"^6(?:011|5[0-9]{2})[0-9]{3,}$"))) {
+    } else if (formattedCardNumber.contains(RegExp(r"^6(?:011|5[0-9]{2})[0-9]{3,}$"))) {
       return "Discover";
-    } else if (cardNumber
-        .contains(RegExp(r"^3(?:0[0-5]|[68][0-9])[0-9]{4,}$"))) {
+    } else if (formattedCardNumber.contains(RegExp(r"^3(?:0[0-5]|[68][0-9])[0-9]{4,}$"))) {
       return "Diners Club";
-    } else if (cardNumber
-        .contains(RegExp(r"^(?:2131|1800|35[0-9]{3})[0-9]{3,}$"))) {
+    } else if (formattedCardNumber.contains(RegExp(r"^(?:2131|1800|35[0-9]{3})[0-9]{3,}$"))) {
       return "JCB";
     } else {
-      return "Unkown";
+      return "Unknown";
     }
   }
 
-  addPaymentMethod() {
+  void addPaymentMethod() {
     if (cardInfo != null) {
-      if (exitingCards
-          .where((element) => element.cardNumber == cardInfo!.cardNumber)
-          .isNotEmpty) {
+      if (exitingCards.where((element) => element.cardNumber == cardInfo!.cardNumber).isNotEmpty) {
         this.showErrorToast("You've already added this card.");
         return;
       }
@@ -58,15 +52,7 @@ class AddCardController extends BaseController {
         return;
       }
       KLoader().show();
-      repository
-          .addCard(
-              request: AddCardRequest(
-                  cardNumber: cardInfo!.cardNumber!,
-                  nameOnCard: cardInfo!.name!,
-                  expiryDate: cardInfo!.validate!,
-                  cardType: retrieveTypeOfCard(cardInfo!.cardNumber!),
-                  cvv: cardInfo!.cvv!))
-          .then((value) async {
+      repository.addCard(request: AddCardRequest(cardNumber: cardInfo!.cardNumber!, nameOnCard: cardInfo!.name!, expiryDate: cardInfo!.validate!, cardType: retrieveTypeOfCard(cardInfo!.cardNumber!), cvv: cardInfo!.cvv!)).then((value) async {
         KLoader.hide();
         Okito.pop(result: true);
         await PayBodyController().getCards();

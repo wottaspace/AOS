@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/http/exceptions/request_exception.dart';
 import 'package:arcopen_enquirer/http/requests/add_card_request.dart';
 import 'package:arcopen_enquirer/http/requests/pay_subscription_request.dart';
 import 'package:arcopen_enquirer/http/responses/active_plan_response.dart';
@@ -26,7 +27,7 @@ class SubscriptionsRepository extends BaseRepository {
           await client.get(path: "$basePath/getActivePlan/");
       return ActivePlanResponse.fromJson(response.data);
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 
@@ -37,7 +38,7 @@ class SubscriptionsRepository extends BaseRepository {
           path: "$basePath/cardSubscription/", args: request.toFormData());
       return PaySubscriptionResponse.fromJson(response.data);
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 
@@ -47,7 +48,7 @@ class SubscriptionsRepository extends BaseRepository {
           await client.post(path: "/card/", args: request.toJson());
       return AddCardResponse.fromJson(response.data);
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 
@@ -56,7 +57,7 @@ class SubscriptionsRepository extends BaseRepository {
       final Response response = await client.get(path: "/cards/");
       return CardResponse.fromJson(response.data);
     } on DioError catch (e) {
-      throw new Exception(this.extractErrorMessageFromDioError(e));
+      throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
   }
 }

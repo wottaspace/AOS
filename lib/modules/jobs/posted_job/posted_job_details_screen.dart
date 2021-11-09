@@ -1,5 +1,4 @@
 import 'package:arcopen_enquirer/core/models/applicant.dart';
-import 'package:arcopen_enquirer/core/models/job.dart';
 import 'package:arcopen_enquirer/core/models/project.dart';
 import 'package:arcopen_enquirer/modules/jobs/posted_job/job_details_controller.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
@@ -114,7 +113,7 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                               score: applicant.rating ?? 0,
                               hideLikeButton: true,
                               applicant: applicant,
-                              jobId: job.jobId,
+                              jobId: job!.jobId,
                               hourlyRate: applicant.hourlyRate ?? "£0",
                               profilePic: applicant.profilePic!,
                             );

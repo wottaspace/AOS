@@ -8,22 +8,22 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
 
 class MemberCard extends StatelessWidget {
-  const MemberCard(
-      {Key? key,
-      this.jobId,
-      required this.username,
-      this.clickable = true,
-      required this.voidCallback,
-      required this.score,
-      required this.profilePic,
-      required this.hourlyRate,
-      this.hidePayRate = false,
-      this.hideLikeButton = false,
-      this.canDelete = false,
-      this.timeCompleted,
-      this.applicant,
-      this.deleteCallback})
-      : super(key: key);
+  const MemberCard({
+    Key? key,
+    this.jobId,
+    required this.username,
+    this.clickable = true,
+    required this.voidCallback,
+    required this.score,
+    required this.profilePic,
+    required this.hourlyRate,
+    this.hidePayRate = false,
+    this.hideLikeButton = false,
+    this.canDelete = false,
+    this.timeCompleted,
+    this.applicant,
+    this.deleteCallback,
+  }) : super(key: key);
 
   final bool clickable;
   final int? jobId;
@@ -41,11 +41,9 @@ class MemberCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ImageProvider profilePicture = AssetImage(
-        AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
+    ImageProvider profilePicture = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
     if (profilePic.isNotEmpty) {
-      profilePicture =
-          NetworkImage(AssetHelper.getMemberProfilePic(name: profilePic));
+      profilePicture = NetworkImage(AssetHelper.getMemberProfilePic(name: profilePic));
     }
 
     return Container(
@@ -67,8 +65,7 @@ class MemberCard extends StatelessWidget {
         child: InkWell(
           onTap: () {
             if (clickable) {
-              Okito.pushNamed(KRoutes.jobApplicationRoute,
-                  arguments: {"applicant": applicant});
+              Okito.pushNamed(KRoutes.jobApplicationRoute, arguments: {"applicant": applicant});
               voidCallback();
             }
           },

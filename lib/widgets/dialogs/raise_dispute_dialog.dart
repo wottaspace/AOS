@@ -1,8 +1,6 @@
-import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/core/models/applicant.dart';
 import 'package:arcopen_enquirer/core/models/project.dart';
 import 'package:arcopen_enquirer/modules/disputes/dispute_controller.dart';
-import 'package:arcopen_enquirer/modules/jobs/job_listing/job_listings_controller.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_dropdown_button.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';

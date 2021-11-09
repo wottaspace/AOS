@@ -1,4 +1,3 @@
-import 'package:arcopen_enquirer/core/models/finance.dart';
 import 'package:arcopen_enquirer/core/models/fund_details.dart';
 
 class FundDetailsResponse {

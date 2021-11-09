@@ -1,4 +1,3 @@
-import 'package:arcopen_enquirer/core/models/k_card.dart';
 import 'package:credit_card_input_form/constants/constanst.dart';
 import 'package:credit_card_input_form/credit_card_input_form.dart';
 import 'package:credit_card_input_form/model/card_info.dart';

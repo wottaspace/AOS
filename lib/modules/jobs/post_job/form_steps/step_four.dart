@@ -1,13 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/modules/jobs/post_job/create_job_controller.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
-import 'package:file_picker/file_picker.dart';
 
 class StepFour extends StatefulWidget {
   const StepFour({
@@ -71,9 +67,7 @@ class _StepFourState extends State<StepFour> {
               }
             },
             title: "UPLOAD CONTRACT",
-            color: jobController.contractController.text.isEmpty
-                ? Okito.theme.primaryColor
-                : Colors.grey,
+            color: jobController.contractController.text.isEmpty ? Okito.theme.primaryColor : Colors.grey,
           ),
           Spacer(),
           Row(

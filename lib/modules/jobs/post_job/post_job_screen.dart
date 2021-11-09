@@ -89,32 +89,22 @@ class _PostJobScreenState extends State<PostJobScreen> {
                           if (jobController.jobType == "Contract")
                             _goTo(++_currentIndex);
                           else {
-                            jobController
-                                .saveJob()
-                                .then((value) => _goTo(_currentIndex + 2));
+                            jobController.saveJob().then((value) => _goTo(_currentIndex + 2));
                           }
                         },
-                        onSaveDraftsTapped: () {
-                          // TODO: save draft
-                        },
+                        onSaveDraftsTapped: () {},
                       ),
                       StepFour(
                         onDone: () {
-                          jobController
-                              .saveJob()
-                              .then((value) => _goTo(++_currentIndex));
+                          jobController.saveJob().then((value) => _goTo(++_currentIndex));
                         },
-                        onSaveDraftsTapped: () {
-                          // TODO: save draft
-                        },
+                        onSaveDraftsTapped: () {},
                       ),
                       StepFive(
                         onNextButtonTapped: () {
                           _goTo(++_currentIndex);
                         },
-                        onSaveDraftsTapped: () {
-                          // TODO: save draft
-                        },
+                        onSaveDraftsTapped: () {},
                       ),
                     ],
                   ),
