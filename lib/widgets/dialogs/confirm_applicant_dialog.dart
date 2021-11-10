@@ -18,17 +18,15 @@ class ConfirmApplicantDialog extends StatefulWidget {
 }
 
 class _ConfirmApplicantDialogState extends State<ConfirmApplicantDialog> {
-  Applicant? applicant;
   final JobApplicationController controller = JobApplicationController();
 
   @override
   void initState() {
     super.initState();
-    applicant = widget.applicant;
-    print(applicant!.applicationId!);
-    if (applicant!.applicationId != null) {
+    controller.applicant = widget.applicant;
+    if (controller.applicant!.applicationId != null) {
       WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-        controller.loadFundDetails(applicant!.applicationId!);
+        controller.loadFundDetails(controller.applicant!.applicationId!);
       });
     }
   }
@@ -46,7 +44,7 @@ class _ConfirmApplicantDialogState extends State<ConfirmApplicantDialog> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      applicant!.profilePic.toString(),
+                      controller.applicant!.profilePic.toString(),
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
@@ -123,7 +121,20 @@ class _ConfirmApplicantDialogState extends State<ConfirmApplicantDialog> {
                   AspectRatio(aspectRatio: 10 / 2),
                   KButton(
                     onPressed: () {
-                      Okito.pushNamed(KRoutes.billingMethodsRoute);
+                      Okito.pop();
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12.0),
+                            topRight: Radius.circular(12.0),
+                          ),
+                        ),
+                        builder: (context) {
+                          return _PaymentMethod(controller: controller);
+                        },
+                      );
                     },
                     title: "FUND NOW",
                     expanded: true,
@@ -133,7 +144,70 @@ class _ConfirmApplicantDialogState extends State<ConfirmApplicantDialog> {
               ),
             ),
             controller: controller,
-            retryCallback: () =>
-                controller.loadFundDetails(applicant!.applicationId!)));
+            retryCallback: () => controller
+                .loadFundDetails(controller.applicant!.applicationId!)));
+  }
+}
+
+class _PaymentMethod extends StatefulWidget {
+  _PaymentMethod({Key? key, required this.controller}) : super(key: key);
+  final JobApplicationController controller;
+
+  @override
+  State<_PaymentMethod> createState() => _PaymentMethodState();
+}
+
+class _PaymentMethodState extends State<_PaymentMethod> {
+  final paymentMethods = ["stripe", "card"];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: Text(
+              "Fund job with",
+              style: Okito.theme.textTheme.bodyText2!.copyWith(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Wrap(
+            children: [
+              ...paymentMethods.map<Widget>(
+                (e) {
+                  return RadioListTile<String>(
+                    value: e,
+                    groupValue: widget.controller.paymentMethod,
+                    title: Text(e),
+                    onChanged: (value) {
+                      setState(() {
+                        widget.controller.paymentMethod = value;
+                      });
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: KButton(
+              color: ColorConstants.greenColor,
+              onPressed: () => widget.controller.paymentProceed(),
+              expanded: true,
+              title: "PROCEED",
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

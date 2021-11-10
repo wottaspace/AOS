@@ -36,26 +36,6 @@ class PaymentController extends BaseController with ToastMixin, DialogMixin {
     });
   }
 
-  Future<void> initialize() async {
-    this.plan = Okito.arguments["plan"];
-    if (this.plan == null) {
-      this.showErrorToast("You need to choose a subscription plan first.");
-      await Future.delayed(Duration(seconds: 3));
-      Okito.pop();
-    }
-    this.getPaymentMethods();
-  }
-
-  List<PaymentCard> getPaymentMethods() {
-    return (KStorage.read<List<dynamic>>(key: AppConstants.paymentMethodsKey) ??
-            [])
-        .cast<Map<String, dynamic>>()
-        .map(
-          (e) => PaymentCard.fromJson(e),
-        )
-        .toList();
-  }
-
   void paySubscription() {
     if (this.card == null) {
       this.showErrorToast("You need to choose a payment method first.");

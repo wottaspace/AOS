@@ -23,10 +23,8 @@ class LoginController extends BaseController with ValidationMixin, ToastMixin {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final AuthRepository _repository = AuthRepository();
-  final TextEditingController emailController =
-      TextEditingController(text: "koh.lanta@yopmail.com");
-  final TextEditingController passwordController =
-      TextEditingController(text: "12345678");
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   void login() {
     if (formKey.currentState!.validate()) {

@@ -18,9 +18,6 @@ class _PayScreenState extends State<PayScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      controller.initialize();
-    });
     super.initState();
   }
 

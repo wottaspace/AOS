@@ -284,7 +284,7 @@ class _HistoryJobs extends StatelessWidget {
             location: job.city,
             daysLeftCount: job.daysRemaining,
             isCompleted: true,
-            applicants: job.applicants,
+            applicants: job.applicantsArray,
             onTap: () {
               Okito.pushNamed(KRoutes.historyJobDetailsRoute,
                   arguments: {"job": job});

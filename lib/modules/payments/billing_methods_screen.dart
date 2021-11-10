@@ -1,5 +1,7 @@
 import 'package:arcopen_enquirer/config/routes/k_routes.dart';
+import 'package:arcopen_enquirer/core/models/fund_details.dart';
 import 'package:arcopen_enquirer/modules/partials/pay_body.dart';
+import 'package:arcopen_enquirer/modules/payments/billing_controller.dart';
 import 'package:arcopen_enquirer/utils/navigation/k_app_bar.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,14 @@ class BillingMethodsScreen extends StatefulWidget {
 }
 
 class _BillingMethodsScreenState extends State<BillingMethodsScreen> {
+  BillingController _controller = BillingController();
+  @override
+  void initState() {
+    super.initState();
+    _controller.fundDetails = Okito.arguments["fund_details"];
+    _controller.applicant = Okito.arguments["applicant"];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +61,8 @@ class _BillingMethodsScreenState extends State<BillingMethodsScreen> {
                               style: Okito.theme.textTheme.bodyText2!,
                               children: [
                                 TextSpan(
-                                  text: "\$0.00",
+                                  text: _controller.fundDetails?.totalPay ??
+                                      "£0.0",
                                   style:
                                       Okito.theme.textTheme.bodyText2!.copyWith(
                                     color: Okito.theme.primaryColor,
@@ -64,7 +75,7 @@ class _BillingMethodsScreenState extends State<BillingMethodsScreen> {
                           SizedBox(height: 20),
                           KButton(
                             onPressed: () {
-                              Okito.pushNamed(KRoutes.paymentSuccessfulRoute);
+                              _controller.fundJob();
                             },
                             title: "PAY NOW",
                             expanded: true,
@@ -77,11 +88,14 @@ class _BillingMethodsScreenState extends State<BillingMethodsScreen> {
                 ),
               ),
               PayBody(
-                // paymentMethods: [],
                 onItemDeleted: (item) {},
-                onItemSelected: (item) {},
+                onItemSelected: (item) {
+                  _controller.card = item!;
+                },
                 onItemAdded: (item) {},
-                onCvvChanged: (cvv) {},
+                onCvvChanged: (cvv) {
+                  _controller.cvv = cvv;
+                },
               ),
             ],
           ),
