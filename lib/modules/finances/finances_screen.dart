@@ -244,16 +244,19 @@ class _PaidTransactionsTab extends StatelessWidget {
       itemCount: transactions.length,
       itemBuilder: (context, index) {
         PaidTransaction transaction = transactions[index];
+        final Finance finance = Finance(
+          amount: transaction.amountPaid,
+          company: transaction.memberName,
+          createdAt: transaction.paymentDate,
+          date: transaction.paymentDate,
+          jobTitle: transaction.businessName,
+          jobType: transaction.jobType,
+          profilePicture: transaction.profilePic,
+          paid: true,
+          stars: transaction.stars,
+        );
         return FinanceCard(
-          finance: Finance(
-            amount: transaction.amountPaid,
-            company: transaction.memberName,
-            createdAt: transaction.paymentDate,
-            date: transaction.paymentDate,
-            jobTitle: transaction.businessName,
-            jobType: transaction.jobType,
-            profilePicture: transaction.profilePic,
-          ),
+          finance: finance,
           onTap: () {
             showDialog(
               context: context,
@@ -279,6 +282,8 @@ class _PaidTransactionsTab extends StatelessWidget {
                   ),
                   content: InvoiceDetailsDialog(
                     isPaid: true,
+                    finance: finance,
+                    transactionId: transaction.transactionId,
                   ),
                 );
               },
@@ -307,16 +312,20 @@ class _UnPaidTransactionsTab extends StatelessWidget {
       itemCount: transactions.length,
       itemBuilder: (context, index) {
         UnpaidTransaction transaction = transactions[index];
+        final Finance finance = Finance(
+          paid: false,
+          stars: transaction.stars,
+          amount: transaction.amountPaid,
+          company: transaction.memberName,
+          createdAt: "",
+          date: "",
+          jobTitle: transaction.businessName,
+          jobType: transaction.jobType,
+          profilePicture: transaction.profilePic,
+        );
+
         return FinanceCard(
-          finance: Finance(
-            amount: transaction.amountPaid,
-            company: transaction.memberName,
-            createdAt: "",
-            date: "",
-            jobTitle: transaction.businessName,
-            jobType: transaction.jobType,
-            profilePicture: transaction.profilePic,
-          ),
+          finance: finance,
           onTap: () {
             showDialog(
               context: context,
@@ -342,6 +351,8 @@ class _UnPaidTransactionsTab extends StatelessWidget {
                   ),
                   content: InvoiceDetailsDialog(
                     isPaid: false,
+                    finance: finance,
+                    transactionId: transaction.transactionId,
                   ),
                 );
               },

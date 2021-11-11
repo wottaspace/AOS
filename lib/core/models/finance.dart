@@ -7,6 +7,8 @@ class Finance {
     required this.date,
     required this.jobType,
     required this.profilePicture,
+    required this.paid,
+    required this.stars,
   });
 
   final String? company;
@@ -16,6 +18,8 @@ class Finance {
   final String date;
   final String jobType;
   final String profilePicture;
+  final bool paid;
+  final double stars;
 
   factory Finance.fromJson(Map<String, dynamic> json) {
     return Finance(
@@ -26,6 +30,8 @@ class Finance {
       amount: json['amount'],
       date: json['date'],
       profilePicture: json['profile_pic'],
+      paid: json["paid"],
+      stars: json["stars"],
     );
   }
 }

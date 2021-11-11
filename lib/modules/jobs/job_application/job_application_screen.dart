@@ -39,14 +39,7 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
           child: Column(
             children: [
               SizedBox(height: 20),
-              MemberCard(
-                  voidCallback: () {},
-                  hourlyRate: applicant!.hourlyRate ?? "£0",
-                  username: applicant!.applicantName!,
-                  score: applicant!.rating ?? 0,
-                  profilePic: applicant!.profilePic!,
-                  hideLikeButton: true,
-                  clickable: false),
+              MemberCard(voidCallback: () {}, hourlyRate: applicant!.hourlyRate ?? "£0", username: applicant!.applicantName!, score: applicant!.rating ?? 0, profilePic: applicant!.profilePic!, hideLikeButton: true, clickable: false),
               SizedBox(height: 20),
               Row(
                 children: [
@@ -79,12 +72,11 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
                     return AlertDialog(
                       title: Row(
                         children: [
-                          IconButton(
-                            onPressed: () {
+                          InkWell(
+                            onTap: () {
                               Okito.pop();
                             },
-                            iconSize: 10,
-                            icon: Icon(PhosphorIcons.x_bold),
+                            child: Icon(PhosphorIcons.x_bold, size: 15),
                           ),
                           Expanded(
                             child: Text(
@@ -117,8 +109,7 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
                 SizedBox(width: 10),
                 Expanded(
                   child: KButton.outlined(
-                    onPressed: () => _applicationController
-                        .rejectApplication(applicant!.memberId!),
+                    onPressed: () => _applicationController.rejectApplication(applicant!.memberId!),
                     title: "DECLINE",
                     color: ColorConstants.red,
                   ),

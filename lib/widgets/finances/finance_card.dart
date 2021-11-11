@@ -111,7 +111,7 @@ class FinanceCard extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 5),
-                          const RatingStars(score: 4.5),
+                          RatingStars(score: finance.stars),
                         ],
                       ),
                     ),

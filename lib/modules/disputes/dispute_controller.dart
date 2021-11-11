@@ -87,11 +87,11 @@ class DisputeController extends BaseController with ToastMixin, DialogMixin {
       setState(() {
         state = LoadingState.loading;
       });
-      await repository.getPostedJobs().then((value) {
+      await repository.getPastJobs().then((value) {
         setState(() {
           state = LoadingState.success;
         });
-        jobs = value.postedProjects;
+        jobs = value.pastProjects;
       });
     } catch (e) {
       setState(() {

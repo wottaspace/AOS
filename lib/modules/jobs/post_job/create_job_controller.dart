@@ -114,7 +114,6 @@ class CreateJobController extends BaseController with DialogMixin {
 
     _repository.createJob(request: _createJobRequest).then((value) {
       KLoader.hide();
-      print(value.jobDetails);
       Okito.arguments["jobId"] = value.jobDetails.id;
       this.showSuccessToast("Job created successfully!");
       // Okito.pop(result: true);

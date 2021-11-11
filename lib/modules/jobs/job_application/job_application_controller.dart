@@ -27,8 +27,7 @@ class JobApplicationController extends BaseController {
     });
   }
 
-  loadFundDetails(int id) {
-    print(id);
+  void loadFundDetails(int id) {
     setState(() {
       state = LoadingState.loading;
     });
@@ -46,7 +45,7 @@ class JobApplicationController extends BaseController {
     });
   }
 
-  paymentProceed() async {
+  Future<void> paymentProceed(int applicationId) async {
     if (paymentMethod == null) {
       this.showErrorToast("Please select a payment method first.");
       return;
@@ -54,7 +53,7 @@ class JobApplicationController extends BaseController {
 
     if (paymentMethod == "stripe") {
       KLoader().show();
-      await billingRepository.stripePayment(23).then((value) {
+      await billingRepository.stripePayment(applicationId).then((value) {
         KLoader.hide();
         Okito.pop();
         _launchURL(value.url);

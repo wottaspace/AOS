@@ -7,8 +7,7 @@ import 'package:dio/dio.dart';
 class BillingRepository extends BaseRepository {
   Future<StripeResponse> stripePayment(int id) async {
     try {
-      final Response response =
-          await client.get(path: "/jobs/api/fundDetailsSession/$id/");
+      final Response response = await client.get(path: "/jobs/api/fundDetailsSession/$id/");
       return StripeResponse.fromJson(response.data);
     } on DioError catch (e) {
       throw new RequestException(this.extractErrorMessageFromDioError(e));
@@ -17,8 +16,7 @@ class BillingRepository extends BaseRepository {
 
   Future<void> cardPayment({required BillingRequest request}) async {
     try {
-      await client.post(
-          path: "/jobs/api/cardJobFunding/", args: request.toJson());
+      await client.post(path: "/jobs/api/cardJobFunding/", args: request.toJson());
     } on DioError catch (e) {
       throw new RequestException(this.extractErrorMessageFromDioError(e));
     }

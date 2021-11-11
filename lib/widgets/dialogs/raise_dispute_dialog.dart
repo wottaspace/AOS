@@ -10,8 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
 
 class RaiseDisputeDialog extends StatefulWidget {
-  const RaiseDisputeDialog({Key? key, this.applicant, this.job})
-      : super(key: key);
+  const RaiseDisputeDialog({Key? key, this.applicant, this.job}) : super(key: key);
 
   final Applicant? applicant;
   final Job? job;
@@ -22,7 +21,7 @@ class RaiseDisputeDialog extends StatefulWidget {
 
 class _RaiseDisputeDialogState extends State<RaiseDisputeDialog> {
   DisputeController controller = DisputeController();
-  late bool condition;
+
   Job? _job;
   Applicant? _applicant;
 
@@ -32,40 +31,33 @@ class _RaiseDisputeDialogState extends State<RaiseDisputeDialog> {
     _job = widget.job;
     _applicant = widget.applicant;
 
-    condition = _job == null;
-
-    if (condition) {
+    if (_job == null) {
       WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
         controller.loadJobs();
       });
     } else {
       controller.newApplicant = _applicant;
-      controller.newJob = Project(
-          applicants: {},
-          applicantsArray: [],
-          budget: "",
-          businessName: "",
-          city: "",
-          companyName: "",
-          daysRemaining: 0,
-          jobId: "${_job!.jobId}".toInt());
+      controller.newJob = Project(applicants: {}, applicantsArray: [], budget: "", businessName: "", city: "", companyName: "", daysRemaining: 0, jobId: "${_job!.jobId}".toInt());
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Form(
-        key: controller.formKey,
+      key: controller.formKey,
+      child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (condition) ...[
-              _DisputeContent(controller: controller)
+            if (_job == null) ...[
+              _DisputeContent(controller: controller),
             ] else ...[
               _DisputeContentJob(controller: controller)
             ]
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
 
@@ -102,8 +94,7 @@ class _DisputeContentState extends State<_DisputeContent> {
                                   });
                                 },
                                 items: widget.controller.jobs.map((e) {
-                                  return DropdownMenuItem<Project>(
-                                      value: e, child: Text(e.businessName));
+                                  return DropdownMenuItem<Project>(value: e, child: Text(e.businessName));
                                 }).toList(),
                               ),
                             ),
@@ -118,12 +109,8 @@ class _DisputeContentState extends State<_DisputeContent> {
                                       widget.controller.newApplicant = value;
                                     });
                                   },
-                                  items: widget
-                                      .controller.newJob!.applicantsArray
-                                      .map((e) {
-                                    return DropdownMenuItem<Applicant>(
-                                        value: e,
-                                        child: Text(e.applicantName!));
+                                  items: widget.controller.newJob!.applicantsArray.map((e) {
+                                    return DropdownMenuItem<Applicant>(value: e, child: Text(e.applicantName!));
                                   }).toList(),
                                 ),
                               ),
@@ -134,23 +121,20 @@ class _DisputeContentState extends State<_DisputeContent> {
                         Row(
                           children: [
                             Expanded(
-                                child: KTextField.soft(
-                                    label: "TYPE",
-                                    validator: (value) {
-                                      return widget.controller.validateRequired(
-                                          value: widget
-                                              .controller.disputeType.text,
-                                          fieldName: "type");
-                                    },
-                                    controller: widget.controller.disputeType)),
+                              child: KTextField.soft(
+                                label: "TYPE",
+                                validator: (value) {
+                                  return widget.controller.validateRequired(value: widget.controller.disputeType.text, fieldName: "type");
+                                },
+                                controller: widget.controller.disputeType,
+                              ),
+                            ),
                             SizedBox(width: 10),
                             Expanded(
                               child: KTextField.soft(
                                 label: "AMOUNT",
                                 validator: (value) {
-                                  return widget.controller.validateRequired(
-                                      fieldName: "amount",
-                                      value: widget.controller.amount.text);
+                                  return widget.controller.validateRequired(fieldName: "amount", value: widget.controller.amount.text);
                                 },
                                 controller: widget.controller.amount,
                               ),
@@ -162,9 +146,7 @@ class _DisputeContentState extends State<_DisputeContent> {
                           label: "DESCRIPTION",
                           controller: widget.controller.description,
                           validator: (value) {
-                            return widget.controller.validateRequired(
-                                fieldName: "description",
-                                value: widget.controller.description.text);
+                            return widget.controller.validateRequired(fieldName: "description", value: widget.controller.description.text);
                           },
                           minLines: 4,
                           maxLines: 4,
@@ -186,8 +168,7 @@ class _DisputeContentState extends State<_DisputeContent> {
 }
 
 class _DisputeContentJob extends StatefulWidget {
-  const _DisputeContentJob({Key? key, required this.controller})
-      : super(key: key);
+  const _DisputeContentJob({Key? key, required this.controller}) : super(key: key);
 
   final DisputeController controller;
 
@@ -209,9 +190,7 @@ class _DisputeContentStateJob extends State<_DisputeContentJob> {
                     child: KTextField.soft(
                         label: "TYPE",
                         validator: (value) {
-                          return widget.controller.validateRequired(
-                              value: widget.controller.disputeType.text,
-                              fieldName: "type");
+                          return widget.controller.validateRequired(value: widget.controller.disputeType.text, fieldName: "type");
                         },
                         controller: widget.controller.disputeType)),
                 SizedBox(width: 10),
@@ -219,9 +198,7 @@ class _DisputeContentStateJob extends State<_DisputeContentJob> {
                   child: KTextField.soft(
                     label: "AMOUNT",
                     validator: (value) {
-                      return widget.controller.validateRequired(
-                          fieldName: "amount",
-                          value: widget.controller.amount.text);
+                      return widget.controller.validateRequired(fieldName: "amount", value: widget.controller.amount.text);
                     },
                     controller: widget.controller.amount,
                   ),
@@ -233,9 +210,7 @@ class _DisputeContentStateJob extends State<_DisputeContentJob> {
               label: "DESCRIPTION",
               controller: widget.controller.description,
               validator: (value) {
-                return widget.controller.validateRequired(
-                    fieldName: "description",
-                    value: widget.controller.description.text);
+                return widget.controller.validateRequired(fieldName: "description", value: widget.controller.description.text);
               },
               minLines: 4,
               maxLines: 4,

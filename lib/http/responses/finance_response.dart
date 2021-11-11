@@ -56,7 +56,7 @@ class PaidTransaction {
   String paymentDate;
   String paymentStatus;
   String profilePic;
-  int stars;
+  double stars;
   int transactionId;
 
   factory PaidTransaction.fromJson(Map<String, dynamic> json) => PaidTransaction(
@@ -70,7 +70,7 @@ class PaidTransaction {
         paymentDate: json["payment_date"],
         paymentStatus: json["payment_status"],
         profilePic: json["profile_pic"],
-        stars: json["stars"],
+        stars: double.parse(json["stars"].toString()),
         transactionId: json["transaction_id"],
       );
 
@@ -114,7 +114,7 @@ class UnpaidTransaction {
   String month;
   String paymentStatus;
   String profilePic;
-  String stars;
+  double stars;
   int transactionId;
 
   factory UnpaidTransaction.fromJson(Map<String, dynamic> json) => UnpaidTransaction(
@@ -127,7 +127,7 @@ class UnpaidTransaction {
         month: json["month"],
         paymentStatus: json["payment_status"],
         profilePic: json["profile_pic"],
-        stars: json["stars"],
+        stars: double.parse(json["stars"].toString()),
         transactionId: json["transaction_id"],
       );
 
