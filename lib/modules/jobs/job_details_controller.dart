@@ -5,16 +5,17 @@ import 'package:arcopen_enquirer/utils/helpers/loading_state.dart';
 import 'package:arcopen_enquirer/utils/mixins/dialog_mixin.dart';
 import 'package:arcopen_enquirer/utils/repositories/jobs_repository.dart';
 
-class PostedJobDetailsController extends BaseController with DialogMixin {
-  PostedJobDetailsController._internal();
-  static final PostedJobDetailsController _singleton = PostedJobDetailsController._internal();
+class JobDetailsController extends BaseController with DialogMixin {
+  JobDetailsController._internal();
+  static final JobDetailsController _singleton =
+      JobDetailsController._internal();
 
   final JobsRepository _repository = JobsRepository();
 
   List<Applicant> applicants = [];
   Job? job;
 
-  factory PostedJobDetailsController() {
+  factory JobDetailsController() {
     return _singleton;
   }
 

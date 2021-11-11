@@ -47,3 +47,15 @@ String month(int value) {
 
   return months[value - 1];
 }
+
+String getTotalHours(String endTime, String startTime) {
+  int diffNotTreated = int.parse(endTime.split(" ").first.split(":").join("")) - int.parse(startTime.split(" ").first.split(":").join(""));
+
+  if (diffNotTreated < 100) {
+    return (diffNotTreated / 60).toStringAsPrecision(1);
+  } else if (diffNotTreated < 1000) {
+    return (double.parse((diffNotTreated / 60).toString()) + 60 * int.parse(diffNotTreated.toString().split("").first)).toStringAsPrecision(4);
+  } else {
+    return (double.parse((diffNotTreated / 60).toString()) + 60 * int.parse((diffNotTreated.toString().split("")[0] + diffNotTreated.toString().split("")[1]))).toStringAsPrecision(4);
+  }
+}

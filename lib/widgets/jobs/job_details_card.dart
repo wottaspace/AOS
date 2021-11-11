@@ -10,7 +10,15 @@ import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
 import 'package:okito/okito.dart';
 
 class JobDetailsCard extends StatefulWidget {
-  const JobDetailsCard({Key? key, required this.username, required this.startTime, required this.endTime, required this.totalHours, required this.date, required this.onTrailingPressed}) : super(key: key);
+  const JobDetailsCard(
+      {Key? key,
+      required this.username,
+      required this.startTime,
+      required this.endTime,
+      required this.totalHours,
+      required this.date,
+      required this.onTrailingPressed})
+      : super(key: key);
 
   final String username;
   final String startTime;
@@ -56,7 +64,8 @@ class _JobDetailsCardState extends State<JobDetailsCard> {
                     Positioned(
                       right: 0,
                       bottom: 2.5,
-                      child: Circle(color: ColorConstants.greenColor, diameter: 10),
+                      child: Circle(
+                          color: ColorConstants.greenColor, diameter: 10),
                     ),
                   ],
                 ),
@@ -81,7 +90,8 @@ class _JobDetailsCardState extends State<JobDetailsCard> {
                         ),
                         children: [
                           TextSpan(
-                            text: "08:00 AM",
+                            text:
+                                "${DateTime.now().hour}:${DateTime.now().minute}",
                             style: Okito.theme.textTheme.bodyText2!.copyWith(
                               color: ColorConstants.greyColor,
                               fontWeight: FontWeight.w700,
@@ -148,7 +158,7 @@ class _JobDetailsCardState extends State<JobDetailsCard> {
           ),
           SizedBox(height: 10),
           RatingBar(
-            rating: 3,
+            rating: 3.5,
             icon: Icon(
               PhosphorIcons.star_fill,
               size: 25,
@@ -157,7 +167,6 @@ class _JobDetailsCardState extends State<JobDetailsCard> {
             starCount: 5,
             spacing: 5.0,
             size: 25,
-            isIndicator: false,
             allowHalfRating: true,
             color: Colors.amber,
             onRatingCallback: (value, isIndicator) {},

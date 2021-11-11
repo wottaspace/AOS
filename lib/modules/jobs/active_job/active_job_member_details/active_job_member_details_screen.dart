@@ -1,4 +1,7 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
+import 'package:arcopen_enquirer/core/models/applicant.dart';
+import 'package:arcopen_enquirer/core/models/job.dart';
+import 'package:arcopen_enquirer/utils/functions.dart';
 import 'package:arcopen_enquirer/utils/navigation/k_app_bar.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/raise_dispute_dialog.dart';
 import 'package:arcopen_enquirer/widgets/misc/active_ts_item.dart';
@@ -18,12 +21,22 @@ class ActiveJobMemberDetailsScreen extends StatefulWidget {
 
 class _ActiveJobMemberDetailsScreenState
     extends State<ActiveJobMemberDetailsScreen> {
+  Applicant? applicant;
+  Job? job;
+
+  @override
+  void initState() {
+    super.initState();
+    applicant = Okito.arguments['applicant'];
+    job = Okito.arguments['job'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstants.lightBlue,
       appBar: KAppBar(
-        title: "Talwar's Residency",
+        title: job!.businessName,
         menuItems: [
           NavbarMenuItem(
             name: "Raise Dispute",
@@ -50,7 +63,10 @@ class _ActiveJobMemberDetailsScreenState
                         ),
                       ],
                     ),
-                    content: RaiseDisputeDialog(),
+                    content: RaiseDisputeDialog(
+                      job: job,
+                      applicant: applicant,
+                    ),
                   );
                 },
               );
@@ -68,9 +84,10 @@ class _ActiveJobMemberDetailsScreenState
               SizedBox(height: 20),
               MemberCard(
                 voidCallback: () {},
-                username: "Harry Sahir",
-                hourlyRate: "14",
-                score: 3.5,
+                clickable: false,
+                username: applicant!.applicantName!,
+                hourlyRate: applicant!.hourlyRate!,
+                score: applicant!.rating!,
                 profilePic: "", // TODO: fix this
                 hideLikeButton: true,
               ),
@@ -101,7 +118,7 @@ class _ActiveJobMemberDetailsScreenState
                             hasBoldTitle: true,
                           ),
                           SizedBox(height: 5),
-                          ActiveTSItem(title: "22 PM")
+                          ActiveTSItem(title: job!.shiftStartTime)
                         ],
                       ),
                       Column(
@@ -111,7 +128,7 @@ class _ActiveJobMemberDetailsScreenState
                             hasBoldTitle: true,
                           ),
                           SizedBox(height: 5),
-                          ActiveTSItem(title: "9 AM")
+                          ActiveTSItem(title: job!.shiftEndTime)
                         ],
                       ),
                       Column(
@@ -121,7 +138,10 @@ class _ActiveJobMemberDetailsScreenState
                             hasBoldTitle: true,
                           ),
                           SizedBox(height: 5),
-                          ActiveTSItem(title: "10 hrs")
+                          ActiveTSItem(
+                            title: getTotalHours(
+                                job!.shiftEndTime, job!.shiftStartTime),
+                          )
                         ],
                       ),
                       Column(
@@ -131,7 +151,7 @@ class _ActiveJobMemberDetailsScreenState
                             hasBoldTitle: true,
                           ),
                           SizedBox(height: 5),
-                          ActiveTSItem(title: "9 hrs")
+                          ActiveTSItem(title: "0 hrs")
                         ],
                       ),
                     ],
