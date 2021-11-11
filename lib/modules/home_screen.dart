@@ -13,7 +13,6 @@ import 'package:arcopen_enquirer/config/routes/k_router.dart';
 import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/utils/helpers/asset_helper.dart';
-import 'package:arcopen_enquirer/widgets/dialogs/notifications_dialog.dart';
 import 'package:arcopen_enquirer/widgets/navigation/k_bottom_navbar.dart';
 import 'package:arcopen_enquirer/widgets/navigation/k_bottom_navbar_item.dart';
 import 'package:arcopen_enquirer/widgets/navigation/k_drawer.dart';

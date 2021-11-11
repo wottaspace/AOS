@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 class MembersRepository extends BaseRepository {
   Future<ExploreMembersResponse> exploreMembers() async {
     try {
-      Response response = await client.get(path: "/exploreMembers/");
+      Response response = await client.get(path: "/exploreMembers");
       return ExploreMembersResponse.fromJson(response.data);
     } on DioError catch (e) {
       throw new RequestException(this.extractErrorMessageFromDioError(e));

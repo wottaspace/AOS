@@ -74,14 +74,14 @@ class _InvoiceDetailsDialogState extends State<InvoiceDetailsDialog> {
           boldValue: true,
         ),
         SizedBox(height: 20),
-        if (!widget.isPaid)
-          KButton(
-            expanded: true,
-            onPressed: () {},
-            title: "PAY NOW",
-            color: ColorConstants.greenColor,
-          ),
-        SizedBox(height: 10),
+        // if (!widget.isPaid)
+        //   KButton(
+        //     expanded: true,
+        //     onPressed: () {},
+        //     title: "PAY NOW",
+        //     color: ColorConstants.greenColor,
+        //   ),
+        // SizedBox(height: 10),
         if (widget.isPaid)
           KButton(
             expanded: true,
