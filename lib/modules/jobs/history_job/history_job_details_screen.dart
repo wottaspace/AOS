@@ -15,8 +15,7 @@ class HistoryJobDetailsScreen extends StatefulWidget {
   const HistoryJobDetailsScreen({Key? key}) : super(key: key);
 
   @override
-  _HistoryJobDetailsScreenState createState() =>
-      _HistoryJobDetailsScreenState();
+  _HistoryJobDetailsScreenState createState() => _HistoryJobDetailsScreenState();
 }
 
 class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
@@ -51,12 +50,9 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ExpandedAppBar(
-                      company: _jobDetailsController.job?.companyName ??
-                          "Loading...",
-                      jobTitle: _jobDetailsController.job?.businessName ??
-                          "Loading...",
-                      duration:
-                          "${_jobDetailsController.job?.daysRemaining ?? 0} Days",
+                      company: _jobDetailsController.job?.companyName ?? "Loading...",
+                      jobTitle: _jobDetailsController.job?.businessName ?? "Loading...",
+                      duration: "${_jobDetailsController.job?.daysRemaining ?? 0} Days",
                       type: _jobDetailsController.job?.jobType ?? "Loading...",
                     ),
                     SizedBox(height: 20),
@@ -66,14 +62,14 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                         children: [
                           _TotalHoursCard(
                             totalHours: getTotalHours(
-                                _jobDetailsController.job?.shiftEndTime ??
-                                    "00:00",
-                                _jobDetailsController.job?.shiftStartTime ??
-                                    "00:00"),
+                              _jobDetailsController.job?.shiftEndTime ?? "00:00",
+                              _jobDetailsController.job?.shiftStartTime ?? "00:00",
+                            ),
                           ),
                           SizedBox(width: 10),
                           _TotalAmountCard(
-                              amount: _jobDetailsController.job?.budget ?? ""),
+                            amount: _jobDetailsController.job?.budget ?? "0",
+                          ),
                         ],
                       ),
                     ),
@@ -86,15 +82,13 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                           SectionTitle(title: "DESCRIPTION"),
                           SizedBox(height: 10),
                           ReadMoreText(
-                            _jobDetailsController.job?.jobDescription ??
-                                "Loading...",
+                            _jobDetailsController.job?.jobDescription ?? "Loading...",
                             trimLines: 2,
                             colorClickableText: Colors.pink,
                             trimMode: TrimMode.Line,
                             trimCollapsedText: 'Show more',
                             trimExpandedText: 'Show less',
-                            moreStyle: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
+                            moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 20),
                           SectionTitle(title: "HIRED MEMBERS"),
@@ -109,8 +103,7 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                         itemCount: _jobDetailsController.applicants.length,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          Applicant applicant =
-                              _jobDetailsController.applicants[index];
+                          Applicant applicant = _jobDetailsController.applicants[index];
                           return MemberCard(
                             voidCallback: () {},
                             username: applicant.applicantName!,
@@ -127,8 +120,7 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                   ],
                 ),
                 controller: _jobDetailsController,
-                retryCallback: () =>
-                    _jobDetailsController.loadJobDetails(jobId: job!.jobId),
+                retryCallback: () => _jobDetailsController.loadJobDetails(jobId: job!.jobId),
               );
             },
           ),
@@ -211,7 +203,7 @@ class _TotalAmountCard extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                "$amount",
+                "${amount.isEmpty ? '0' : amount}",
                 style: Okito.theme.textTheme.bodyText2!.copyWith(
                   fontWeight: FontWeight.bold,
                   fontSize: 28.0,

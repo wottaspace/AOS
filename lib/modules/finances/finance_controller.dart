@@ -1,5 +1,5 @@
 import 'package:arcopen_enquirer/core/base_controller.dart';
-import 'package:arcopen_enquirer/core/models/finance.dart';
+import 'package:arcopen_enquirer/http/responses/finance_response.dart';
 import 'package:arcopen_enquirer/utils/helpers/loading_state.dart';
 import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 import 'package:arcopen_enquirer/utils/repositories/finance_repository.dart';
@@ -7,10 +7,10 @@ import 'package:arcopen_enquirer/utils/repositories/finance_repository.dart';
 class FinanceController extends BaseController with ToastMixin {
   final FinanceRepository repository = FinanceRepository();
   String funded = "£0";
-  List<Finance> paidTransactions = [];
+  List<PaidTransaction> paidTransactions = [];
   String totalJobs = "";
   String totalPaid = "£0";
-  List<Finance> unpaidTransactions = [];
+  List<UnpaidTransaction> unpaidTransactions = [];
 
   void loadFinanceDetails() {
     setState(() {

@@ -1,5 +1,6 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/core/models/finance.dart';
+import 'package:arcopen_enquirer/utils/helpers/asset_helper.dart';
 import 'package:arcopen_enquirer/widgets/misc/rating_stars.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
@@ -16,6 +17,12 @@ class FinanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider userProfilePicture;
+    if (finance.profilePicture.isNotEmpty) {
+      userProfilePicture = NetworkImage(AssetHelper.getMemberProfilePic(name: finance.profilePicture));
+    } else {
+      userProfilePicture = AssetImage(AssetHelper.getAsset(name: "avatar.png"));
+    }
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
@@ -49,7 +56,7 @@ class FinanceCard extends StatelessWidget {
                         color: ColorConstants.greyColor,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       finance.date,
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
@@ -61,7 +68,7 @@ class FinanceCard extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Row(
                   children: [
                     Expanded(
@@ -87,14 +94,16 @@ class FinanceCard extends StatelessWidget {
                 SizedBox(height: 10),
                 Row(
                   children: [
-                    CircleAvatar(),
+                    CircleAvatar(
+                      backgroundImage: userProfilePicture,
+                    ),
                     SizedBox(width: 10),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            finance.company,
+                            finance.company ?? "Not available",
                             style: Okito.theme.textTheme.bodyText2!.copyWith(
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,

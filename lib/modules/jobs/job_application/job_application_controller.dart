@@ -47,29 +47,27 @@ class JobApplicationController extends BaseController {
   }
 
   paymentProceed() async {
-    if (paymentMethod == null)
+    if (paymentMethod == null) {
       this.showErrorToast("Please select a payment method first.");
-    else {
-      if (paymentMethod == "stripe") {
-        KLoader().show();
-        await billingRepository.stripePayment(23).then((value) {
-          KLoader.hide();
-          Okito.pop();
-          _launchURL(value.url);
-          Okito.pushNamed(KRoutes.homeRoute);
-        }).catchError((e) {
-          KLoader.hide();
-          Okito.pop();
-          this.showErrorToast(e.message);
-        });
-      } else {
-        Okito.pushNamed(KRoutes.billingMethodsRoute,
-            arguments: {"fund_details": fundDetails, "applicant": applicant});
-      }
+      return;
+    }
+
+    if (paymentMethod == "stripe") {
+      KLoader().show();
+      await billingRepository.stripePayment(23).then((value) {
+        KLoader.hide();
+        Okito.pop();
+        _launchURL(value.url);
+        Okito.pushNamed(KRoutes.homeRoute);
+      }).catchError((e) {
+        KLoader.hide();
+        Okito.pop();
+        this.showErrorToast(e.message);
+      });
+    } else {
+      Okito.pushNamed(KRoutes.billingMethodsRoute, arguments: {"fund_details": fundDetails, "applicant": applicant});
     }
   }
 
-  void _launchURL(String _url) async => await canLaunch(_url)
-      ? await launch(_url)
-      : throw 'Could not launch $_url';
+  void _launchURL(String _url) async => await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 }

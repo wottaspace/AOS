@@ -1,11 +1,10 @@
 import 'package:arcopen_enquirer/config/routes/k_router.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/core/models/finance.dart';
+import 'package:arcopen_enquirer/http/responses/finance_response.dart';
 import 'package:arcopen_enquirer/modules/finances/finance_controller.dart';
-import 'package:arcopen_enquirer/utils/functions.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/invoice_details_dialog.dart';
 import 'package:arcopen_enquirer/widgets/finances/finance_card.dart';
-import 'package:arcopen_enquirer/widgets/misc/k_chip.dart';
 import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
 import 'package:arcopen_enquirer/widgets/states/empty_state.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,6 @@ class FinancesScreen extends StatefulWidget {
 
 class _FinancesScreenState extends State<FinancesScreen> {
   late int _selectedIndex;
-  List<Finance> transactions = [];
   FinanceController _financeController = FinanceController();
 
   @override
@@ -33,10 +31,9 @@ class _FinancesScreenState extends State<FinancesScreen> {
     super.initState();
   }
 
-  void _updateActiveIndex(index, List<Finance> transactions) {
+  void _updateActiveIndex(index) {
     setState(() {
       _selectedIndex = index;
-      this.transactions = transactions;
     });
   }
 
@@ -57,9 +54,7 @@ class _FinancesScreenState extends State<FinancesScreen> {
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      _BalanceCard(
-                          amount: _financeController.totalPaid,
-                          totalJobs: _financeController.totalJobs),
+                      _BalanceCard(amount: _financeController.totalPaid, totalJobs: _financeController.totalJobs),
                       SizedBox(width: 10),
                       _WalletCard(
                         amount: _financeController.funded,
@@ -76,17 +71,11 @@ class _FinancesScreenState extends State<FinancesScreen> {
                       borderWidth: 0,
                       borderColor: Okito.theme.primaryColor,
                       onPressed: (index) {
-                        _updateActiveIndex(
-                            index,
-                            _selectedIndex == 0
-                                ? _financeController.paidTransactions
-                                : _financeController.unpaidTransactions);
+                        _updateActiveIndex(index);
                       },
                       children: [
                         Container(
-                          color: _selectedIndex == 0
-                              ? Okito.theme.primaryColor
-                              : Colors.white,
+                          color: _selectedIndex == 0 ? Okito.theme.primaryColor : Colors.white,
                           height: 50,
                           width: MediaQuery.of(context).size.width * 0.4,
                           alignment: Alignment.center,
@@ -94,25 +83,19 @@ class _FinancesScreenState extends State<FinancesScreen> {
                             "Paid",
                             style: Okito.theme.textTheme.bodyText2!.copyWith(
                               fontSize: 12.0,
-                              color: _selectedIndex == 0
-                                  ? Colors.white
-                                  : ColorConstants.greyColor,
+                              color: _selectedIndex == 0 ? Colors.white : ColorConstants.greyColor,
                             ),
                           ),
                         ),
                         Container(
-                          color: _selectedIndex == 1
-                              ? Okito.theme.primaryColor
-                              : Colors.white,
+                          color: _selectedIndex == 1 ? Okito.theme.primaryColor : Colors.white,
                           width: MediaQuery.of(context).size.width * 0.4,
                           alignment: Alignment.center,
                           child: Text(
                             "Unpaid",
                             style: Okito.theme.textTheme.bodyText2!.copyWith(
                               fontSize: 12.0,
-                              color: _selectedIndex == 1
-                                  ? Colors.white
-                                  : ColorConstants.greyColor,
+                              color: _selectedIndex == 1 ? Colors.white : ColorConstants.greyColor,
                             ),
                           ),
                         ),
@@ -120,7 +103,7 @@ class _FinancesScreenState extends State<FinancesScreen> {
                       isSelected: [_selectedIndex == 0, _selectedIndex == 1],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 25),
                   Row(
                     children: [
                       Expanded(
@@ -134,67 +117,11 @@ class _FinancesScreenState extends State<FinancesScreen> {
                           ),
                         ),
                       ),
-                      KChip(
-                        title: month(DateTime.now().month),
-                        icon: PhosphorIcons.caret_down_fill,
-                        onTap: () {},
-                        iconAlignedLeading: false,
-                        circularCorners: true,
-                      ),
                     ],
                   ),
-                  SizedBox(height: 10),
-                  if (transactions.isNotEmpty) ...[
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: transactions.length,
-                      itemBuilder: (context, index) {
-                        Finance transaction = transactions[index];
-                        return FinanceCard(
-                          finance: Finance(
-                              amount: transaction.amount,
-                              company: transaction.company,
-                              createdAt: transaction.createdAt,
-                              date: transaction.date,
-                              jobTitle: transaction.jobTitle,
-                              jobType: transaction.jobType),
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          KRouter().pop();
-                                        },
-                                        iconSize: 10,
-                                        icon: Icon(PhosphorIcons.x_bold),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "Talwar's Residency",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 14.0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  content: InvoiceDetailsDialog(
-                                    isPaid: index.isEven,
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ] else ...[
-                    EmptyState()
-                  ]
+                  const SizedBox(height: 10),
+                  if (_selectedIndex == 0) _PaidTransactionsTab(transactions: _financeController.paidTransactions),
+                  if (_selectedIndex == 1) _UnPaidTransactionsTab(transactions: _financeController.unpaidTransactions),
                 ],
               ),
             );
@@ -207,8 +134,7 @@ class _FinancesScreenState extends State<FinancesScreen> {
 
 class _BalanceCard extends StatelessWidget {
   final String amount, totalJobs;
-  const _BalanceCard({Key? key, required this.amount, required this.totalJobs})
-      : super(key: key);
+  const _BalanceCard({Key? key, required this.amount, required this.totalJobs}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -297,6 +223,132 @@ class _WalletCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _PaidTransactionsTab extends StatelessWidget {
+  const _PaidTransactionsTab({
+    Key? key,
+    required this.transactions,
+  }) : super(key: key);
+
+  final List<PaidTransaction> transactions;
+
+  @override
+  Widget build(BuildContext context) {
+    if (transactions.isEmpty) return EmptyState();
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: transactions.length,
+      itemBuilder: (context, index) {
+        PaidTransaction transaction = transactions[index];
+        return FinanceCard(
+          finance: Finance(
+            amount: transaction.amountPaid,
+            company: transaction.memberName,
+            createdAt: transaction.paymentDate,
+            date: transaction.paymentDate,
+            jobTitle: transaction.businessName,
+            jobType: transaction.jobType,
+            profilePicture: transaction.profilePic,
+          ),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          KRouter().pop();
+                        },
+                        iconSize: 10,
+                        icon: Icon(PhosphorIcons.x_bold),
+                      ),
+                      Expanded(
+                        child: Text(
+                          transaction.businessName,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 14.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                  content: InvoiceDetailsDialog(
+                    isPaid: true,
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _UnPaidTransactionsTab extends StatelessWidget {
+  const _UnPaidTransactionsTab({
+    Key? key,
+    required this.transactions,
+  }) : super(key: key);
+
+  final List<UnpaidTransaction> transactions;
+
+  @override
+  Widget build(BuildContext context) {
+    if (transactions.isEmpty) return EmptyState();
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: transactions.length,
+      itemBuilder: (context, index) {
+        UnpaidTransaction transaction = transactions[index];
+        return FinanceCard(
+          finance: Finance(
+            amount: transaction.amountPaid,
+            company: transaction.memberName,
+            createdAt: "",
+            date: "",
+            jobTitle: transaction.businessName,
+            jobType: transaction.jobType,
+            profilePicture: transaction.profilePic,
+          ),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          KRouter().pop();
+                        },
+                        iconSize: 10,
+                        icon: Icon(PhosphorIcons.x_bold),
+                      ),
+                      Expanded(
+                        child: Text(
+                          transaction.businessName,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 14.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                  content: InvoiceDetailsDialog(
+                    isPaid: false,
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
     );
   }
 }

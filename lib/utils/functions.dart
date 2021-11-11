@@ -49,6 +49,7 @@ String month(int value) {
 }
 
 String getTotalHours(String endTime, String startTime) {
+  if (endTime.isEmpty || startTime.isEmpty) return "0";
   int diffNotTreated = int.parse(endTime.split(" ").first.split(":").join("")) - int.parse(startTime.split(" ").first.split(":").join(""));
 
   if (diffNotTreated < 100) {
