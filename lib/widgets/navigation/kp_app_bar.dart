@@ -18,8 +18,8 @@ class KPAppBar extends StatelessWidget with PreferredSizeWidget {
     final service = Okito.use<AuthService>();
 
     ImageProvider profilePicture = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
-    if (service.profile.companyLogo.isNotEmpty) {
-      profilePicture = NetworkImage(AssetHelper.getEnquirerProfilePic(name: service.profile.companyLogo));
+    if ((service.profile?.companyLogo.isNotEmpty ?? false)) {
+      profilePicture = NetworkImage(AssetHelper.getEnquirerProfilePic(name: service.profile!.companyLogo));
     }
     if (controller.profilePicFile != null) {
       profilePicture = FileImage(controller.profilePicFile!);

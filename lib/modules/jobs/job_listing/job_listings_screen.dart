@@ -58,9 +58,7 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
                 },
                 children: [
                   Container(
-                    color: _selectedIndex == 0
-                        ? Okito.theme.primaryColor
-                        : Colors.white,
+                    color: _selectedIndex == 0 ? Okito.theme.primaryColor : Colors.white,
                     height: 50,
                     width: MediaQuery.of(context).size.width * 0.3,
                     alignment: Alignment.center,
@@ -68,50 +66,36 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
                       "Active",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 12.0,
-                        color: _selectedIndex == 0
-                            ? Colors.white
-                            : ColorConstants.greyColor,
+                        color: _selectedIndex == 0 ? Colors.white : ColorConstants.greyColor,
                       ),
                     ),
                   ),
                   Container(
-                    color: _selectedIndex == 1
-                        ? Okito.theme.primaryColor
-                        : Colors.white,
+                    color: _selectedIndex == 1 ? Okito.theme.primaryColor : Colors.white,
                     width: MediaQuery.of(context).size.width * 0.3,
                     alignment: Alignment.center,
                     child: Text(
                       "Posted",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 12.0,
-                        color: _selectedIndex == 1
-                            ? Colors.white
-                            : ColorConstants.greyColor,
+                        color: _selectedIndex == 1 ? Colors.white : ColorConstants.greyColor,
                       ),
                     ),
                   ),
                   Container(
-                    color: _selectedIndex == 2
-                        ? Okito.theme.primaryColor
-                        : Colors.white,
+                    color: _selectedIndex == 2 ? Okito.theme.primaryColor : Colors.white,
                     width: MediaQuery.of(context).size.width * 0.3,
                     alignment: Alignment.center,
                     child: Text(
                       "Past",
                       style: Okito.theme.textTheme.bodyText2!.copyWith(
                         fontSize: 12.0,
-                        color: _selectedIndex == 2
-                            ? Colors.white
-                            : ColorConstants.greyColor,
+                        color: _selectedIndex == 2 ? Colors.white : ColorConstants.greyColor,
                       ),
                     ),
                   ),
                 ],
-                isSelected: [
-                  _selectedIndex == 0,
-                  _selectedIndex == 1,
-                  _selectedIndex == 2
-                ],
+                isSelected: [_selectedIndex == 0, _selectedIndex == 1, _selectedIndex == 2],
               ),
             ),
             SizedBox(height: 20),
@@ -127,17 +111,9 @@ class _JobListingsScreenState extends State<JobListingsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SectionTitle(title: "JOB LISTINGS"),
-                            if (_selectedIndex == 0)
-                              _ActiveJobs(
-                                  jobs:
-                                      JobsListingsController.shared.activeJobs),
-                            if (_selectedIndex == 1)
-                              _PostedJobs(
-                                  jobs:
-                                      JobsListingsController.shared.postedJobs),
-                            if (_selectedIndex == 2)
-                              _HistoryJobs(
-                                  jobs: JobsListingsController.shared.pastJobs),
+                            if (_selectedIndex == 0) _ActiveJobs(jobs: JobsListingsController.shared.activeJobs),
+                            if (_selectedIndex == 1) _PostedJobs(jobs: JobsListingsController.shared.postedJobs),
+                            if (_selectedIndex == 2) _HistoryJobs(jobs: JobsListingsController.shared.pastJobs),
                           ],
                         ),
                       ),
@@ -207,12 +183,11 @@ class _ActiveJobs extends StatelessWidget {
             jobTitle: job.businessName,
             jobType: job.companyName,
             location: job.city,
-            budget: job.budget,
+            budget: job.budget ?? "Not provided",
             daysLeftCount: job.daysRemaining,
             applicants: job.applicantsArray,
             onTap: () {
-              Okito.pushNamed(KRoutes.activeJobDetailsRoute,
-                  arguments: {"job": job});
+              Okito.pushNamed(KRoutes.activeJobDetailsRoute, arguments: {"job": job});
             },
           ),
         );
@@ -244,12 +219,11 @@ class _PostedJobs extends StatelessWidget {
             jobTitle: job.businessName,
             jobType: job.companyName,
             location: job.city,
-            budget: job.budget,
+            budget: job.budget ?? "Not provided",
             daysLeftCount: job.daysRemaining,
             applicants: job.applicantsArray,
             onTap: () {
-              Okito.pushNamed(KRoutes.postedJobDetailsRoute,
-                  arguments: {"job": job});
+              Okito.pushNamed(KRoutes.postedJobDetailsRoute, arguments: {"job": job});
             },
           ),
         );
@@ -271,23 +245,24 @@ class _HistoryJobs extends StatelessWidget {
     if (jobs.isEmpty) return EmptyState();
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: jobs.length,
       itemBuilder: (context, index) {
         final Project job = jobs[index];
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: JobCard(
-            budget: job.budget,
+            budget: job.budget ?? "Not provided",
             jobTitle: job.businessName,
             jobType: job.companyName,
             location: job.city,
             daysLeftCount: job.daysRemaining,
             isCompleted: true,
-            applicants: job.applicants,
+            applicants: job.applicantsArray,
             onTap: () {
-              Okito.pushNamed(KRoutes.historyJobDetailsRoute,
-                  arguments: {"job": job});
+              Okito.pushNamed(KRoutes.historyJobDetailsRoute, arguments: {
+                "job": job,
+              });
             },
           ),
         );

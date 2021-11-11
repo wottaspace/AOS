@@ -28,7 +28,7 @@ class CreateJobController extends BaseController with DialogMixin {
   String? jobCategory;
   String? shiftType;
   String? jobType;
-  String? city = Okito.use<AuthService>().profile.city!;
+  String? city = Okito.use<AuthService>().profile?.city;
   String? fileName = "";
   String? contract;
 

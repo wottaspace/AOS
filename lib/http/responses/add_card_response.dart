@@ -7,6 +7,6 @@ class AddCardResponse {
   AddCardResponse({required this.card, required this.successMessage});
 
   factory AddCardResponse.fromJson(Map<String, dynamic> json) {
-    return AddCardResponse(card: json['card'], successMessage: json['success']);
+    return AddCardResponse(card: KCard.fromJson(json['card']), successMessage: json['success']);
   }
 }

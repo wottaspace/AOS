@@ -44,20 +44,20 @@ class ProfileController extends BaseController with ToastMixin, ValidationMixin 
   void prefillForm() {
     final service = Okito.use<AuthService>();
     if (service.profileExists) {
-      aboutController.text = service.profile.about ?? "";
+      aboutController.text = service.profile?.about ?? "";
 
-      contactDialCode = service.profile.contact.split("-").first;
-      contactController.text = service.profile.contact.split("-").last;
+      contactDialCode = service.profile?.contact.split("-").first ?? "";
+      contactController.text = service.profile?.contact.split("-").last ?? "";
 
-      companyContactDialCode = service.profile.companyContact.split("-").first;
-      companyContactController.text = service.profile.companyContact.split("-").last;
+      companyContactDialCode = service.profile?.companyContact.split("-").first ?? "";
+      companyContactController.text = service.profile?.companyContact.split("-").last ?? "";
 
-      addressController.text = service.profile.address ?? "";
-      cityController.text = service.profile.city ?? "";
-      postalCodeController.text = service.profile.postalCode ?? "";
+      addressController.text = service.profile?.address ?? "";
+      cityController.text = service.profile?.city ?? "";
+      postalCodeController.text = service.profile?.postalCode ?? "";
 
-      acsRefNumberController.text = service.profile.acsReferenceNumber ?? "";
-      registrationNumberController.text = service.profile.registrationNumber ?? "";
+      acsRefNumberController.text = service.profile?.acsReferenceNumber ?? "";
+      registrationNumberController.text = service.profile?.registrationNumber ?? "";
 
       setState(() {});
     }

@@ -7,8 +7,7 @@ import 'package:arcopen_enquirer/utils/repositories/jobs_repository.dart';
 
 class PostedJobDetailsController extends BaseController with DialogMixin {
   PostedJobDetailsController._internal();
-  static final PostedJobDetailsController _singleton =
-      PostedJobDetailsController._internal();
+  static final PostedJobDetailsController _singleton = PostedJobDetailsController._internal();
 
   final JobsRepository _repository = JobsRepository();
 
@@ -32,10 +31,10 @@ class PostedJobDetailsController extends BaseController with DialogMixin {
     });
     _repository.getJobDetails(jobId).then((value) {
       setState(() {
+        job = value.jobDetails.first;
+        applicants = value.applicants;
         state = LoadingState.success;
       });
-      job = value.jobDetails.first;
-      applicants = value.applicants;
     }).catchError((e) {
       setState(() {
         state = LoadingState.failed;

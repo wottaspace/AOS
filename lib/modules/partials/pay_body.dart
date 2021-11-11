@@ -1,4 +1,4 @@
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
+
 import 'package:arcopen_enquirer/core/models/k_card.dart';
 import 'package:arcopen_enquirer/modules/partials/pay_body_controller.dart';
 import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
@@ -49,33 +49,31 @@ class _PayBodyState extends State<PayBody> {
               child: Column(
                 children: [
                   ...controller.cards.map((e) {
-                    String protectedCardNumber =
-                        e.cardNumber.replaceRange(0, 14, "**** **** ****");
+                    String protectedCardNumber = e.cardNumber.replaceRange(0, 14, "**** **** ****");
 
                     return Column(
                       children: [
                         Divider(),
                         InkWell(
                           onLongPress: () {
-                            showAdaptiveActionSheet(
-                              context: context,
-                              title: const Text("Options"),
-                              actions: <BottomSheetAction>[],
-                              cancelAction: CancelAction(
-                                title: Text(
-                                  "Remove card",
-                                  style: TextStyle(color: ColorConstants.red),
-                                ),
-                                onPressed: () {},
-                              ),
-                            ).then((value) {
-                              widget.onItemDeleted();
-                              _selectedItem = null;
-                            });
+                            // showAdaptiveActionSheet(
+                            //   context: context,
+                            //   title: const Text("Options"),
+                            //   actions: <BottomSheetAction>[],
+                            //   cancelAction: CancelAction(
+                            //     title: Text(
+                            //       "Remove card",
+                            //       style: TextStyle(color: ColorConstants.red),
+                            //     ),
+                            //     onPressed: () {},
+                            //   ),
+                            // ).then((value) {
+                            //   widget.onItemDeleted();
+                            //   _selectedItem = null;
+                            // });
                           },
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -93,8 +91,7 @@ class _PayBodyState extends State<PayBody> {
                                     Expanded(
                                       child: RadioListTile<KCard>(
                                         contentPadding: EdgeInsets.zero,
-                                        controlAffinity:
-                                            ListTileControlAffinity.trailing,
+                                        controlAffinity: ListTileControlAffinity.trailing,
                                         value: e,
                                         groupValue: _selectedItem,
                                         toggleable: widget.selectable,
@@ -104,8 +101,7 @@ class _PayBodyState extends State<PayBody> {
                                           });
                                           widget.onItemSelected(value);
                                         },
-                                        title: Text(
-                                            "${e.cardType} $protectedCardNumber"),
+                                        title: Text("${e.cardType} $protectedCardNumber"),
                                       ),
                                     ),
                                   ],
@@ -126,15 +122,12 @@ class _PayBodyState extends State<PayBody> {
                                       decoration: InputDecoration(
                                         hintText: "123",
                                         hintStyle: TextStyle(fontSize: 12.0),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 12.0, vertical: 2.0),
+                                        contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 2.0),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: ColorConstants.greyColor
-                                                .withOpacity(0.3),
+                                            color: ColorConstants.greyColor.withOpacity(0.3),
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(3.0),
+                                          borderRadius: BorderRadius.circular(3.0),
                                         ),
                                       ),
                                     ),
@@ -163,9 +156,7 @@ class _PayBodyState extends State<PayBody> {
                             value: false,
                             groupValue: true,
                             onChanged: (value) {
-                              Okito.pushNamed(KRoutes.addPaymentMethodRoute,
-                                      arguments: {"cards": controller.cards})
-                                  .then((value) {
+                              Okito.pushNamed(KRoutes.addPaymentMethodRoute, arguments: {"cards": controller.cards}).then((value) {
                                 widget.onItemAdded();
                               });
                             },

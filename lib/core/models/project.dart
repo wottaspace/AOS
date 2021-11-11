@@ -14,20 +14,17 @@ class Project {
 
   dynamic applicants;
   List<Applicant> applicantsArray;
-  String budget;
+  String? budget;
   String businessName;
   String city;
   String companyName;
-  int daysRemaining;
+  int? daysRemaining;
   int jobId;
 
   factory Project.fromJson(Map<String, dynamic> json) {
     return Project(
       applicants: json["applicants"],
-      applicantsArray: json['applicants'] == 0
-          ? []
-          : List<Applicant>.from(
-              json["applicants_array"]!.map((x) => Applicant.fromJson(x))),
+      applicantsArray:  json['applicants_array'] == null ? [] : List<Applicant>.from(json["applicants_array"].map((x) => Applicant.fromJson(x))),
       budget: json["budget"],
       businessName: json["business_name"],
       city: json["city"],

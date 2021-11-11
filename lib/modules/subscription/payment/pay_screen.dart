@@ -49,8 +49,7 @@ class _PayScreenState extends State<PayScreen> {
                               padding: const EdgeInsets.all(12.0),
                               child: Text(
                                 "Select a billing cycle",
-                                style:
-                                    Okito.theme.textTheme.headline2!.copyWith(
+                                style: Okito.theme.textTheme.headline2!.copyWith(
                                   fontSize: 16.0,
                                 ),
                               ),
@@ -80,8 +79,7 @@ class _PayScreenState extends State<PayScreen> {
                               padding: const EdgeInsets.all(12.0),
                               child: Text(
                                 "Select your payment method",
-                                style:
-                                    Okito.theme.textTheme.headline2!.copyWith(
+                                style: Okito.theme.textTheme.headline2!.copyWith(
                                   fontSize: 16.0,
                                 ),
                               ),
@@ -94,7 +92,9 @@ class _PayScreenState extends State<PayScreen> {
                                 controller.cvv = cvv;
                               },
                               onItemAdded: () {
-                                setState(() {});
+                                if (this.mounted) {
+                                  setState(() {});
+                                }
                               },
                               onItemSelected: (e) {
                                 controller.setSelectedPaymentMethod = e!;

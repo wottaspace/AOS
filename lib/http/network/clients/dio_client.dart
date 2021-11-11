@@ -7,8 +7,7 @@ import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DioClient with LoggingMixin implements NetworkClient {
-  static final DioClient _singleton =
-      DioClient._internal(dotenv.env["ENDPOINT"]!);
+  static final DioClient _singleton = DioClient._internal(dotenv.env["ENDPOINT"]!);
   final String baseUrl;
 
   factory DioClient() {
@@ -26,15 +25,14 @@ class DioClient with LoggingMixin implements NetworkClient {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          final String? accessToken =
-              KStorage.read(key: AppConstants.accessTokenKey);
+          final String? accessToken = KStorage.read(key: AppConstants.accessTokenKey);
           if (accessToken != null) {
             options.headers.addAll({"Authorization": "Bearer $accessToken"});
           }
           options.headers.addAll({
             "Accept-Encoding": "gzip, deflate, br",
             "Accept": "application/json",
-            "User-Agent": "EnquirerApp"
+            "User-Agent": "EnquirerApp",
           });
 
           return handler.next(options);
@@ -49,8 +47,7 @@ class DioClient with LoggingMixin implements NetworkClient {
       ),
     );
 
-    _dio.interceptors
-        .add(DioCacheManager(CacheConfig(baseUrl: baseUrl)).interceptor);
+    _dio.interceptors.add(DioCacheManager(CacheConfig(baseUrl: baseUrl)).interceptor);
   }
 
   @override

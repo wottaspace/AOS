@@ -41,14 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ImageProvider profilePicture = AssetImage(
-        AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
+    ImageProvider profilePicture = AssetImage(AssetHelper.getAsset(name: "avatar.png", assetType: AssetType.image));
 
     final authService = Okito.use<AuthService>();
-    if (authService.profileExists &&
-        authService.profile.companyLogo.isNotEmpty) {
-      profilePicture = NetworkImage(AssetHelper.getMemberProfilePic(
-          name: authService.profile.companyLogo));
+    if (authService.profileExists && (authService.profile?.companyLogo.isNotEmpty ?? false)) {
+      profilePicture = NetworkImage(AssetHelper.getMemberProfilePic(name: authService.profile!.companyLogo));
     }
 
     return AnnotatedRegion<SystemUiOverlayStyle>(

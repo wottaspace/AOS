@@ -7,7 +7,7 @@ import 'package:okito/okito.dart';
 
 class AuthService {
   late User user;
-  late Profile profile;
+  Profile? profile;
   late bool profileExists;
 
   void logout() {

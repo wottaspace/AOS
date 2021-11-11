@@ -31,7 +31,9 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                     setState(() {});
                   },
                   onItemAdded: () {
-                    setState(() {});
+                    if (this.mounted) {
+                      setState(() {});
+                    }
                   },
                   selectable: false,
                   onCvvChanged: (cvv) {
