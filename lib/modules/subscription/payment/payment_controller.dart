@@ -22,6 +22,12 @@ class PaymentController extends BaseController with ToastMixin, DialogMixin {
 
   final List<String> billingCycles = ["monthly", "yearly"];
 
+  @override
+  initState() {
+    plan = Okito.arguments["plan"];
+    super.initState();
+  }
+
   set setSelectedPaymentMethod(KCard card) {
     setState(() {
       this.card = card;
@@ -48,15 +54,14 @@ class PaymentController extends BaseController with ToastMixin, DialogMixin {
       return;
     }
 
+    final request = PaySubscriptionRequest(
+      card: this.card!,
+      plan: this.plan!,
+      cycle: this.billingCycle!,
+      cvv: this.cvv!,
+    );
     KLoader().show();
-    repository
-        .cardSubscription(
-            request: PaySubscriptionRequest(
-                card: this.card!,
-                plan: this.plan!,
-                cycle: this.billingCycle!,
-                cvv: this.cvv!))
-        .then((value) {
+    repository.cardSubscription(request: request).then((value) {
       KLoader.hide();
       Okito.pushNamed(KRoutes.subscriptionSuccessfulUpdate);
     }).catchError((e) {

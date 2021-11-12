@@ -20,14 +20,6 @@ class FinanceResponse {
         totalPaid: json["total_paid"],
         unpaidTransactions: List<UnpaidTransaction>.from(json["unpaid_transactions"].map((x) => UnpaidTransaction.fromJson(x))),
       );
-
-  Map<String, dynamic> toJson() => {
-        "funded": funded,
-        "paid_transactions": List<dynamic>.from(paidTransactions.map((x) => x.toJson())),
-        "total_jobs": totalJobs,
-        "total_paid": totalPaid,
-        "unpaid_transactions": List<dynamic>.from(unpaidTransactions.map((x) => x.toJson())),
-      };
 }
 
 class PaidTransaction {
@@ -73,21 +65,6 @@ class PaidTransaction {
         stars: double.parse(json["stars"].toString()),
         transactionId: json["transaction_id"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "amount_paid": amountPaid,
-        "application_id": applicationId,
-        "business_name": businessName,
-        "job_id": jobId,
-        "job_type": jobType,
-        "member_name": memberName,
-        "month": month,
-        "payment_date": paymentDate,
-        "payment_status": paymentStatus,
-        "profile_pic": profilePic,
-        "stars": stars,
-        "transaction_id": transactionId,
-      };
 }
 
 class UnpaidTransaction {
@@ -130,18 +107,4 @@ class UnpaidTransaction {
         stars: double.parse(json["stars"].toString()),
         transactionId: json["transaction_id"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "amount_paid": amountPaid,
-        "application_id": applicationId,
-        "business_name": businessName,
-        "job_id": jobId,
-        "job_type": jobType,
-        "member_name": memberName,
-        "month": month,
-        "payment_status": paymentStatus,
-        "profile_pic": profilePic,
-        "stars": stars,
-        "transaction_id": transactionId,
-      };
 }

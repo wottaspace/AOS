@@ -26,7 +26,6 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
   @override
   Widget build(BuildContext context) {
     final plan = Okito.arguments["plan"];
-    print(Okito.arguments);
     return Scaffold(
       appBar: KAppBar(
         title: "Subscription",
