@@ -4,11 +4,9 @@ import 'package:arcopen_enquirer/core/models/message.dart';
 import 'package:arcopen_enquirer/modules/inbox/inbox_list/inbox_list_controller.dart';
 import 'package:arcopen_enquirer/utils/helpers/asset_helper.dart';
 import 'package:arcopen_enquirer/utils/inbox/inbox_card.dart';
-import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
 import 'package:arcopen_enquirer/widgets/states/empty_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
 
 class InboxScreen extends StatefulWidget {

@@ -4,7 +4,6 @@ import 'package:arcopen_enquirer/modules/inbox/inbox_details_manager.dart';
 import 'package:arcopen_enquirer/utils/helpers/asset_helper.dart';
 import 'package:arcopen_enquirer/utils/helpers/loading_state.dart';
 import 'package:arcopen_enquirer/utils/services/auth_service.dart';
-import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
