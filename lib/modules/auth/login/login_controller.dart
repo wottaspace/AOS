@@ -7,6 +7,7 @@ import 'package:arcopen_enquirer/utils/helpers/k_storage.dart';
 import 'package:arcopen_enquirer/utils/repositories/auth_repository.dart';
 import 'package:arcopen_enquirer/utils/services/auth_service.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/k_loader.dart';
+import 'package:flutter/foundation.dart';
 import 'package:okito/okito.dart';
 import 'package:flutter/material.dart';
 import 'package:arcopen_enquirer/config/routes/k_routes.dart';
@@ -19,6 +20,18 @@ class LoginController extends BaseController with ValidationMixin, ToastMixin {
 
   factory LoginController() {
     return _singleton;
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      if (kDebugMode) {
+        emailController.text = "koh.lanta@yopmail.com";
+        passwordController.text = "12345678";
+        setState(() {});
+      }
+    });
+    super.initState();
   }
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();

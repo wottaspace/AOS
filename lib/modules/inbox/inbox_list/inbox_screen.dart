@@ -39,12 +39,6 @@ class _InboxScreenState extends State<InboxScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20),
-                KTextField.circular(
-                  hintText: "Search",
-                  leading: PhosphorIcons.magnifying_glass,
-                  controller: InboxListController.shared.searchController,
-                ),
-                SizedBox(height: 20),
                 Text(
                   "ALL MESSAGES",
                   style: Okito.theme.textTheme.bodyText2!.copyWith(

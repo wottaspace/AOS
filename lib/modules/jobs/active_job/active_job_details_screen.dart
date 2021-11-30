@@ -50,12 +50,9 @@ class _ActiveJobDetailsScreenState extends State<ActiveJobDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ExpandedAppBar(
-                      company: _jobDetailsController.job?.companyName ??
-                          "Loading...",
-                      jobTitle: _jobDetailsController.job?.businessName ??
-                          "Loading...",
-                      duration:
-                          "${_jobDetailsController.job?.daysRemaining ?? 0} Days",
+                      company: _jobDetailsController.job?.companyName ?? "Loading...",
+                      jobTitle: _jobDetailsController.job?.businessName ?? "Loading...",
+                      duration: "${_jobDetailsController.job?.daysRemaining ?? 0} Days",
                       type: _jobDetailsController.job?.jobType ?? "Loading...",
                     ),
                     SizedBox(height: 20),
@@ -65,21 +62,19 @@ class _ActiveJobDetailsScreenState extends State<ActiveJobDetailsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SectionTitle(title: "DESCRIPTION"),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           ReadMoreText(
-                            _jobDetailsController.job?.jobDescription ??
-                                "Loading...",
+                            _jobDetailsController.job?.jobDescription ?? "Loading...",
                             trimLines: 2,
                             colorClickableText: Colors.pink,
                             trimMode: TrimMode.Line,
                             trimCollapsedText: 'Show more',
                             trimExpandedText: 'Show less',
-                            moreStyle: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
+                            moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           SectionTitle(title: "HIRED MEMBERS"),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                         ],
                       ),
                     ),
@@ -88,26 +83,17 @@ class _ActiveJobDetailsScreenState extends State<ActiveJobDetailsScreen> {
                       child: ListView.builder(
                         itemCount: _jobDetailsController.applicants.length,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          Applicant applicant =
-                              _jobDetailsController.applicants[index];
+                          Applicant applicant = _jobDetailsController.applicants[index];
                           return JobDetailsCard(
                             username: applicant.applicantName!,
                             endTime: _jobDetailsController.job!.shiftEndTime,
-                            startTime:
-                                _jobDetailsController.job!.shiftStartTime,
-                            totalHours: getTotalHours(
-                                _jobDetailsController.job!.shiftEndTime,
-                                _jobDetailsController.job!.shiftStartTime),
+                            startTime: _jobDetailsController.job!.shiftStartTime,
+                            totalHours: getTotalHours(_jobDetailsController.job!.shiftEndTime, _jobDetailsController.job!.shiftStartTime),
                             date: _jobDetailsController.job!.shiftStartDate,
                             onTrailingPressed: () {
-                              Okito.pushNamed(
-                                  KRoutes.activeJobMemberDetailsRoute,
-                                  arguments: {
-                                    "job": _jobDetailsController.job,
-                                    "applicant": applicant
-                                  });
+                              Okito.pushNamed(KRoutes.activeJobMemberDetailsRoute, arguments: {"job": _jobDetailsController.job, "applicant": applicant});
                             },
                           );
                         },
@@ -116,8 +102,7 @@ class _ActiveJobDetailsScreenState extends State<ActiveJobDetailsScreen> {
                   ],
                 ),
                 controller: _jobDetailsController,
-                retryCallback: () =>
-                    _jobDetailsController.loadJobDetails(jobId: job!.jobId),
+                retryCallback: () => _jobDetailsController.loadJobDetails(jobId: job!.jobId),
               );
             },
           ),

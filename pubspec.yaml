@@ -13,9 +13,11 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  path_provider:
   flutter_dotenv: ^5.0.0
   okito: ^1.2.4
   dio: ^4.0.0
+  dio_cookie_manager:
   double_back_to_close_app:
   flutter_phosphor_icons: ^0.0.1+5
   credit_card_input_form: ^2.3.0

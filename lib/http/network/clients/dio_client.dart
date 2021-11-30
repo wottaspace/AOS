@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:arcopen_enquirer/constants/app_constants.dart';
 import 'package:arcopen_enquirer/http/network/clients/network_client.dart';
 import 'package:arcopen_enquirer/utils/helpers/k_storage.dart';
@@ -5,6 +7,9 @@ import 'package:arcopen_enquirer/utils/mixins/logging_mixin.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:cookie_jar/cookie_jar.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DioClient with LoggingMixin implements NetworkClient {
   static final DioClient _singleton = DioClient._internal(dotenv.env["ENDPOINT"]!);
@@ -22,6 +27,8 @@ class DioClient with LoggingMixin implements NetworkClient {
       ),
     );
 
+    this.addCookieInterceptor();
+
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
@@ -33,14 +40,16 @@ class DioClient with LoggingMixin implements NetworkClient {
             "Accept-Encoding": "gzip, deflate, br",
             "Accept": "application/json",
             "User-Agent": "EnquirerApp",
+            "Connection": "keep-alive",
           });
 
           return handler.next(options);
         },
         onError: (e, handler) {
-          logger.e(e.requestOptions.path, {
-            "response": e.message,
-            "error": e.error,
+          logger.e({
+            "type": "Error",
+            "message": e.message,
+            "data": e.response?.data,
           });
           return handler.next(e);
         },
@@ -48,6 +57,26 @@ class DioClient with LoggingMixin implements NetworkClient {
     );
 
     _dio.interceptors.add(DioCacheManager(CacheConfig(baseUrl: baseUrl)).interceptor);
+  }
+
+  Future<void> addCookieInterceptor() async {
+    var cookieJar = PersistCookieJar(
+      persistSession: true,
+      storage: FileStorage("${await _localPath}/${await _localCoookieDirectory}"),
+    );
+    _dio.interceptors.add(CookieManager(cookieJar));
+  }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+
+  Future<Directory> get _localCoookieDirectory async {
+    final path = await _localPath;
+    final Directory dir = new Directory('$path/cookies');
+    await dir.create();
+    return dir;
   }
 
   @override
