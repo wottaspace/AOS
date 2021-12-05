@@ -83,7 +83,7 @@ class _ActiveJobMemberDetailsScreenState
             children: [
               SizedBox(height: 20),
               MemberCard(
-                voidCallback: () {},
+                onTap: () {},
                 clickable: false,
                 username: applicant!.applicantName!,
                 hourlyRate: applicant!.hourlyRate!,

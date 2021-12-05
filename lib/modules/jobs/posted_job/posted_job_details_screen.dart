@@ -1,6 +1,7 @@
 import 'package:arcopen_enquirer/core/models/applicant.dart';
 import 'package:arcopen_enquirer/core/models/project.dart';
 import 'package:arcopen_enquirer/modules/jobs/job_details_controller.dart';
+import 'package:arcopen_enquirer/modules/jobs/posted_job/posted_job_details_controller.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:arcopen_enquirer/widgets/misc/member_card.dart';
 import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
@@ -19,13 +20,13 @@ class PostedJobDetailsScreen extends StatefulWidget {
 
 class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
   Project? job;
-  JobDetailsController _jobDetailsController = JobDetailsController();
+  PostedJobDetailsController _jobDetailsController = PostedJobDetailsController();
 
   @override
   void initState() {
     job = Okito.arguments["job"];
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _jobDetailsController.loadJobDetails(jobId: job!.jobId);
+      _jobDetailsController.loadJobDetails(job!.jobId);
     });
     super.initState();
   }
@@ -64,7 +65,8 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                         ReadMoreText(
                           _jobDetailsController.job?.jobDescription ?? "Loading...",
                           trimLines: 2,
-                          colorClickableText: Colors.pink,
+                          colorClickableText: Okito.theme.primaryColor,
+                          style: TextStyle(color: Colors.black),
                           trimMode: TrimMode.Line,
                           trimCollapsedText: 'Show more',
                           trimExpandedText: 'Show less',
@@ -132,7 +134,7 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                           itemBuilder: (context, index) {
                             Applicant applicant = _jobDetailsController.applicants[index];
                             return MemberCard(
-                              voidCallback: () {},
+                              onTap: () {},
                               username: applicant.applicantName!,
                               score: applicant.rating ?? 0,
                               hideLikeButton: true,
@@ -149,7 +151,7 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                   SizedBox(height: 10),
                 ]),
                 controller: _jobDetailsController,
-                retryCallback: () => _jobDetailsController.loadJobDetails(jobId: job!.jobId),
+                retryCallback: () => _jobDetailsController.loadJobDetails(job!.jobId),
               );
             },
           ),

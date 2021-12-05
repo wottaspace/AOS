@@ -5,11 +5,11 @@ import 'package:arcopen_enquirer/http/network/clients/network_client.dart';
 import 'package:arcopen_enquirer/utils/helpers/k_storage.dart';
 import 'package:arcopen_enquirer/utils/mixins/logging_mixin.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioClient with LoggingMixin implements NetworkClient {
   static final DioClient _singleton = DioClient._internal(dotenv.env["ENDPOINT"]!);
@@ -56,7 +56,7 @@ class DioClient with LoggingMixin implements NetworkClient {
       ),
     );
 
-    _dio.interceptors.add(DioCacheManager(CacheConfig(baseUrl: baseUrl)).interceptor);
+    _dio.interceptors.add(PrettyDioLogger());
   }
 
   Future<void> addCookieInterceptor() async {

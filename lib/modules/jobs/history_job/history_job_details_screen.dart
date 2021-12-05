@@ -1,15 +1,13 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
-import 'package:arcopen_enquirer/core/models/applicant.dart';
 import 'package:arcopen_enquirer/core/models/project.dart';
-import 'package:arcopen_enquirer/modules/jobs/job_details_controller.dart';
-import 'package:arcopen_enquirer/utils/functions.dart';
+import 'package:arcopen_enquirer/http/responses/history_job_details_response.dart';
+import 'package:arcopen_enquirer/modules/jobs/history_job/history_job_details_controller.dart';
 import 'package:arcopen_enquirer/widgets/misc/member_card.dart';
 import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
 import 'package:arcopen_enquirer/widgets/navigation/expanded_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:okito/okito.dart';
-import 'package:readmore/readmore.dart';
 
 class HistoryJobDetailsScreen extends StatefulWidget {
   const HistoryJobDetailsScreen({Key? key}) : super(key: key);
@@ -20,13 +18,13 @@ class HistoryJobDetailsScreen extends StatefulWidget {
 
 class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
   Project? job;
-  JobDetailsController _jobDetailsController = JobDetailsController();
+  HistoryJobDetailsController _jobDetailsController = HistoryJobDetailsController();
 
   @override
   void initState() {
     job = Okito.arguments["job"];
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _jobDetailsController.loadJobDetails(jobId: job!.jobId);
+      _jobDetailsController.loadJobDetails(job!.jobId);
     });
     super.initState();
   }
@@ -52,7 +50,7 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                     ExpandedAppBar(
                       company: _jobDetailsController.job?.companyName ?? "Loading...",
                       jobTitle: _jobDetailsController.job?.businessName ?? "Loading...",
-                      duration: "${_jobDetailsController.job?.daysRemaining ?? 0} Days",
+                      duration: "",
                       type: _jobDetailsController.job?.jobType ?? "Loading...",
                     ),
                     SizedBox(height: 20),
@@ -61,14 +59,11 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                       child: Row(
                         children: [
                           _TotalHoursCard(
-                            totalHours: getTotalHours(
-                              _jobDetailsController.job?.shiftEndTime ?? "00:00",
-                              _jobDetailsController.job?.shiftStartTime ?? "00:00",
-                            ),
+                            totalHours: _jobDetailsController.totalHours.toString(),
                           ),
                           SizedBox(width: 10),
                           _TotalAmountCard(
-                            amount: _jobDetailsController.job?.budget ?? "0",
+                            amount: _jobDetailsController.totalAmount,
                           ),
                         ],
                       ),
@@ -79,17 +74,6 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SectionTitle(title: "DESCRIPTION"),
-                          SizedBox(height: 10),
-                          ReadMoreText(
-                            _jobDetailsController.job?.jobDescription ?? "Loading...",
-                            trimLines: 2,
-                            colorClickableText: Colors.pink,
-                            trimMode: TrimMode.Line,
-                            trimCollapsedText: 'Show more',
-                            trimExpandedText: 'Show less',
-                            moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
                           SizedBox(height: 20),
                           SectionTitle(title: "HIRED MEMBERS"),
                           SizedBox(height: 10),
@@ -100,19 +84,17 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 18.0),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: _jobDetailsController.applicants.length,
+                        itemCount: _jobDetailsController.members.length,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          Applicant applicant = _jobDetailsController.applicants[index];
+                          HiredMember applicant = _jobDetailsController.members[index];
                           return MemberCard(
-                            voidCallback: () {},
-                            username: applicant.applicantName!,
-                            score: applicant.rating ?? 0,
+                            onTap: () {},
+                            username: applicant.memberName,
                             hideLikeButton: true,
-                            applicant: applicant,
                             jobId: job!.jobId,
-                            hourlyRate: applicant.hourlyRate ?? "£0",
-                            profilePic: applicant.profilePic!,
+                            hourlyRate: applicant.perHourRate,
+                            profilePic: applicant.profilePic,
                           );
                         },
                       ),
@@ -120,7 +102,7 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                   ],
                 ),
                 controller: _jobDetailsController,
-                retryCallback: () => _jobDetailsController.loadJobDetails(jobId: job!.jobId),
+                retryCallback: () => _jobDetailsController.loadJobDetails(job!.jobId),
               );
             },
           ),

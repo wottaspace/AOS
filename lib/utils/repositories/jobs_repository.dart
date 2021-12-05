@@ -1,10 +1,12 @@
 import 'package:arcopen_enquirer/http/exceptions/request_exception.dart';
 import 'package:arcopen_enquirer/http/requests/add_dispute_request.dart';
 import 'package:arcopen_enquirer/http/requests/create_job_request.dart';
+import 'package:arcopen_enquirer/http/responses/active_job_details_response.dart';
 import 'package:arcopen_enquirer/http/responses/active_jobs_response.dart';
 import 'package:arcopen_enquirer/http/responses/create_job_response.dart';
 import 'package:arcopen_enquirer/http/responses/dispute_response.dart';
 import 'package:arcopen_enquirer/http/responses/fund_details_response.dart';
+import 'package:arcopen_enquirer/http/responses/history_job_details_response.dart';
 import 'package:arcopen_enquirer/http/responses/past_jobs_response.dart';
 import 'package:arcopen_enquirer/http/responses/post_job_details.dart';
 import 'package:arcopen_enquirer/http/responses/posted_jobs_response.dart';
@@ -51,10 +53,28 @@ class JobsRepository extends BaseRepository {
     }
   }
 
-  Future<JobDetailsResponse> getJobDetails(int id) async {
+  Future<ActiveJobDetailsResponse> getActiveJobDetails(int id) async {
+    try {
+      Response response = await client.get(path: "/activeJobDetails/$id/");
+      return ActiveJobDetailsResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      throw RequestException(this.extractErrorMessageFromDioError(e));
+    }
+  }
+
+  Future<HistoryJobDetailsResponse> getPastJobDetails(int id) async {
+    try {
+      Response response = await client.get(path: "/pastProjectsDetails/$id");
+      return HistoryJobDetailsResponse.fromJson(response.data);
+    } on DioError catch (e) {
+      throw RequestException(this.extractErrorMessageFromDioError(e));
+    }
+  }
+
+  Future<PostedJobDetailsResponse> getPostedJobDetails(int id) async {
     try {
       Response response = await client.get(path: "/postedJobDetails/$id");
-      return JobDetailsResponse.fromJson(response.data);
+      return PostedJobDetailsResponse.fromJson(response.data);
     } on DioError catch (e) {
       throw new RequestException(this.extractErrorMessageFromDioError(e));
     }
@@ -107,11 +127,9 @@ class JobsRepository extends BaseRepository {
     }
   }
 
-  Future<CreateJobResponse> createJob(
-      {required CreateJobRequest request}) async {
+  Future<CreateJobResponse> createJob({required CreateJobRequest request}) async {
     try {
-      Response response =
-          await client.post(path: "/jobs/api/job/", args: request.toJson());
+      Response response = await client.post(path: "/jobs/api/job/", args: request.toJson());
       return CreateJobResponse.fromJson(response.data);
     } on DioError catch (e) {
       throw new RequestException(this.extractErrorMessageFromDioError(e));

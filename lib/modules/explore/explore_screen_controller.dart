@@ -22,6 +22,7 @@ class ExploreScreenController extends BaseController with ToastMixin {
       setState(() {
         allMembers = value.allMembers;
         topRatedMembers = value.highRated;
+        state = LoadingState.success;
       });
     }).catchError((e) {
       setState(() {

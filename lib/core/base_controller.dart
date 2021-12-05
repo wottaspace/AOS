@@ -5,4 +5,10 @@ import 'package:okito/okito.dart';
 
 class BaseController extends OkitoController with ToastMixin, ValidationMixin {
   LoadingState state = LoadingState.loading;
+
+  set loadingState(LoadingState state) {
+    setState(() {
+      this.state = state;
+    });
+  }
 }

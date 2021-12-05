@@ -1,8 +1,7 @@
 import 'package:arcopen_enquirer/config/routes/k_routes.dart';
-import 'package:arcopen_enquirer/core/models/applicant.dart';
 import 'package:arcopen_enquirer/core/models/project.dart';
+import 'package:arcopen_enquirer/http/responses/active_job_details_response.dart';
 import 'package:arcopen_enquirer/modules/jobs/job_details_controller.dart';
-import 'package:arcopen_enquirer/utils/functions.dart';
 import 'package:arcopen_enquirer/widgets/jobs/job_details_card.dart';
 import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
 import 'package:arcopen_enquirer/widgets/misc/section_title.dart';
@@ -52,7 +51,7 @@ class _ActiveJobDetailsScreenState extends State<ActiveJobDetailsScreen> {
                     ExpandedAppBar(
                       company: _jobDetailsController.job?.companyName ?? "Loading...",
                       jobTitle: _jobDetailsController.job?.businessName ?? "Loading...",
-                      duration: "${_jobDetailsController.job?.daysRemaining ?? 0} Days",
+                      duration: "",
                       type: _jobDetailsController.job?.jobType ?? "Loading...",
                     ),
                     SizedBox(height: 20),
@@ -66,8 +65,9 @@ class _ActiveJobDetailsScreenState extends State<ActiveJobDetailsScreen> {
                           ReadMoreText(
                             _jobDetailsController.job?.jobDescription ?? "Loading...",
                             trimLines: 2,
-                            colorClickableText: Colors.pink,
+                            colorClickableText: Okito.theme.primaryColor,
                             trimMode: TrimMode.Line,
+                            style: TextStyle(color: Colors.black),
                             trimCollapsedText: 'Show more',
                             trimExpandedText: 'Show less',
                             moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
@@ -81,16 +81,15 @@ class _ActiveJobDetailsScreenState extends State<ActiveJobDetailsScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18.0),
                       child: ListView.builder(
-                        itemCount: _jobDetailsController.applicants.length,
+                        itemCount: _jobDetailsController.members.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          Applicant applicant = _jobDetailsController.applicants[index];
+                          JobMember applicant = _jobDetailsController.members[index];
                           return JobDetailsCard(
-                            username: applicant.applicantName!,
-                            endTime: _jobDetailsController.job!.shiftEndTime,
-                            startTime: _jobDetailsController.job!.shiftStartTime,
-                            totalHours: getTotalHours(_jobDetailsController.job!.shiftEndTime, _jobDetailsController.job!.shiftStartTime),
+                            username: applicant.memberName,
+                            endTime: _jobDetailsController.job!.shiftEndDate,
+                            startTime: _jobDetailsController.job!.shiftStartDate,
                             date: _jobDetailsController.job!.shiftStartDate,
                             onTrailingPressed: () {
                               Okito.pushNamed(KRoutes.activeJobMemberDetailsRoute, arguments: {"job": _jobDetailsController.job, "applicant": applicant});

@@ -178,7 +178,7 @@ class _SavedMembers extends StatelessWidget {
           itemBuilder: (context, index) {
             final SavedMember member = members[index];
             return MemberCard(
-              voidCallback: () {},
+              onTap: () {},
               score: member.rating,
               hourlyRate: "14",
               hidePayRate: true,

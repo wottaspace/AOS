@@ -39,7 +39,15 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
           child: Column(
             children: [
               SizedBox(height: 20),
-              MemberCard(voidCallback: () {}, hourlyRate: applicant!.hourlyRate ?? "£0", username: applicant!.applicantName!, score: applicant!.rating ?? 0, profilePic: applicant!.profilePic!, hideLikeButton: true, clickable: false),
+              MemberCard(
+                onTap: () {},
+                hourlyRate: applicant!.hourlyRate ?? "£0",
+                username: applicant!.applicantName!,
+                score: applicant!.rating ?? 0,
+                profilePic: applicant!.profilePic!,
+                hideLikeButton: true,
+                clickable: false,
+              ),
               SizedBox(height: 20),
               Row(
                 children: [

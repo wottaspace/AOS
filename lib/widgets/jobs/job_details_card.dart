@@ -10,21 +10,23 @@ import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
 import 'package:okito/okito.dart';
 
 class JobDetailsCard extends StatefulWidget {
-  const JobDetailsCard(
-      {Key? key,
-      required this.username,
-      required this.startTime,
-      required this.endTime,
-      required this.totalHours,
-      required this.date,
-      required this.onTrailingPressed})
-      : super(key: key);
+  const JobDetailsCard({
+    Key? key,
+    required this.username,
+    required this.startTime,
+    required this.endTime,
+    this.totalHours,
+    this.expandable = false,
+    required this.date,
+    required this.onTrailingPressed,
+  }) : super(key: key);
 
   final String username;
   final String startTime;
   final String endTime;
-  final String totalHours;
+  final String? totalHours;
   final String date;
+  final bool expandable;
   final VoidCallback? onTrailingPressed;
 
   @override
@@ -64,8 +66,7 @@ class _JobDetailsCardState extends State<JobDetailsCard> {
                     Positioned(
                       right: 0,
                       bottom: 2.5,
-                      child: Circle(
-                          color: ColorConstants.greenColor, diameter: 10),
+                      child: Circle(color: ColorConstants.greenColor, diameter: 10),
                     ),
                   ],
                 ),
@@ -90,8 +91,7 @@ class _JobDetailsCardState extends State<JobDetailsCard> {
                         ),
                         children: [
                           TextSpan(
-                            text:
-                                "${DateTime.now().hour}:${DateTime.now().minute}",
+                            text: "${DateTime.now().hour}:${DateTime.now().minute}",
                             style: Okito.theme.textTheme.bodyText2!.copyWith(
                               color: ColorConstants.greyColor,
                               fontWeight: FontWeight.w700,
@@ -107,79 +107,84 @@ class _JobDetailsCardState extends State<JobDetailsCard> {
             ),
           ],
         ),
-        childrenPadding: const EdgeInsets.all(18.0),
-        children: [
-          SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  SectionTitle(
-                    title: "START TIME",
-                    hasBoldTitle: true,
+        childrenPadding: !widget.expandable ? EdgeInsets.zero : const EdgeInsets.all(18.0),
+        children: !widget.expandable
+            ? []
+            : [
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        SectionTitle(
+                          title: "START TIME",
+                          hasBoldTitle: true,
+                        ),
+                        SizedBox(height: 5),
+                        ActiveTSItem(title: "$startTime")
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        SectionTitle(
+                          title: "END TIME",
+                          hasBoldTitle: true,
+                        ),
+                        SizedBox(height: 5),
+                        ActiveTSItem(title: "$endTime")
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        SectionTitle(
+                          title: "TOTAL HOURS",
+                          hasBoldTitle: true,
+                        ),
+                        SizedBox(height: 5),
+                        ActiveTSItem(title: "${widget.totalHours ?? '0'}")
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Card(
+                  color: ColorConstants.lightBlue,
+                  child: KTextField(
+                    hintText: "How was your experience ?",
+                    controller: feedbackController,
+                    minLines: 3,
+                    maxLines: 3,
+                    borderVisible: false,
                   ),
-                  SizedBox(height: 5),
-                  ActiveTSItem(title: "${widget.startTime}")
-                ],
-              ),
-              Column(
-                children: [
-                  SectionTitle(
-                    title: "END TIME",
-                    hasBoldTitle: true,
+                ),
+                SizedBox(height: 10),
+                RatingBar(
+                  rating: 3.5,
+                  icon: Icon(
+                    PhosphorIcons.star_fill,
+                    size: 25,
+                    color: ColorConstants.greyColor,
                   ),
-                  SizedBox(height: 5),
-                  ActiveTSItem(title: "${widget.endTime}")
-                ],
-              ),
-              Column(
-                children: [
-                  SectionTitle(
-                    title: "TOTAL HOURS",
-                    hasBoldTitle: true,
-                  ),
-                  SizedBox(height: 5),
-                  ActiveTSItem(title: "${widget.totalHours}")
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          Card(
-            color: ColorConstants.lightBlue,
-            child: KTextField(
-              hintText: "How was your experience ?",
-              controller: feedbackController,
-              minLines: 3,
-              maxLines: 3,
-              borderVisible: false,
-            ),
-          ),
-          SizedBox(height: 10),
-          RatingBar(
-            rating: 3.5,
-            icon: Icon(
-              PhosphorIcons.star_fill,
-              size: 25,
-              color: ColorConstants.greyColor,
-            ),
-            starCount: 5,
-            spacing: 5.0,
-            size: 25,
-            allowHalfRating: true,
-            color: Colors.amber,
-            onRatingCallback: (value, isIndicator) {},
-          ),
-          SizedBox(height: 10),
-          KButton(
-            onPressed: () {},
-            expanded: true,
-            title: "SUBMIT",
-            color: Okito.theme.primaryColor,
-          ),
-        ],
+                  starCount: 5,
+                  spacing: 5.0,
+                  size: 25,
+                  allowHalfRating: true,
+                  color: Colors.amber,
+                  onRatingCallback: (value, isIndicator) {},
+                ),
+                SizedBox(height: 10),
+                KButton(
+                  onPressed: () {},
+                  expanded: true,
+                  title: "SUBMIT",
+                  color: Okito.theme.primaryColor,
+                ),
+              ],
       ),
     );
   }
+
+  String get startTime => widget.startTime.split(" ").take(4).join(" ");
+  String get endTime => widget.endTime.split(" ").take(4).join(" ");
 }

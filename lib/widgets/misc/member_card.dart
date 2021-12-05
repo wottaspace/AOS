@@ -1,4 +1,3 @@
-import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/core/models/applicant.dart';
 import 'package:arcopen_enquirer/utils/helpers/asset_helper.dart';
@@ -13,8 +12,8 @@ class MemberCard extends StatelessWidget {
     this.jobId,
     required this.username,
     this.clickable = true,
-    required this.voidCallback,
-    required this.score,
+    required this.onTap,
+    this.score,
     required this.profilePic,
     required this.hourlyRate,
     this.hidePayRate = false,
@@ -27,10 +26,10 @@ class MemberCard extends StatelessWidget {
 
   final bool clickable;
   final int? jobId;
-  final Function voidCallback;
+  final VoidCallback onTap;
   final String username;
   final String profilePic;
-  final double score;
+  final double? score;
   final String hourlyRate;
   final bool hidePayRate;
   final bool hideLikeButton;
@@ -65,8 +64,7 @@ class MemberCard extends StatelessWidget {
         child: InkWell(
           onTap: () {
             if (clickable) {
-              Okito.pushNamed(KRoutes.jobApplicationRoute, arguments: {"applicant": applicant});
-              voidCallback();
+              onTap();
             }
           },
           child: Padding(
@@ -90,11 +88,11 @@ class MemberCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 5),
-                        if (timeCompleted == null)
-                          RatingStars(score: score)
+                        if (timeCompleted == null && score != null)
+                          RatingStars(score: score!)
                         else
                           Text(
-                            "completed ${timeCompleted!}",
+                            "completed ${timeCompleted ?? ''}",
                             style: Okito.theme.textTheme.bodyText2!.copyWith(
                               fontSize: 10.0,
                               color: ColorConstants.greyColor,
