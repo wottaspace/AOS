@@ -1,5 +1,4 @@
 import 'package:arcopen_enquirer/core/base_controller.dart';
-import 'package:arcopen_enquirer/core/models/applicant.dart';
 import 'package:arcopen_enquirer/http/responses/active_job_details_response.dart';
 import 'package:arcopen_enquirer/utils/helpers/loading_state.dart';
 import 'package:arcopen_enquirer/utils/mixins/dialog_mixin.dart';

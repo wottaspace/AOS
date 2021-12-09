@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/core/models/plan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
@@ -17,6 +18,7 @@ class UpgradePlanScreen extends StatefulWidget {
 
 class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
   final SubscriptionController controller = SubscriptionController();
+  Plan? plan;
 
   @override
   void initState() {
@@ -25,7 +27,9 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final plan = Okito.arguments["plan"];
+    if (Okito.arguments["plan"] != null && plan == null) {
+      plan = Okito.arguments["plan"];
+    }
     return Scaffold(
       appBar: KAppBar(
         title: "Subscription",
@@ -98,8 +102,7 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
                                 width: MediaQuery.of(context).size.width * 0.3,
                                 child: PackItem(
                                   label: plan!.name.toUpperCase(),
-                                  durationUnit: plan!.planType,
-                                  durationValue: "",
+                                  type: plan!.planType,
                                   discount: plan!.discount,
                                   frequency: plan!.yearlyPrice,
                                   price: plan!.monthlyPrice ?? "\$0.00flat",
@@ -122,10 +125,9 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
         padding: EdgeInsets.all(12.0),
         child: KButton(
           onPressed: () {
-            if (plan != null)
-              Okito.pushNamed(KRoutes.payRoute, arguments: {
-                "plan": plan,
-              });
+            if (plan != null) {
+              SubscriptionController.shared.upgradePlan(plan!);
+            }
           },
           title: "UPGRADE NOW",
           color: ColorConstants.greenColor,

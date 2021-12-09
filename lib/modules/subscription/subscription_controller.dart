@@ -4,6 +4,10 @@ import 'package:arcopen_enquirer/utils/helpers/loading_state.dart';
 import 'package:arcopen_enquirer/utils/mixins/logging_mixin.dart';
 import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 import 'package:arcopen_enquirer/utils/repositories/subscriptions_repository.dart';
+import 'package:arcopen_enquirer/utils/services/subscription_service.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:okito/okito.dart';
 
 class SubscriptionController extends BaseController with ToastMixin, LoggingMixin {
   static final SubscriptionController shared = SubscriptionController();
@@ -47,4 +51,74 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
       logger.e(e.message, e);
     });
   }
+
+  upgradePlan(Plan plan) async {
+    final duration = await _getDuration();
+    if (duration == null) {
+      showErrorToast("You need to choose a duration first.");
+      return;
+    }
+    late final String period;
+    switch (duration) {
+      case PlanDuration.month:
+        period = "monthly";
+        break;
+      case PlanDuration.year:
+        period = "yearly";
+        break;
+    }
+    String planId;
+    if (!plan.name.toLowerCase().contains("gold")) {
+      planId = "enquirer_${period}_plan";
+    } else {
+      planId = "gold_enquirer_${period}_plan";
+    }
+    if (planId == "gold_enquirer_monthly_plan") {
+      planId = "gold_enquirer_monthly";
+    }
+    Okito.use<SubscriptionService>().purchaseItem(planId);
+  }
+
+  Future<PlanDuration?> _getDuration() {
+    return showModalBottomSheet(
+      context: Okito.context!,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
+        ),
+      ),
+      builder: (context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
+            Text(
+              "Choose a billing cycle",
+              style: Okito.theme.textTheme.headline2!.copyWith(fontSize: 16),
+            ),
+            const SizedBox(height: 20),
+            ListTile(
+              leading: Icon(PhosphorIcons.circle_bold),
+              title: Text("Month"),
+              onTap: () {
+                Okito.pop(result: PlanDuration.month);
+              },
+            ),
+            ListTile(
+              leading: Icon(PhosphorIcons.circle_bold),
+              title: Text("Year"),
+              onTap: () {
+                Okito.pop(result: PlanDuration.year);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
+
+enum PlanDuration { year, month }

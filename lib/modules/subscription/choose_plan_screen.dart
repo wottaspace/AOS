@@ -105,8 +105,7 @@ class _ChoosePlanScreenState extends State<ChoosePlanScreen> {
                             ...controller.subscriptionPlans.map((e) {
                               return PackItem(
                                 label: e.name.toUpperCase(),
-                                durationUnit: e.planType,
-                                durationValue: "",
+                                type: e.planType,
                                 discount: e.discount,
                                 frequency: e.yearlyPrice,
                                 price: e.monthlyPrice ?? "\$0.00flat",

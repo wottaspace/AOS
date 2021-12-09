@@ -7,8 +7,7 @@ class PackItem extends StatelessWidget {
     Key? key,
     required this.label,
     required this.discount,
-    required this.durationValue,
-    required this.durationUnit,
+    required this.type,
     required this.frequency,
     required this.price,
     this.onTap,
@@ -17,8 +16,7 @@ class PackItem extends StatelessWidget {
 
   final String label;
   final String discount;
-  final String durationValue;
-  final String durationUnit;
+  final String type;
   final String frequency;
   final VoidCallback? onTap;
   final String price;
@@ -77,7 +75,7 @@ class PackItem extends StatelessWidget {
                   children: [
                     SizedBox(height: 20),
                     SizedBox(height: 5),
-                    Text("$durationUnit", style: Okito.theme.textTheme.bodyText2),
+                    Text("$type", style: Okito.theme.textTheme.bodyText2),
                     SizedBox(height: 5),
                     Text("$price", style: Okito.theme.textTheme.bodyText2),
                     Spacer(),

@@ -91,6 +91,7 @@ class _ActiveJobDetailsScreenState extends State<ActiveJobDetailsScreen> {
                             endTime: _jobDetailsController.job!.shiftEndDate,
                             startTime: _jobDetailsController.job!.shiftStartDate,
                             date: _jobDetailsController.job!.shiftStartDate,
+                            expandable: false,
                             onTrailingPressed: () {
                               Okito.pushNamed(KRoutes.activeJobMemberDetailsRoute, arguments: {"job": _jobDetailsController.job, "applicant": applicant});
                             },

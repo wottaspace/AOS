@@ -1,6 +1,5 @@
 import 'package:arcopen_enquirer/core/models/applicant.dart';
 import 'package:arcopen_enquirer/core/models/project.dart';
-import 'package:arcopen_enquirer/modules/jobs/job_details_controller.dart';
 import 'package:arcopen_enquirer/modules/jobs/posted_job/posted_job_details_controller.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:arcopen_enquirer/widgets/misc/member_card.dart';
