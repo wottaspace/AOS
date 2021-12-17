@@ -12,6 +12,7 @@ class PackItem extends StatelessWidget {
     required this.price,
     this.onTap,
     this.highlightTitle = false,
+    this.isActive = false,
   }) : super(key: key);
 
   final String label;
@@ -20,6 +21,7 @@ class PackItem extends StatelessWidget {
   final String frequency;
   final VoidCallback? onTap;
   final String price;
+  final bool isActive;
   final bool highlightTitle;
 
   @override
@@ -61,12 +63,12 @@ class PackItem extends StatelessWidget {
               Container(
                 height: 150,
                 decoration: BoxDecoration(
-                  borderRadius: highlightTitle
-                      ? BorderRadius.only(
-                          bottomLeft: Radius.circular(10.0),
-                          bottomRight: Radius.circular(10.0),
-                        )
-                      : BorderRadius.circular(6.0),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: isActive ? Radius.circular(0.0) : Radius.circular(10.0),
+                    bottomRight: isActive ? Radius.circular(0.0) : Radius.circular(10.0),
+                    topLeft: highlightTitle ? Radius.circular(0.0) : Radius.circular(10.0),
+                    topRight: highlightTitle ? Radius.circular(0.0) : Radius.circular(10.0),
+                  ),
                   border: Border.all(
                     color: ColorConstants.greyColor.withOpacity(0.5),
                   ),
@@ -100,7 +102,28 @@ class PackItem extends StatelessWidget {
                     SizedBox(height: 10),
                   ],
                 ),
-              )
+              ),
+              if (isActive)
+                Container(
+                  height: 20,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                    color: Okito.theme.primaryColor,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10.0),
+                      bottomRight: Radius.circular(10.0),
+                    ),
+                  ),
+                  child: Text(
+                    "Active",
+                    textAlign: TextAlign.center,
+                    style: Okito.theme.textTheme.bodyText1!.copyWith(
+                      fontSize: 10.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

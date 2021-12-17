@@ -3,7 +3,7 @@ import 'package:okito/okito.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 
 mixin ToastMixin {
-  showErrorToast(String content) {
+  void showErrorToast(String content) {
     final SnackBar snackBar = SnackBar(
       content: Text(
         "$content",
@@ -14,7 +14,18 @@ mixin ToastMixin {
     Okito.showSnackBar(snackBar: snackBar);
   }
 
-  showWarningToast(String content) {
+  void showInfoToast(String content) {
+    final SnackBar snackBar = SnackBar(
+      content: Text(
+        "$content",
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: ColorConstants.darkBlue,
+    );
+    Okito.showSnackBar(snackBar: snackBar);
+  }
+
+  void showWarningToast(String content) {
     final SnackBar snackBar = SnackBar(
       content: Text(
         "$content",
@@ -25,7 +36,7 @@ mixin ToastMixin {
     Okito.showSnackBar(snackBar: snackBar);
   }
 
-  showSuccessToast(String content) {
+  void showSuccessToast(String content) {
     final SnackBar snackBar = SnackBar(
       content: Text(
         "$content",

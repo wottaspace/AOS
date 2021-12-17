@@ -9,6 +9,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 /// Managing users subscriptions
 class SubscriptionService extends OkitoController with LoggingMixin, ToastMixin {
   static final String revenueCatApiKey = dotenv.env["REVENUE_CAT_API_KEY"]!;
+  String? activeSubscription;
   Future<void> init() async {
     await Purchases.setDebugLogsEnabled(kDebugMode);
     await Purchases.setup(revenueCatApiKey, appUserId: Okito.use<AuthService>().user.id);
@@ -21,6 +22,18 @@ class SubscriptionService extends OkitoController with LoggingMixin, ToastMixin 
     } catch (e) {
       logger.e(e);
       return false;
+    }
+  }
+
+  Future<Offering?> getCurrentSubscription() async {
+    PurchaserInfo purchaserInfo = await Purchases.getPurchaserInfo();
+    if (purchaserInfo.activeSubscriptions.isNotEmpty) {
+      final String sub = purchaserInfo.activeSubscriptions.first;
+      if (sub.contains("gold")) {
+        activeSubscription = "gold_enquirer";
+      } else {
+        activeSubscription = "enquirer";
+      }
     }
   }
 
@@ -43,6 +56,7 @@ class SubscriptionService extends OkitoController with LoggingMixin, ToastMixin 
       try {
         final package = offering.availablePackages.firstWhere((element) => element.packageType == duration);
         if (await _purchasePackage(package)) {
+          activeSubscription = planId;
           showSuccessToast("🎉 Congrats ! You've successfully subscribed to the $planName plan.");
         } else {
           showErrorToast("The purchase of the subscription failed. Please try again later.\nIf it persists, please contact support.");

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:arcopen_enquirer/core/models/plan.dart';
 import 'package:arcopen_enquirer/utils/helpers/loading_state.dart';
@@ -9,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
 import 'package:purchases_flutter/object_wrappers.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 class SubscriptionController extends BaseController with ToastMixin, LoggingMixin {
   static final SubscriptionController shared = SubscriptionController();
@@ -20,7 +23,6 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
 
   Future<void> loadData() async {
     await getSubscriptionPlans();
-    await Okito.use<SubscriptionService>().init();
 
     getActivePlan();
   }
@@ -56,6 +58,17 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
   }
 
   upgradePlan(Plan plan) async {
+    String activePlanId = plan.name.split(" ").join("_").toLowerCase();
+    if (plan.name.toLowerCase() == "free" && Okito.use<SubscriptionService>().activeSubscription != activePlanId) {
+      if (Platform.isAndroid) {
+        showInfoToast("Please contact support to cancel your subscription.");
+        return;
+      }
+      showInfoToast("You can cancel your subscription from the iTunes & App store settings.");
+
+      return;
+    }
+
     final duration = await _getDuration();
     if (duration == null) {
       showErrorToast("You need to choose a duration first.");
@@ -87,7 +100,8 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
       planId = "enquirer_monthly_subscription";
     }
 
-    Okito.use<SubscriptionService>().purchaseItem(planId, duration);
+    final subscriptionService = Okito.use<SubscriptionService>();
+    subscriptionService.purchaseItem(planId, duration);
   }
 
   Future<PackageType?> _getDuration() {

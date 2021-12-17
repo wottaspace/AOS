@@ -4,6 +4,7 @@ import 'package:arcopen_enquirer/modules/inbox/inbox_list/inbox_screen.dart';
 import 'package:arcopen_enquirer/modules/jobs/job_listing/job_listings_screen.dart';
 import 'package:arcopen_enquirer/modules/saved/saved_screen.dart';
 import 'package:arcopen_enquirer/utils/services/auth_service.dart';
+import 'package:arcopen_enquirer/utils/services/subscription_service.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,6 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _activeTabIndex = 0;
     _pageTitle = "Explore Members";
     _pageController = PageController(initialPage: 0);
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await Okito.use<SubscriptionService>().init();
+      await Okito.use<SubscriptionService>().getCurrentSubscription();
+    });
     super.initState();
   }
 

@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/utils/services/subscription_service.dart';
 import 'package:arcopen_enquirer/widgets/misc/page_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -97,7 +98,7 @@ class _ChoosePlanScreenState extends State<ChoosePlanScreen> {
                       ),
                       SizedBox(height: 20),
                       Container(
-                        height: 200,
+                        height: 250,
                         child: PageView(
                           scrollDirection: Axis.horizontal,
                           controller: _pageController,
@@ -108,6 +109,7 @@ class _ChoosePlanScreenState extends State<ChoosePlanScreen> {
                                 type: e.planType,
                                 discount: e.discount,
                                 frequency: e.yearlyPrice,
+                                isActive: _isActiveSubscription(e.name),
                                 price: e.monthlyPrice ?? "\$0.00flat",
                                 highlightTitle: _selectedIndex == controller.subscriptionPlans.indexOf(e),
                                 onTap: () {
@@ -134,7 +136,7 @@ class _ChoosePlanScreenState extends State<ChoosePlanScreen> {
           child: KButton.outlined(
             onPressed: () {
               final choosenPlan = SubscriptionController.shared.subscriptionPlans[_selectedIndex];
-              if (SubscriptionController.shared.activePlan?.planId == choosenPlan.planId) {
+              if (_isActiveSubscription(choosenPlan.name)) {
                 SubscriptionController.shared.showWarningToast("The selected plan is the active plan.");
                 return;
               }
@@ -152,5 +154,10 @@ class _ChoosePlanScreenState extends State<ChoosePlanScreen> {
         statusBarBrightness: Brightness.dark,
       ),
     );
+  }
+
+  bool _isActiveSubscription(String name) {
+    String planId = name.split(" ").join("_").toLowerCase();
+    return Okito.use<SubscriptionService>().activeSubscription == planId;
   }
 }
