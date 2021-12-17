@@ -30,7 +30,7 @@ dependencies:
   readmore: 
   url_launcher:
   simple_moment: ^1.1.1
-  in_app_purchase: 
+  purchases_flutter: ^3.8.0
   flutter_simple_rating_bar:
     git:
       url: https://github.com/docwei2050/flutter_simple_rating_bar

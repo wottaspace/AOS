@@ -8,6 +8,7 @@ import 'package:arcopen_enquirer/utils/services/subscription_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
+import 'package:purchases_flutter/object_wrappers.dart';
 
 class SubscriptionController extends BaseController with ToastMixin, LoggingMixin {
   static final SubscriptionController shared = SubscriptionController();
@@ -19,6 +20,8 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
 
   Future<void> loadData() async {
     await getSubscriptionPlans();
+    await Okito.use<SubscriptionService>().init();
+
     getActivePlan();
   }
 
@@ -58,13 +61,17 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
       showErrorToast("You need to choose a duration first.");
       return;
     }
+
     late final String period;
     switch (duration) {
-      case PlanDuration.month:
+      case PackageType.monthly:
         period = "monthly";
         break;
-      case PlanDuration.year:
+      case PackageType.annual:
         period = "yearly";
+        break;
+      default:
+        period = "monthly";
         break;
     }
     String planId;
@@ -76,10 +83,14 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
     if (planId == "gold_enquirer_monthly_plan") {
       planId = "gold_enquirer_monthly";
     }
-    Okito.use<SubscriptionService>().purchaseItem(planId);
+    if (planId == "enquirer_monthly_plan") {
+      planId = "enquirer_monthly_subscription";
+    }
+
+    Okito.use<SubscriptionService>().purchaseItem(planId, duration);
   }
 
-  Future<PlanDuration?> _getDuration() {
+  Future<PackageType?> _getDuration() {
     return showModalBottomSheet(
       context: Okito.context!,
       isScrollControlled: true,
@@ -104,14 +115,14 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
               leading: Icon(PhosphorIcons.circle_bold),
               title: Text("Month"),
               onTap: () {
-                Okito.pop(result: PlanDuration.month);
+                Okito.pop(result: PackageType.monthly);
               },
             ),
             ListTile(
               leading: Icon(PhosphorIcons.circle_bold),
               title: Text("Year"),
               onTap: () {
-                Okito.pop(result: PlanDuration.year);
+                Okito.pop(result: PackageType.annual);
               },
             ),
           ],
@@ -120,5 +131,3 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
     );
   }
 }
-
-enum PlanDuration { year, month }

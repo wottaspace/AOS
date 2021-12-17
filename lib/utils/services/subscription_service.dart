@@ -1,132 +1,67 @@
-import 'dart:async';
-
 import 'package:arcopen_enquirer/utils/mixins/logging_mixin.dart';
 import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 import 'package:arcopen_enquirer/utils/services/auth_service.dart';
-import 'package:flutter/material.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
-// Import `in_app_purchase_android.dart` to be able to access the
-// `InAppPurchaseAndroidPlatformAddition` class.
-import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:okito/okito.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 /// Managing users subscriptions
 class SubscriptionService extends OkitoController with LoggingMixin, ToastMixin {
-  late final InAppPurchase _inAppPurchase;
-  late final List<ProductDetails> products;
-  late StreamSubscription<List<PurchaseDetails>> _subscription;
-
-  final List<IapPlan> plans = [
-    IapPlan(
-      id: "enquirer_monthly_plan",
-      name: "Enquirer Monthly",
-      period: IapPlanPeriod.monthly,
-    ),
-    IapPlan(
-      id: "gold_enquirer_monthly",
-      name: "Gold Enquirer Monthly",
-      period: IapPlanPeriod.monthly,
-    ),
-    IapPlan(
-      id: "enquirer_yearly_plan",
-      name: "Enquirer Yearly",
-      period: IapPlanPeriod.yearly,
-    ),
-    IapPlan(
-      id: "gold_enquirer_yearly_plan",
-      name: "Gold Enquirer Yearly",
-      period: IapPlanPeriod.yearly,
-    ),
-  ];
-
-  List<String> get _productIds {
-    return plans.map<String>((IapPlan plan) => plan.id).toList();
+  static final String revenueCatApiKey = dotenv.env["REVENUE_CAT_API_KEY"]!;
+  Future<void> init() async {
+    await Purchases.setDebugLogsEnabled(kDebugMode);
+    await Purchases.setup(revenueCatApiKey, appUserId: Okito.use<AuthService>().user.id);
   }
 
-  init() {
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
+  Future<bool> _purchasePackage(Package package) async {
+    try {
+      await Purchases.purchasePackage(package);
+      return true;
+    } catch (e) {
+      logger.e(e);
+      return false;
     }
-    _inAppPurchase = InAppPurchase.instance;
-    initStoreInfo();
-    _listenPurchaseSubscriptions();
   }
 
-  Future<void> initStoreInfo() async {
-    final bool isAvailable = await _inAppPurchase.isAvailable();
-    if (isAvailable) {
-      final ProductDetailsResponse response = await _inAppPurchase.queryProductDetails(_productIds.toSet());
-      if (response.notFoundIDs.isNotEmpty) {
-        logger.e("Not found ids");
-      }
-      products = response.productDetails;
+  Future<void> purchaseItem(String planId, PackageType duration) async {
+    final offerings = await Purchases.getOfferings();
+    Offering? offering;
+    late String planName;
+
+    /// First, we get the corresponding offering from RevenueCat
+    if (planId.contains("gold")) {
+      planName = "Gold Enquirer";
+      offering = offerings.getOffering("gold_subscriptions");
     } else {
-      logger.d("Store unavailable");
+      planName = "Enquirer";
+      offering = offerings.getOffering("subscriptions");
     }
-  }
 
-  void _listenPurchaseSubscriptions() {
-    _subscription = _inAppPurchase.purchaseStream.listen((List<PurchaseDetails> list) {
-      print(list);
-      _listenToPurchasedUpdate(list);
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (error) {
-      logger.e(error);
-    });
-  }
-
-  void _listenToPurchasedUpdate(List<PurchaseDetails> purchasedDetailsList) {
-    purchasedDetailsList.forEach((purchaseDetails) async {
-      if (purchaseDetails.status == PurchaseStatus.pending) {
-        logger.d("Show pending UI");
-      } else if (purchaseDetails.status == PurchaseStatus.error) {
-        showErrorToast("Subscription payment failed. Please try again later.");
-      } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-        bool isPuchaseValid = await _verifyPurchase(purchaseDetails);
-        if (isPuchaseValid) {
-          logger.d("Purchase valid");
+    /// Then if we got something, we get the corresponding package
+    if (offering != null) {
+      try {
+        final package = offering.availablePackages.firstWhere((element) => element.packageType == duration);
+        if (await _purchasePackage(package)) {
+          showSuccessToast("🎉 Congrats ! You've successfully subscribed to the $planName plan.");
         } else {
-          logger.d("Invalid purchase");
+          showErrorToast("The purchase of the subscription failed. Please try again later.\nIf it persists, please contact support.");
         }
+      } catch (e) {
+        logger.d(e);
+        showErrorToast("An unknown error prevents us from continuing. If it persists, please contact support.");
       }
-    });
-  }
-
-  purchaseItem(String id) async {
-    final productDetails = products.firstWhere((element) => element.id == id);
-    if (await _inAppPurchase.buyNonConsumable(
-      purchaseParam: PurchaseParam(
-        productDetails: productDetails,
-        applicationUserName: Okito.use<AuthService>().user.id,
-      ),
-    )) {
-      // ToDO: save purchase
     }
-  }
-
-  _verifyPurchase(PurchaseDetails details) {
-    return Future.value(true);
-  }
-
-  @override
-  void dispose() {
-    _subscription.cancel();
-    super.dispose();
   }
 }
 
 /// IAP Plan
 class IapPlan {
-  final String id;
-  final String name;
-  final IapPlanPeriod period;
+  final String id, name;
 
   IapPlan({
     required this.id,
     required this.name,
-    required this.period,
   });
 }
 

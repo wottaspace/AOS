@@ -2,7 +2,6 @@ import 'package:arcopen_enquirer/core/models/plan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
-import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/modules/subscription/subscription_controller.dart';
 import 'package:arcopen_enquirer/utils/navigation/k_app_bar.dart';
@@ -118,7 +117,7 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
                 ),
               ],
             );
-          },
+          },  
         ),
       ),
       bottomNavigationBar: Padding(

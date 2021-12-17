@@ -88,7 +88,7 @@ class _ActiveJobMemberDetailsScreenState
                 username: applicant!.applicantName!,
                 hourlyRate: applicant!.hourlyRate!,
                 score: applicant!.rating!,
-                profilePic: "", // TODO: fix this
+                profilePic: "https://eu.ui-avatars.com/api/?name=${applicant!.applicantName!}&background=0D47A1&color=FFFFFF",
                 hideLikeButton: true,
               ),
               SizedBox(height: 20),
