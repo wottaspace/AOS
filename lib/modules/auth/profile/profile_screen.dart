@@ -52,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             controller: profileController.aboutController,
                             minLines: 3,
                             maxLines: 4,
-                            hintText: "Lorem ipsum dolor sit atmet, consectur adipiscing elit, sed do eiusmod tempor incicident ut labore et dolore magna aliqua",
+                            hintText: "Write something about you.",
                           ),
                           SizedBox(height: 20),
                           Row(
