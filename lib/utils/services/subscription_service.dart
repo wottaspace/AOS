@@ -1,3 +1,4 @@
+import 'package:arcopen_enquirer/config/routes/k_routes.dart';
 import 'package:arcopen_enquirer/utils/mixins/logging_mixin.dart';
 import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 import 'package:arcopen_enquirer/utils/services/auth_service.dart';
@@ -57,6 +58,7 @@ class SubscriptionService extends OkitoController with LoggingMixin, ToastMixin 
         final package = offering.availablePackages.firstWhere((element) => element.packageType == duration);
         if (await _purchasePackage(package)) {
           activeSubscription = planId;
+          Okito.popUntil(KRoutes.homeRoute);
           showSuccessToast("🎉 Congrats ! You've successfully subscribed to the $planName plan.");
         } else {
           showErrorToast("The purchase of the subscription failed. Please try again later.\nIf it persists, please contact support.");
