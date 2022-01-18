@@ -47,13 +47,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           KTextField.circular(
                             hintText: "Search",
                             leading: PhosphorIcons.magnifying_glass,
                             controller: ExploreScreenController.shared.searchController,
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Wrap(
                             children: [
                               KChip(
@@ -63,7 +63,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   Okito.pushNamed(KRoutes.locationFilterRoute);
                                 },
                               ),
-                              SizedBox(width: 10),
+                              const SizedBox(width: 10),
                               KChip(
                                 title: "Filter",
                                 icon: PhosphorIcons.funnel_fill,
@@ -73,13 +73,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),
                     if (ExploreScreenController.shared.topRatedMembers.isNotEmpty) ...[
-                      SectionTitle(title: "HIGH RATED"),
-                      SizedBox(height: 10),
+                      const SectionTitle(title: "HIGH RATED"),
+                      const SizedBox(height: 10),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -107,13 +107,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             SectionTitle(title: "ALL MEMBERS"),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             ListView.builder(
                               itemCount: 3,
                               shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 final Member member = ExploreScreenController.shared.allMembers[index];
                                 return MemberCard(
@@ -122,7 +122,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   score: member.rating,
                                   profilePic: member.profilePic,
                                   onTap: () {
-                                    Okito.pushNamed(KRoutes.jobApplicationRoute, arguments: {"applicant": member});
+                                    // Okito.pushNamed(KRoutes.jobApplicationRoute, arguments: {"applicant": member});
                                   },
                                 );
                               },
@@ -131,7 +131,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         ),
                       )
                     else
-                      EmptyState(),
+                      const EmptyState(),
                   ],
                 ),
               );

@@ -94,7 +94,7 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
       planId = "gold_enquirer_${period}_plan";
     }
     if (planId == "gold_enquirer_monthly_plan") {
-      planId = "gold_enquirer_monthly";
+      planId = "gold_enquirer_monthly_package";
     }
     if (planId == "enquirer_monthly_plan") {
       planId = "enquirer_monthly_subscription";
