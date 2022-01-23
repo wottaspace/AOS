@@ -16,9 +16,9 @@ class SubscriptionService extends OkitoController with LoggingMixin, ToastMixin 
     await Purchases.setup(revenueCatApiKey, appUserId: Okito.use<AuthService>().user.id);
   }
 
-  Future<bool> _purchasePackage(Package package) async {
+  Future<bool> _purchaseProduct(Product product) async {
     try {
-      await Purchases.purchasePackage(package);
+      await Purchases.purchaseProduct(product.identifier);
       return true;
     } catch (e) {
       logger.e(e);
@@ -38,35 +38,18 @@ class SubscriptionService extends OkitoController with LoggingMixin, ToastMixin 
     }
   }
 
-  Future<void> purchaseItem(String planId, PackageType duration) async {
-    final offerings = await Purchases.getOfferings();
-    Offering? offering;
-    late String planName;
-
-    /// First, we get the corresponding offering from RevenueCat
-    if (planId.contains("gold")) {
-      planName = "Gold Enquirer";
-      offering = offerings.getOffering("gold_subscriptions");
-    } else {
-      planName = "Enquirer";
-      offering = offerings.getOffering("subscriptions");
-    }
-
-    /// Then if we got something, we get the corresponding package
-    if (offering != null) {
-      try {
-        final package = offering.availablePackages.firstWhere((element) => element.packageType == duration);
-        if (await _purchasePackage(package)) {
-          activeSubscription = planId;
-          Okito.popUntil(KRoutes.homeRoute);
-          showSuccessToast("🎉 Congrats ! You've successfully subscribed to the $planName plan.");
-        } else {
-          showErrorToast("The purchase of the subscription failed. Please try again later.\nIf it persists, please contact support.");
-        }
-      } catch (e) {
-        logger.d(e);
-        showErrorToast("An unknown error prevents us from continuing. If it persists, please contact support.");
+  Future<void> purchaseItem(Product product) async {
+    try {
+      if (await _purchaseProduct(product)) {
+        activeSubscription = product.identifier;
+        Okito.popUntil(KRoutes.homeRoute);
+        showSuccessToast("🎉 Congrats ! You've successfully subscribed to the ${product.title} plan.");
+      } else {
+        showErrorToast("The purchase of the subscription failed. Please try again later.\nIf it persists, please contact support.");
       }
+    } catch (e) {
+      logger.d(e);
+      showErrorToast("An unknown error prevents us from continuing. If it persists, please contact support.");
     }
   }
 }

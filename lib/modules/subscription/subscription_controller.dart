@@ -10,7 +10,6 @@ import 'package:arcopen_enquirer/utils/services/subscription_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:okito/okito.dart';
-import 'package:purchases_flutter/object_wrappers.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class SubscriptionController extends BaseController with ToastMixin, LoggingMixin {
@@ -20,11 +19,28 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
   List<Plan> subscriptionPlans = [];
   Plan? activePlan;
   LoadingState state = LoadingState.loading;
+  List<Product> availableProducts = [];
 
   Future<void> loadData() async {
     await getSubscriptionPlans();
+    await getPurchasePackages();
 
     getActivePlan();
+  }
+
+  Future<void> getPurchasePackages() async {
+    late List<String> identifiers;
+    if (Platform.isAndroid) {
+      identifiers = ["gold_enquirer_yearly_plan", "enquirer_yearly_plan", "gold_enquirer_monthly", "enquirer_monthly_subscription"];
+    } else if (Platform.isIOS) {
+      identifiers = ["gold_enquirer_monthly_package", "gold_enquirer_yearly_plan", "enquirer_yearly_plan", "enquirer_monthly_subscription"];
+    } else {
+      logger.wtf("Unknown platform.");
+
+      return;
+    }
+    var products = await Purchases.getProducts(identifiers);
+    availableProducts = products;
   }
 
   Future<void> getSubscriptionPlans() async {
@@ -87,21 +103,27 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
         period = "monthly";
         break;
     }
+
     String planId;
     if (!plan.name.toLowerCase().contains("gold")) {
       planId = "enquirer_${period}_plan";
     } else {
       planId = "gold_enquirer_${period}_plan";
     }
-    if (planId == "gold_enquirer_monthly_plan") {
+    if (planId == "gold_enquirer_monthly_plan" && Platform.isIOS) {
       planId = "gold_enquirer_monthly_package";
     }
     if (planId == "enquirer_monthly_plan") {
       planId = "enquirer_monthly_subscription";
     }
 
-    final subscriptionService = Okito.use<SubscriptionService>();
-    subscriptionService.purchaseItem(planId, duration);
+    try {
+      final subscriptionService = Okito.use<SubscriptionService>();
+      final product = availableProducts.firstWhere((element) => element.identifier == planId);
+      subscriptionService.purchaseItem(product);
+    } catch (e) {
+      showErrorToast("Failed to purchase subscription. Please try again later.");
+    }
   }
 
   Future<PackageType?> _getDuration() {
