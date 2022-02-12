@@ -1,6 +1,8 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/core/models/applicant.dart';
+import 'package:arcopen_enquirer/modules/explore/explore_screen_controller.dart';
 import 'package:arcopen_enquirer/modules/jobs/job_application/job_application_controller.dart';
+import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
 import 'package:arcopen_enquirer/utils/navigation/k_app_bar.dart';
 import 'package:arcopen_enquirer/widgets/buttons/k_button.dart';
 import 'package:arcopen_enquirer/widgets/dialogs/confirm_applicant_dialog.dart';
@@ -17,7 +19,7 @@ class JobApplicationScreen extends StatefulWidget {
   _JobApplicationScreenState createState() => _JobApplicationScreenState();
 }
 
-class _JobApplicationScreenState extends State<JobApplicationScreen> {
+class _JobApplicationScreenState extends State<JobApplicationScreen> with ToastMixin {
   Applicant? applicant;
   JobApplicationController _applicationController = JobApplicationController();
 
@@ -47,6 +49,8 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
                 profilePic: applicant!.profilePic!,
                 hideLikeButton: true,
                 clickable: false,
+                memberId: applicant!.memberId!,
+                saved: applicant!.saved,
               ),
               SizedBox(height: 20),
               Row(
@@ -57,11 +61,12 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
                 ],
               ),
               SizedBox(height: 20),
-              KTextField.soft(
-                label: "MESSAGE TO EMPLOYER",
-                minLines: 5,
-                maxLines: 5,
-              )
+              if (applicant!.applicationId != null)
+                KTextField.soft(
+                  label: "MESSAGE",
+                  minLines: 5,
+                  maxLines: 5,
+                )
             ],
           ),
         ),
@@ -71,57 +76,64 @@ class _JobApplicationScreenState extends State<JobApplicationScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            KButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  useSafeArea: true,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Okito.pop();
-                            },
-                            child: Icon(PhosphorIcons.x_bold, size: 15),
-                          ),
-                          Expanded(
-                            child: Text(
-                              "Fund job for ${applicant!.applicantName}",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 14.0),
+            if (applicant?.applicationId != null)
+              KButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    useSafeArea: true,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Okito.pop();
+                              },
+                              child: Icon(PhosphorIcons.x_bold, size: 15),
                             ),
-                          ),
-                        ],
-                      ),
-                      content: ConfirmApplicantDialog(applicant: applicant),
-                    );
-                  },
-                );
-              },
-              title: "CONFIRM",
-              color: ColorConstants.greenColor,
-              expanded: true,
-            ),
+                            Expanded(
+                              child: Text(
+                                "Fund job for ${applicant!.applicantName}",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 14.0),
+                              ),
+                            ),
+                          ],
+                        ),
+                        content: ConfirmApplicantDialog(applicant: applicant),
+                      );
+                    },
+                  );
+                },
+                title: "CONFIRM",
+                color: ColorConstants.greenColor,
+                expanded: true,
+              ),
             SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
-                  child: KButton.outlined(
-                    onPressed: () {},
-                    title: "CONTACT",
-                    color: Okito.theme.primaryColor,
+                  child: KButton(
+                    onPressed: () {
+                      if (applicant?.memberId != null) {
+                        ExploreScreenController.shared.saveMember(applicant!.memberId!);
+                      }
+                    },
+                    title: "Save member",
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: KButton.outlined(
-                    onPressed: () => _applicationController.rejectApplication(applicant!.memberId!),
-                    title: "DECLINE",
-                    color: ColorConstants.red,
+                if (applicant?.applicationId != null) ...[
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: KButton.outlined(
+                      onPressed: () => _applicationController.rejectApplication(applicant!.memberId!),
+                      title: "DECLINE",
+                      color: ColorConstants.red,
+                    ),
                   ),
-                ),
+                ]
               ],
             ),
             SizedBox(height: 10),

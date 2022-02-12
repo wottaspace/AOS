@@ -1,4 +1,4 @@
-import 'package:arcopen_enquirer/http/responses/get_members_response.dart';
+import 'package:arcopen_enquirer/core/models/member.dart';
 
 class ExploreMembersResponse {
   ExploreMembersResponse({

@@ -1,5 +1,6 @@
 import 'package:arcopen_enquirer/constants/color_constants.dart';
 import 'package:arcopen_enquirer/core/models/applicant.dart';
+import 'package:arcopen_enquirer/modules/explore/explore_screen_controller.dart';
 import 'package:arcopen_enquirer/utils/helpers/asset_helper.dart';
 import 'package:arcopen_enquirer/widgets/misc/rating_stars.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ class MemberCard extends StatelessWidget {
   const MemberCard({
     Key? key,
     this.jobId,
+    required this.memberId,
+    this.saved = false,
     required this.username,
     this.clickable = true,
     required this.onTap,
@@ -25,6 +28,8 @@ class MemberCard extends StatelessWidget {
   }) : super(key: key);
 
   final bool clickable;
+  final bool saved;
+  final int memberId;
   final int? jobId;
   final VoidCallback onTap;
   final String username;
@@ -136,7 +141,11 @@ class MemberCard extends StatelessWidget {
                           border: Border.all(color: ColorConstants.greyColor),
                         ),
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (!saved) {
+                              ExploreScreenController.shared.saveMember(memberId);
+                            }
+                          },
                           icon: Icon(
                             PhosphorIcons.heart,
                             size: 12,

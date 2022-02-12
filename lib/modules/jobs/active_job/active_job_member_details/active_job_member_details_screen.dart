@@ -84,6 +84,8 @@ class _ActiveJobMemberDetailsScreenState
               SizedBox(height: 20),
               MemberCard(
                 onTap: () {},
+                memberId: applicant!.memberId!,
+                saved: applicant!.saved,
                 clickable: false,
                 username: applicant!.applicantName!,
                 hourlyRate: applicant!.hourlyRate!,

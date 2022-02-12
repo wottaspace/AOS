@@ -137,6 +137,7 @@ class _PostedJobDetailsScreenState extends State<PostedJobDetailsScreen> {
                               username: applicant.applicantName!,
                               score: applicant.rating ?? 0,
                               hideLikeButton: true,
+                              memberId: applicant.memberId!,
                               applicant: applicant,
                               jobId: job!.jobId,
                               hourlyRate: applicant.hourlyRate ?? "£0",

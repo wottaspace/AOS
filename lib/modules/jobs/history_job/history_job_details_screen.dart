@@ -91,6 +91,7 @@ class _HistoryJobDetailsScreenState extends State<HistoryJobDetailsScreen> {
                           return MemberCard(
                             onTap: () {},
                             username: applicant.memberName,
+                            memberId: applicant.memberId,
                             hideLikeButton: true,
                             jobId: job!.jobId,
                             hourlyRate: applicant.perHourRate,

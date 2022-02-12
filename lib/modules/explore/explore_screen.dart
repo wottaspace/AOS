@@ -1,5 +1,6 @@
 import 'package:arcopen_enquirer/config/routes/k_routes.dart';
-import 'package:arcopen_enquirer/http/responses/get_members_response.dart';
+import 'package:arcopen_enquirer/core/models/applicant.dart';
+import 'package:arcopen_enquirer/core/models/member.dart';
 import 'package:arcopen_enquirer/modules/explore/explore_screen_controller.dart';
 import 'package:arcopen_enquirer/widgets/forms/k_text_field.dart';
 import 'package:arcopen_enquirer/widgets/misc/k_chip.dart';
@@ -91,8 +92,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 profilePic: member.profilePic,
                                 location: member.city,
                                 onTap: () {
-                                  Okito.pushNamed(KRoutes.applicantProfileRoute, arguments: {
-                                    "member": member,
+                                  Okito.pushNamed(KRoutes.jobApplicationRoute, arguments: {
+                                    "applicant": Applicant.fromMember(member),
                                   });
                                 },
                               );
@@ -119,10 +120,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 return MemberCard(
                                   hourlyRate: member.perHourRate,
                                   username: member.memberName,
+                                  memberId: member.memberId,
                                   score: member.rating,
                                   profilePic: member.profilePic,
+                                  saved: member.saved,
                                   onTap: () {
-                                    // Okito.pushNamed(KRoutes.jobApplicationRoute, arguments: {"applicant": member});
+                                    Okito.pushNamed(KRoutes.jobApplicationRoute, arguments: {"applicant": Applicant.fromMember(member)});
                                   },
                                 );
                               },

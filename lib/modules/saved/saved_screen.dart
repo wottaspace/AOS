@@ -180,7 +180,8 @@ class _SavedMembers extends StatelessWidget {
             return MemberCard(
               onTap: () {},
               score: member.rating,
-              hourlyRate: "14",
+              hourlyRate: "-",
+              memberId: member.memberId,
               hidePayRate: true,
               username: member.memberName,
               profilePic: member.profilePic,

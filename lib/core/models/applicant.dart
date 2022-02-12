@@ -1,3 +1,5 @@
+import 'package:arcopen_enquirer/core/models/member.dart';
+
 class Applicant {
   Applicant({
     required this.applicantName,
@@ -6,7 +8,8 @@ class Applicant {
     required this.memberId,
     required this.profilePic,
     required this.rating,
-  });
+    bool saved = false,
+  }) : saved = saved;
 
   String? applicantName;
   int? applicationId;
@@ -14,6 +17,19 @@ class Applicant {
   int? memberId;
   String? profilePic;
   double? rating;
+  bool saved;
+
+  factory Applicant.fromMember(Member member) {
+    return Applicant(
+      applicantName: member.memberName,
+      applicationId: null,
+      hourlyRate: member.perHourRate,
+      memberId: member.memberId,
+      profilePic: member.profilePic,
+      rating: member.rating,
+      saved: member.saved,
+    );
+  }
 
   factory Applicant.fromJson(Map<String, dynamic> json) {
     return Applicant(

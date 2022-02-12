@@ -70,8 +70,6 @@ class KRoutes {
   static final String historyJobMemberDetailsRoute = "/history-job-member-details";
   static final String jobApplicationRoute = "/application-details";
 
-  static final String applicantProfileRoute = "/application-profile";
-
   static registerRoutes() {
     KRouter().registerRoute(route: KRoute(name: KRoutes.splashRoute, page: SplashScreen(), isInitial: true));
     KRouter().registerRoute(route: KRoute(name: KRoutes.stepperRoute, page: StartScreen()));
