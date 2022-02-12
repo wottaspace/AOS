@@ -55,7 +55,7 @@ class _BSConfirmSubState extends State<BSConfirmSub> {
                 style: Theme.of(context).textTheme.bodyText2,
                 children: [
                   TextSpan(text: widget.product.title, style: TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: " plan. This is a "),
+                  TextSpan(text: " plan. This subscription "),
                   TextSpan(text: widget.duration.name, style: TextStyle(fontWeight: FontWeight.bold)),
                   TextSpan(text: " subscription and it is automatically renewed. This operation will cost you "),
                   TextSpan(text: widget.product.priceString, style: TextStyle(fontWeight: FontWeight.bold)),
