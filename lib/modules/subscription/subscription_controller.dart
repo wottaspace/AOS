@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:arcopen_enquirer/core/base_controller.dart';
 import 'package:arcopen_enquirer/core/models/plan.dart';
+import 'package:arcopen_enquirer/modules/subscription/widgets/bs_confirm_sub.dart';
 import 'package:arcopen_enquirer/utils/helpers/loading_state.dart';
 import 'package:arcopen_enquirer/utils/mixins/logging_mixin.dart';
 import 'package:arcopen_enquirer/utils/mixins/toast_mixin.dart';
@@ -112,16 +113,21 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
     }
     if (planId == "gold_enquirer_monthly_plan" && Platform.isIOS) {
       planId = "gold_enquirer_monthly_package";
-    }
-    if (planId == "enquirer_monthly_plan") {
+    } else if (planId == "gold_enquirer_monthly_plan" && Platform.isAndroid) {
+      planId = "gold_enquirer_monthly";
+    } else if (planId == "enquirer_monthly_plan") {
       planId = "enquirer_monthly_subscription";
     }
 
     try {
       final subscriptionService = Okito.use<SubscriptionService>();
       final product = availableProducts.firstWhere((element) => element.identifier == planId);
-      subscriptionService.purchaseItem(product);
+      final shouldSubscribe = await _confirmSubsription(product, duration);
+      if (shouldSubscribe) {
+        subscriptionService.purchaseItem(product);
+      }
     } catch (e) {
+      logger.e(e);
       showErrorToast("Failed to purchase subscription. Please try again later.");
     }
   }
@@ -165,5 +171,23 @@ class SubscriptionController extends BaseController with ToastMixin, LoggingMixi
         );
       },
     );
+  }
+
+  Future<bool> _confirmSubsription(Product product, PackageType duration) async {
+    final bool? answer = await showModalBottomSheet(
+      context: Okito.context!,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
+        ),
+      ),
+      builder: (context) {
+        return BSConfirmSub(duration: duration, product: product);
+      },
+    );
+    if (answer == null || answer == false) return false;
+    return true;
   }
 }
